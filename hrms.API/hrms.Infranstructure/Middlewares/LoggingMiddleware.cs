@@ -33,7 +33,7 @@ namespace hrms.Infranstructure.Middlewares
             catch (Exception ex)
             {
                 // Log the error if an exception occurs
-                await logger.LogError(context.Request.Path, "Error occurred", context.RequestAborted, ex);
+                await logger.LogError(context.Request.Path, ex.Message, context.RequestAborted, ex);
                 throw;
             }
             finally
@@ -43,5 +43,5 @@ namespace hrms.Infranstructure.Middlewares
                 await logger.LogInformationAsync(context.Request.Path, $"Request took: {stopwatch.ElapsedMilliseconds} ms", context.RequestAborted);
             }
         }
-    }
+    } 
 }

@@ -19,7 +19,8 @@ namespace hrms.Infranstructure.Logging
             {
                 LogLevel = "error",
                 MethodName = methodName,
-                LogMessage = exception != null ? exception.ToString() : message
+                LogMessage = message,
+                ExceptionMessage = exception != null ? exception?.ToString() : null
             };
             _dbContext.Logs.Add(newLog);
             await _dbContext.SaveChangesAsync(cancellationToken);

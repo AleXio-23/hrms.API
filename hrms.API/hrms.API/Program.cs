@@ -110,6 +110,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<LoggingMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
 
 app.Run();

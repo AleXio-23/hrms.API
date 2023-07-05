@@ -30,7 +30,7 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
 
-
+  
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -60,7 +60,7 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<Log>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC07FD84D759");
+            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC07F7C827BA");
 
             entity.ToTable("Logs", "trace");
 

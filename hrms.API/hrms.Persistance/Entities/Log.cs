@@ -14,4 +14,6 @@ public partial class Log
     public string MethodName { get; set; } = null!;
 
     public string LogMessage { get; set; } = null!;
+
+    public string? ExceptionMessage { get; set; }
 }

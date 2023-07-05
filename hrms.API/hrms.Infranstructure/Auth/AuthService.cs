@@ -1,10 +1,12 @@
 ﻿using hrms.Domain.Models.Auth;
 using hrms.Persistance;
 using hrms.Persistance.Entities;
+using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -30,19 +32,11 @@ namespace hrms.Infranstructure.Auth
         {
             if (registerDto.Password != registerDto.RepeatPassword)
             {
-                return new ServiceResult<User>()
-                {
-                    ErrorOccured = true,
-                    ErrorMessage = "Passwords don't match."
-                };
+                throw new ArgumentException("Passwords don't match");
             }
             if (await UserExists(registerDto.Username))
             {
-                return new ServiceResult<User>()
-                {
-                    ErrorOccured = true,
-                    ErrorMessage = "Username is registered."
-                };
+                throw new RecordExistsException("Username is registered");
             }
 
             var hmac = new HMACSHA512();
@@ -66,15 +60,7 @@ namespace hrms.Infranstructure.Auth
         public async Task<ServiceResult<string>> Login(LoginDto loginDto, CancellationToken cancellationToken)
         {
             var user = await _dbContext.Users
-                            .SingleOrDefaultAsync(x => x.Username == loginDto.Username.ToLower(), cancellationToken: cancellationToken);
-            if (user == null)
-            {
-                return new ServiceResult<string>()
-                {
-                    ErrorOccured = true,
-                    ErrorMessage = "Wrong username."
-                };
-            }
+                            .SingleOrDefaultAsync(x => x.Username == loginDto.Username.ToLower(), cancellationToken: cancellationToken) ?? throw new ArgumentException("Wrong username");
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
@@ -82,23 +68,10 @@ namespace hrms.Infranstructure.Auth
             {
                 if (computedHash[i] != user.PasswordHash[i])
                 {
-                    return new ServiceResult<string>()
-                    {
-                        ErrorOccured = true,
-                        ErrorMessage = "Incorrect password."
-                    };
+                    throw new ArgumentException("Incorrect password");
                 }
             }
-            var jwtSecret = _configuration["Jwt:Secret"];
-
-            if (jwtSecret == null)
-            {
-                return new ServiceResult<string>()
-                {
-                    ErrorOccured = true,
-                    ErrorMessage = "Jwt Secret Key not found."
-                };
-            }
+            var jwtSecret = _configuration["Jwt:Secret"] ?? throw new NotFoundException("Jwt Secret Key not found");
 
             var generateToken = GenerateJwtToken(user, jwtSecret, false);
             var generateRefreshToken = GenerateJwtToken(user, jwtSecret, true);
@@ -136,11 +109,7 @@ namespace hrms.Infranstructure.Auth
             {
                 if (string.IsNullOrEmpty(accessToken))
                 {
-                    return new ServiceResult<string>()
-                    {
-                        ErrorOccured = true,
-                        ErrorMessage = "Wrong accessToken."
-                    };
+                    throw new ArgumentException("Wrong accessToken");
                 }
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var jwtToken = tokenHandler.ReadJwtToken(accessToken);
@@ -148,62 +117,24 @@ namespace hrms.Infranstructure.Auth
 
                 if (string.IsNullOrEmpty(userId))
                 {
-                    return new ServiceResult<string>()
-                    {
-                        ErrorOccured = true,
-                        ErrorMessage = "UserId not found in access token."
-                    };
+                    throw new ArgumentException("UserId not found in access token");
                 }
 
-                var getRefreshToken = await _dbContext.RefreshTokens.FirstOrDefaultAsync(x => x.UserId.ToString() == userId, cancellationToken);
-
-                if (getRefreshToken == null)
-                {
-                    return new ServiceResult<string>()
-                    {
-                        ErrorOccured = true,
-                        ErrorMessage = "Refresh token not found."
-                    };
-                }
+                var getRefreshToken = await _dbContext.RefreshTokens.FirstOrDefaultAsync(x => x.UserId.ToString() == userId, cancellationToken) ?? throw new NotFoundException("Refresh token not found");
 
                 if (DateTime.UtcNow >= getRefreshToken.ExpiryDate)
                 {
-                    return new ServiceResult<string>()
-                    {
-                        ErrorOccured = true,
-                        ErrorMessage = "Refresh token expired."
-                    };
+                    throw new SecurityTokenExpiredException("Refresh token expired");
                 }
 
-                var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userId, cancellationToken);
-
-                if (user == null)
-                {
-                    return new ServiceResult<string>()
-                    {
-                        ErrorOccured = true,
-                        ErrorMessage = $"User with id: {userId} not found."
-                    };
-                }
+                var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userId, cancellationToken) ?? throw new NotFoundException($"User with id: {userId} not found.");
 
                 if (!(user.IsActive ?? false))
                 {
-                    return new ServiceResult<string>()
-                    {
-                        ErrorOccured = true,
-                        ErrorMessage = $"User with id: {userId} is blocked."
-                    };
+                    throw new ValidationException($"User with id: {userId} is blocked.");
                 }
-                var jwtSecret = _configuration["Jwt:Secret"];
+                var jwtSecret = _configuration["Jwt:Secret"] ?? throw new NotFoundException("Jwt Secret Key not found");
 
-                if (jwtSecret == null)
-                {
-                    return new ServiceResult<string>()
-                    {
-                        ErrorOccured = true,
-                        ErrorMessage = "Jwt Secret Key not found."
-                    };
-                }
                 var generateNewToken = GenerateJwtToken(user, jwtSecret, false);
 
                 return new ServiceResult<string>
@@ -214,51 +145,27 @@ namespace hrms.Infranstructure.Auth
             }
             catch (Exception ex)
             {
-                return new ServiceResult<string>()
-                {
-                    ErrorOccured = true,
-                    ErrorMessage = $"Error decoding access token: {ex.Message}"
-                };
+                throw new Exception(ex.Message);
             }
         }
 
         public async Task<ServiceResult<string>> ResetPassword(string usernameOrEmail, CancellationToken cancellationToken)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail, cancellationToken);
-            if (user == null)
-            {
-                return new ServiceResult<string>()
-                {
-                    ErrorOccured = true,
-                    ErrorMessage = "User not found."
-                };
-            }
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail, cancellationToken) ?? throw new NotFoundException("User not found");
             if (!(user.IsActive ?? false))
             {
-                return new ServiceResult<string>()
-                {
-                    ErrorOccured = true,
-                    ErrorMessage = "Your user is blocked. Contact Support to get help."
-                };
+                throw new ValidationException("Your user is blocked. Contact Support to get help");
             }
             if (string.IsNullOrEmpty(user.Email))
             {
-                return new ServiceResult<string>()
-                {
-                    ErrorOccured = true,
-                    ErrorMessage = "Email not found."
-                };
+                throw new NotFoundException("Email not found");
             }
 
             var secretKey = _configuration["Jwt:PasswordRecoverySecretKey"];
 
             if (string.IsNullOrEmpty(secretKey))
             {
-                return new ServiceResult<string>()
-                {
-                    ErrorOccured = true,
-                    ErrorMessage = "Secret key not found."
-                };
+                throw new NotFoundException("Secret key not found");
             }
 
             var generatePasswordResetToken = GeneratePasswordResetToken(user.Id.ToString(), user.Email, secretKey);
@@ -275,11 +182,7 @@ namespace hrms.Infranstructure.Auth
             }
             catch (Exception ex)
             {
-                return new ServiceResult<string>()
-                {
-                    ErrorOccured = true,
-                    ErrorMessage = ex.Message
-                };
+                throw new Exception(ex.Message);
             }
 
         }
