@@ -2,7 +2,9 @@ using hrms.Infranstructure;
 using hrms.Persistance;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,7 +49,49 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc(
+        "v1",
+        new OpenApiInfo
+        {
+            Title = "HRMS API",
+            Description = "Human Resource Management System",
+            Version = "v1"
+        }
+        );
+    var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+    foreach (var name in Directory.GetFiles(basePath, "*.XML", SearchOption.AllDirectories))
+    {
+        options.IncludeXmlComments(name);
+    }
+    //Add authentication
+    var securitySchema = new OpenApiSecurityScheme
+    {
+        Description = "JWT token for authorization using Bearer scheme.",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+    };
+
+    options.AddSecurityDefinition("Bearer", securitySchema);
+    options.AddSecurityRequirement
+    (
+        new OpenApiSecurityRequirement
+        {
+                        {
+                            securitySchema,
+                            new[] { "Bearer" }
+                        }
+        }
+    );
+});
 
 var app = builder.Build();
 
@@ -58,11 +102,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseMiddleware<LoggingMiddleware>();
 app.MapControllers();
 
 app.Run();

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hrms.API", "hrms.API\hrms.API.csproj", "{97BFC0A7-DA1D-4C8E-B654-4982C4A35D50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hrms.API", "hrms.API\hrms.API.csproj", "{97BFC0A7-DA1D-4C8E-B654-4982C4A35D50}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "application", "application", "{B6504A2D-6257-485E-A6FD-54AA7DED339E}"
 EndProject
@@ -11,13 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "presentation", "presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "persistance", "persistance", "{9B66B853-8704-4424-9FD0-5B15C7AB6F21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hrms.Application", "hrms.Application\hrms.Application.csproj", "{55A2EB5C-33D0-4DB4-AC41-95743E864241}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hrms.Application", "hrms.Application\hrms.Application.csproj", "{55A2EB5C-33D0-4DB4-AC41-95743E864241}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hrms.Infranstructure", "hrms.Infranstructure\hrms.Infranstructure.csproj", "{EF0B31AA-81EC-45F1-AFD1-3B82107D8F6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hrms.Infranstructure", "hrms.Infranstructure\hrms.Infranstructure.csproj", "{EF0B31AA-81EC-45F1-AFD1-3B82107D8F6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hrms.Persistance", "hrms.Persistance\hrms.Persistance.csproj", "{872F6DEC-9DB5-41DD-9C1F-A758D5A10920}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hrms.Persistance", "hrms.Persistance\hrms.Persistance.csproj", "{872F6DEC-9DB5-41DD-9C1F-A758D5A10920}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hrms.Domain", "hrms.Domain\hrms.Domain.csproj", "{EA3D024B-3933-4F62-895F-EB3B492CC1C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hrms.Domain", "hrms.Domain\hrms.Domain.csproj", "{EA3D024B-3933-4F62-895F-EB3B492CC1C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hrms.Shared", "hrms.Shared\hrms.Shared.csproj", "{CF010A01-073C-4B93-983B-CE2C20449CE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{EA3D024B-3933-4F62-895F-EB3B492CC1C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA3D024B-3933-4F62-895F-EB3B492CC1C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA3D024B-3933-4F62-895F-EB3B492CC1C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF010A01-073C-4B93-983B-CE2C20449CE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF010A01-073C-4B93-983B-CE2C20449CE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF010A01-073C-4B93-983B-CE2C20449CE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF010A01-073C-4B93-983B-CE2C20449CE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{EF0B31AA-81EC-45F1-AFD1-3B82107D8F6C} = {B6504A2D-6257-485E-A6FD-54AA7DED339E}
 		{872F6DEC-9DB5-41DD-9C1F-A758D5A10920} = {9B66B853-8704-4424-9FD0-5B15C7AB6F21}
 		{EA3D024B-3933-4F62-895F-EB3B492CC1C9} = {9B66B853-8704-4424-9FD0-5B15C7AB6F21}
+		{CF010A01-073C-4B93-983B-CE2C20449CE0} = {B6504A2D-6257-485E-A6FD-54AA7DED339E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4552B50E-A2B8-4763-A4C7-D95FFEE5C99A}

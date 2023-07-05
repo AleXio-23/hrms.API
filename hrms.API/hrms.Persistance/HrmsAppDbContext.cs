@@ -20,6 +20,8 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<Gender> Genders { get; set; }
 
+    public virtual DbSet<Log> Logs { get; set; }
+
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -28,7 +30,7 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
 
- 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -54,6 +56,19 @@ public partial class HrmsAppDbContext : DbContext
             entity.Property(e => e.Value)
                 .HasMaxLength(1000)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Log>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC07FD84D759");
+
+            entity.ToTable("Logs", "trace");
+
+            entity.Property(e => e.LogDate).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.LogLevel)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.MethodName).HasMaxLength(1000);
         });
 
         modelBuilder.Entity<RefreshToken>(entity =>
