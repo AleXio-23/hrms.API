@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\hrms.Domain\hrms.Domain.csproj" />
     <ProjectReference Include="..\hrms.Persistance\hrms.Persistance.csproj" />
+    <ProjectReference Include="..\hrms.Shared\hrms.Shared.csproj" />
   </ItemGroup>
 
 </Project>
