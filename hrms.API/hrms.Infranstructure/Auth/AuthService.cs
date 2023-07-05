@@ -89,9 +89,19 @@ namespace hrms.Infranstructure.Auth
                     };
                 }
             }
+            var jwtSecret = _configuration["Jwt:Secret"];
 
-            var generateToken = GenerateJwtToken(user, false);
-            var generateRefreshToken = GenerateJwtToken(user, true);
+            if (jwtSecret == null)
+            {
+                return new ServiceResult<string>()
+                {
+                    ErrorOccured = true,
+                    ErrorMessage = "Jwt Secret Key not found."
+                };
+            }
+
+            var generateToken = GenerateJwtToken(user, jwtSecret, false);
+            var generateRefreshToken = GenerateJwtToken(user, jwtSecret, true);
 
             var checkRefreshTokenIfExists = await _dbContext.RefreshTokens.FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
             if (checkRefreshTokenIfExists != null)
@@ -120,10 +130,18 @@ namespace hrms.Infranstructure.Auth
             };
         }
 
-        public async Task<ServiceResult<string>> UpdateAccessToken(string accessToken, CancellationToken cancellationToken)
+        public async Task<ServiceResult<string>> UpdateAccessToken(string? accessToken, CancellationToken cancellationToken)
         {
             try
             {
+                if (string.IsNullOrEmpty(accessToken))
+                {
+                    return new ServiceResult<string>()
+                    {
+                        ErrorOccured = true,
+                        ErrorMessage = "Wrong accessToken."
+                    };
+                }
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var jwtToken = tokenHandler.ReadJwtToken(accessToken);
                 string? userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
@@ -176,8 +194,17 @@ namespace hrms.Infranstructure.Auth
                         ErrorMessage = $"User with id: {userId} is blocked."
                     };
                 }
+                var jwtSecret = _configuration["Jwt:Secret"];
 
-                var generateNewToken = GenerateJwtToken(user, false);
+                if (jwtSecret == null)
+                {
+                    return new ServiceResult<string>()
+                    {
+                        ErrorOccured = true,
+                        ErrorMessage = "Jwt Secret Key not found."
+                    };
+                }
+                var generateNewToken = GenerateJwtToken(user, jwtSecret, false);
 
                 return new ServiceResult<string>
                 {
@@ -257,10 +284,10 @@ namespace hrms.Infranstructure.Auth
 
         }
 
-        private (string, DateTime) GenerateJwtToken(User user, bool isRefreshToken)
+        private static (string, DateTime) GenerateJwtToken(User user, string jwtSecret, bool isRefreshToken)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
+            var key = Encoding.ASCII.GetBytes(jwtSecret ?? "");
 
             var expireDate = isRefreshToken ? DateTime.UtcNow.AddHours(24) : DateTime.UtcNow.AddMinutes(5);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -281,7 +308,7 @@ namespace hrms.Infranstructure.Auth
             return (jwtTokenHandler.WriteToken(token), expireDate);
         }
 
-        private string GeneratePasswordResetToken(string userId, string email, string secretKey)
+        private static string GeneratePasswordResetToken(string userId, string email, string secretKey)
         {
             var securityKey = new SymmetricSecurityKey(Convert.FromBase64String(secretKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

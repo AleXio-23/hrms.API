@@ -5,19 +5,20 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using System.Net.Http;
 
-public class LoggingMiddleware
+namespace hrms.Infranstructure.Middlewares
 {
-    private readonly RequestDelegate _next;
-
-    public LoggingMiddleware(RequestDelegate next)
+    public class LoggingMiddleware
     {
-        _next = next;
-    }
+        private readonly RequestDelegate _next;
 
-    public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
-    {
-        using (var scope = serviceProvider.CreateScope())
+        public LoggingMiddleware(RequestDelegate next)
         {
+            _next = next;
+        }
+
+        public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
+        {
+            using var scope = serviceProvider.CreateScope();
             var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
             var dbContext = scope.ServiceProvider.GetRequiredService<HrmsAppDbContext>();
 

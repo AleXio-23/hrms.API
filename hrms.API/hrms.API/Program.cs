@@ -1,4 +1,5 @@
 using hrms.Infranstructure;
+using hrms.Infranstructure.Middlewares;
 using hrms.Persistance;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
