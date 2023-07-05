@@ -1,0 +1,4 @@
+Scaffold-DbContext "Data Source=.;Initial Catalog=HRMS;Persist Security Info=True;User Id=;Password=;Trusted_Connection=true;TrustServerCertificate=true;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entities -ContextDir . -Context HrmsAppDbContext -force
+
+
+ 
