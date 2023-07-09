@@ -18,7 +18,13 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<Claim> Claims { get; set; }
 
+    public virtual DbSet<Department> Departments { get; set; }
+
     public virtual DbSet<Gender> Genders { get; set; }
+
+    public virtual DbSet<JobPosition> JobPositions { get; set; }
+
+    public virtual DbSet<JobPositionDepartment> JobPositionDepartments { get; set; }
 
     public virtual DbSet<Log> Logs { get; set; }
 
@@ -28,9 +34,11 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<UserJobPosition> UserJobPositions { get; set; }
+
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
 
-  
+   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -40,6 +48,18 @@ public partial class HrmsAppDbContext : DbContext
             entity.ToTable("Claims", "ums");
 
             entity.Property(e => e.Description).HasMaxLength(4000);
+            entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<Department>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Departme__3214EC073A3CDD7F");
+
+            entity.ToTable("Departments", "dictionary");
+
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
@@ -56,6 +76,33 @@ public partial class HrmsAppDbContext : DbContext
             entity.Property(e => e.Value)
                 .HasMaxLength(1000)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<JobPosition>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__JobPosit__3214EC07DFD64259");
+
+            entity.ToTable("JobPositions", "dictionary");
+
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<JobPositionDepartment>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("JobPositionDepartments", "dictionary");
+
+            entity.HasOne(d => d.Department).WithMany()
+                .HasForeignKey(d => d.DepartmentId)
+                .HasConstraintName("FK__JobPositi__Depar__6EF57B66");
+
+            entity.HasOne(d => d.Position).WithMany()
+                .HasForeignKey(d => d.PositionId)
+                .HasConstraintName("FK__JobPositi__Posit__6E01572D");
         });
 
         modelBuilder.Entity<Log>(entity =>
@@ -152,11 +199,28 @@ public partial class HrmsAppDbContext : DbContext
                     });
         });
 
+        modelBuilder.Entity<UserJobPosition>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("UserJobPositions", "ums");
+
+            entity.HasOne(d => d.Position).WithMany()
+                .HasForeignKey(d => d.PositionId)
+                .HasConstraintName("FK__UserJobPo__Posit__71D1E811");
+
+            entity.HasOne(d => d.User).WithMany()
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__UserJobPo__UserI__70DDC3D8");
+        });
+
         modelBuilder.Entity<UserProfile>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserProf__3214EC07FBECF78E");
+            entity.HasKey(e => e.Id).HasName("PK__UserProf__3214EC072C37E740");
 
             entity.ToTable("UserProfile", "ums");
+
+            entity.HasIndex(e => e.UserId, "UQ__UserProf__1788CC4DC118346D").IsUnique();
 
             entity.Property(e => e.BirthDate).HasColumnType("datetime");
             entity.Property(e => e.Firstname).HasMaxLength(100);
@@ -176,11 +240,11 @@ public partial class HrmsAppDbContext : DbContext
 
             entity.HasOne(d => d.Gender).WithMany(p => p.UserProfiles)
                 .HasForeignKey(d => d.GenderId)
-                .HasConstraintName("FK__UserProfi__Gende__534D60F1");
+                .HasConstraintName("FK__UserProfi__Gende__76969D2E");
 
-            entity.HasOne(d => d.User).WithMany(p => p.UserProfiles)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__UserProfi__UserI__52593CB8");
+            entity.HasOne(d => d.User).WithOne(p => p.UserProfile)
+                .HasForeignKey<UserProfile>(d => d.UserId)
+                .HasConstraintName("FK__UserProfi__UserI__75A278F5");
         });
 
         OnModelCreatingPartial(modelBuilder);

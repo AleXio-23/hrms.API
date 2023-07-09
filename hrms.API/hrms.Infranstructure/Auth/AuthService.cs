@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace hrms.Infranstructure.Auth
 {
@@ -28,21 +29,34 @@ namespace hrms.Infranstructure.Auth
         }
 
 
-        public async Task<ServiceResult<User>> Register(RegisterDto registerDto, CancellationToken cancellationToken)
+        public async Task<ServiceResult<string>> Register(RegisterDto registerDto, CancellationToken cancellationToken)
         {
+
+            if (!IsValidEmail(registerDto.Email))
+            {
+                throw new ValidationException("Wrong email format");
+            }
+
+            var userName = registerDto.Email;
+
             if (registerDto.Password != registerDto.RepeatPassword)
             {
                 throw new ArgumentException("Passwords don't match");
             }
-            if (await UserExists(registerDto.Username))
+            if (await UserExists(userName))
             {
                 throw new RecordExistsException("Username is registered");
+            }
+            if (await UserWithEmailExists(registerDto.Email))
+            {
+                throw new RecordExistsException("This email is registered");
             }
 
             var hmac = new HMACSHA512();
             var newUser = new User()
             {
-                Username = registerDto.Username,
+                Username = userName,
+                Email = registerDto.Email,
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                 PasswordSalt = hmac.Key
             };
@@ -50,17 +64,17 @@ namespace hrms.Infranstructure.Auth
             _dbContext.Users.Add(newUser);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return new ServiceResult<User>()
+            return new ServiceResult<string>()
             {
                 Success = true,
-                Data = newUser
+                Data = newUser.Email + " Added"
             };
         }
 
-        public async Task<ServiceResult<string>> Login(LoginDto loginDto, CancellationToken cancellationToken)
+        public async Task<ServiceResult<LoginResponse>> Login(LoginDto loginDto, CancellationToken cancellationToken)
         {
-            var user = await _dbContext.Users
-                            .SingleOrDefaultAsync(x => x.Username == loginDto.Username.ToLower(), cancellationToken: cancellationToken) ?? throw new ArgumentException("Wrong username");
+            var user = (IsValidEmail(loginDto.EmailOrUsername) ? await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == loginDto.EmailOrUsername, cancellationToken: cancellationToken) :
+                await _dbContext.Users.SingleOrDefaultAsync(x => x.Username == loginDto.EmailOrUsername.ToLower(), cancellationToken: cancellationToken)) ?? throw new ArgumentException("User not found.");
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
@@ -96,10 +110,18 @@ namespace hrms.Infranstructure.Auth
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return new ServiceResult<string>()
+            var getUser = await _dbContext.Users.Include(x => x.UserProfiles).Select(op => new LoginResponse()
+            {
+                Id = op.Id,
+                Email = op.Email,
+                //FirstName = op.UserProfile
+            }).FirstOrDefaultAsync(x => x.Id == user.Id, cancellationToken);
+
+
+            return new ServiceResult<LoginResponse>()
             {
                 Success = true,
-                Data = generateToken.Item1
+                Data = null
             };
         }
 
@@ -236,6 +258,18 @@ namespace hrms.Infranstructure.Auth
         private async Task<bool> UserExists(string username)
         {
             return await _dbContext.Users.AnyAsync(x => x.Username.ToLower() == username.ToLower());
+        }
+        private async Task<bool> UserWithEmailExists(string email)
+        {
+            return await _dbContext.Users.AnyAsync(x => x.Email == email);
+        }
+
+        private static bool IsValidEmail(string email)
+        {
+            string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            Regex regex = new(pattern);
+            Match match = regex.Match(email);
+            return match.Success;
         }
     }
 }

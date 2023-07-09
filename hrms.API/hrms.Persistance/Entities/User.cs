@@ -25,7 +25,7 @@ public partial class User
 
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
-    public virtual ICollection<UserProfile> UserProfiles { get; set; } = new List<UserProfile>();
+    public virtual UserProfile? UserProfile { get; set; }
 
     public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 }

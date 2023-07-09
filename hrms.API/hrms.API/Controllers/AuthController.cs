@@ -45,7 +45,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("signIn")]
-        public async Task<ActionResult<ServiceResult<string>>> SignIn([FromBody] LoginDto loginDto, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<LoginResponse>>> SignIn([FromBody] LoginDto loginDto, CancellationToken cancellationToken)
         {
             var result = await _authService.Login(loginDto, cancellationToken);
             if (result.ErrorOccured)

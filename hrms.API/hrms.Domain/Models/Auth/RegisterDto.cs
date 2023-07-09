@@ -4,15 +4,16 @@ namespace hrms.Domain.Models.Auth
 {
     public class RegisterDto
     {
+         
         [Required]
-        public string Username { get; set; }
+        public string Email { get; set; }
 
         [Required]
-        [StringLength(8, MinimumLength = 6)]
+        [StringLength(244, MinimumLength = 8)]
         public string Password { get; set; }
 
         [Required]
-        [StringLength(8, MinimumLength = 6)]
+        [StringLength(244, MinimumLength = 8)]
         public string RepeatPassword { get; set; }
     }
 }
