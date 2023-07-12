@@ -75,6 +75,26 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
+
+        /// <summary>
+        /// Sign out
+        /// </summary>
+        /// <param name="updateAccessTokenRequest"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("SignOut")]
+        public async Task<ActionResult<ServiceResult<bool>>> SignOut([FromBody] UpdateAccessTokenRequest updateAccessTokenRequest, CancellationToken cancellationToken)
+        {
+            var result = await _authService.LogOut(updateAccessTokenRequest.AccessToken, cancellationToken);
+
+            if (result.ErrorOccured)
+            {
+                return Unauthorized(result);
+            }
+
+            return Ok(result);
+        }
+
         /// <summary>
         /// Recover forgotten password
         /// </summary>

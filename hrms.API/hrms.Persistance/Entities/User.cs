@@ -13,7 +13,7 @@ public partial class User
 
     public byte[] PasswordSalt { get; set; } = null!;
 
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
     public bool? PasswordExpires { get; set; }
 

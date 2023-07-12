@@ -110,18 +110,27 @@ namespace hrms.Infranstructure.Auth
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            var getUser = await _dbContext.Users.Include(x => x.UserProfiles).Select(op => new LoginResponse()
+            var getUser = await _dbContext.VwUserSignInResponses.Select(op => new LoginResponse()
             {
                 Id = op.Id,
                 Email = op.Email,
-                //FirstName = op.UserProfile
+                FirstName = op.FirstName ?? "",
+                LastName = op.LastName ?? "",
+                AccessToken = generateToken.Item1,
+                LoginResponsePositions = new LoginResponsePositions()
+                {
+                    PositionId = op.JobPositionId,
+                    Position = op.JobPositionName,
+                    DepartmentId = op.DepartmentId,
+                    Department = op.DepartmentName
+                }
             }).FirstOrDefaultAsync(x => x.Id == user.Id, cancellationToken);
 
 
             return new ServiceResult<LoginResponse>()
             {
                 Success = true,
-                Data = null
+                Data = getUser
             };
         }
 
@@ -135,7 +144,7 @@ namespace hrms.Infranstructure.Auth
                 }
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var jwtToken = tokenHandler.ReadJwtToken(accessToken);
-                string? userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+                string? userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
 
                 if (string.IsNullOrEmpty(userId))
                 {
@@ -169,6 +178,32 @@ namespace hrms.Infranstructure.Auth
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<ServiceResult<bool>> LogOut(string? accessToken, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                throw new ArgumentException("Wrong accessToken");
+            }
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(accessToken);
+            string? userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("UserId not found in access token");
+            }
+
+            var refreshToken = await _dbContext.RefreshTokens.FirstOrDefaultAsync(x => x.UserId.ToString() == userId, cancellationToken) ?? throw new ArgumentException("Refresh token not found");
+            _dbContext.RefreshTokens.Remove(refreshToken);
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return new ServiceResult<bool>()
+            {
+                Success = true,
+                Data = true
+            };
+
         }
 
         public async Task<ServiceResult<string>> ResetPassword(string usernameOrEmail, CancellationToken cancellationToken)

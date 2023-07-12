@@ -10,5 +10,6 @@ namespace hrms.Infranstructure.Auth
         Task<ServiceResult<LoginResponse>> Login(LoginDto loginDto, CancellationToken cancellationToken);
         Task<ServiceResult<string>> UpdateAccessToken(string? accessToken, CancellationToken cancellationToken);
         Task<ServiceResult<string>> ResetPassword(string usernameOrEmail, CancellationToken cancellationToken);
+        Task<ServiceResult<bool>> LogOut(string? accessToken, CancellationToken cancellationToken);
     }
 }
