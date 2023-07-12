@@ -7,6 +7,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using hrms.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +24,8 @@ builder.Services.AddDbContext<HrmsAppDbContext>(options =>
        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-
+builder.Services.RegisterPersistanceServces();
+builder.Services.RegisterApplicationServices();
 builder.Services.RegisterIfrastructureServices();
 
 

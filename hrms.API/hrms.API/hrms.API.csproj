@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\hrms.Application\hrms.Application.csproj" />
     <ProjectReference Include="..\hrms.Infranstructure\hrms.Infranstructure.csproj" />
     <ProjectReference Include="..\hrms.Persistance\hrms.Persistance.csproj" />
   </ItemGroup>
