@@ -15,5 +15,6 @@ namespace hrms.Persistance.Repository
         Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
         Task<TEntity?> FirstOrDefaultAsync(CancellationToken cancellationToken);
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> GetAllAsQueryable();
     }
 }

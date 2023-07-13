@@ -75,5 +75,10 @@ namespace hrms.Persistance.Repository
         {
             return await _context.Set<TEntity>().FirstOrDefaultAsync(cancellationToken);
         }
+
+        public IQueryable<TEntity> GetAllAsQueryable()
+        {
+            return _context.Set<TEntity>().AsQueryable();
+        }
     }
 }

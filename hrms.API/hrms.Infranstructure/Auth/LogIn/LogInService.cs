@@ -34,8 +34,8 @@ namespace hrms.Infranstructure.Auth.LogIn
 
         public async Task<ServiceResult<LoginResponse>> Exeute(LoginDto loginDto, CancellationToken cancellationToken)
         {
-            var user = (User?)(IsValidEmail(loginDto.EmailOrUsername) ? await _userRepository.SingleOrDefaultAsync(x => x.Email == loginDto.EmailOrUsername, cancellationToken: cancellationToken) :
-                 await _userRepository.SingleOrDefaultAsync(x => x.Username == loginDto.EmailOrUsername.ToLower(), cancellationToken: cancellationToken)) ?? throw new ArgumentException("User not found.");
+            var user = (User?)(IsValidEmail(loginDto.EmailOrUsername) ? await _userRepository.SingleOrDefaultAsync(x => x.Email == loginDto.EmailOrUsername, cancellationToken: cancellationToken).ConfigureAwait(false) :
+                 await _userRepository.SingleOrDefaultAsync(x => x.Username == loginDto.EmailOrUsername.ToLower(), cancellationToken: cancellationToken).ConfigureAwait(false)) ?? throw new ArgumentException("User not found.");
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
@@ -51,7 +51,7 @@ namespace hrms.Infranstructure.Auth.LogIn
             var generateToken = GenerateJwtToken(user, jwtSecret, false);
             var generateRefreshToken = GenerateJwtToken(user, jwtSecret, true);
 
-            var checkRefreshTokenIfExists = await _refreshTokenRepository.FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
+            var checkRefreshTokenIfExists = await _refreshTokenRepository.FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken).ConfigureAwait(false);
             if (checkRefreshTokenIfExists != null)
             {
                 checkRefreshTokenIfExists.Token = generateRefreshToken.Item1;
@@ -84,7 +84,7 @@ namespace hrms.Infranstructure.Auth.LogIn
                     DepartmentId = op.DepartmentId,
                     Department = op.DepartmentName
                 }
-            }).FirstOrDefaultAsync(cancellationToken);
+            }).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
 
             return new ServiceResult<LoginResponse>()

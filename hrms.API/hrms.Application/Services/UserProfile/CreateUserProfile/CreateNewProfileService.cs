@@ -4,11 +4,11 @@ using hrms.Shared.Models;
 
 namespace hrms.Application.Services.UserProfile.CreateUserProfile
 {
-    public class CreateNewProfile : ICreateNewProfile
+    public class CreateNewProfileService : ICreateNewProfileService
     {
         private readonly IRepository<Persistance.Entities.UserProfile> _profileRepository;
 
-        public CreateNewProfile(IRepository<Persistance.Entities.UserProfile> profileRepository)
+        public CreateNewProfileService(IRepository<Persistance.Entities.UserProfile> profileRepository)
         {
             _profileRepository = profileRepository;
         }
@@ -28,7 +28,7 @@ namespace hrms.Application.Services.UserProfile.CreateUserProfile
                 RegisterDate = userPrfileDTO.RegisterDate
             };
 
-            var addNewProfile = await _profileRepository.Add(newProfile, cancellationToken);
+            var addNewProfile = await _profileRepository.Add(newProfile, cancellationToken).ConfigureAwait(false);
             return new ServiceResult<Persistance.Entities.UserProfile>()
             {
                 Success = true,

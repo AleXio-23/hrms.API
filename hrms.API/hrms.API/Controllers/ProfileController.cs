@@ -1,9 +1,7 @@
-﻿using hrms.Application.Services.UserProfile.CreateUserProfile;
-using hrms.Domain.Models.Auth;
+﻿using hrms.Application.Services.UserProfile;
 using hrms.Domain.Models.User;
 using hrms.Persistance.Entities;
 using hrms.Shared.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace hrms.API.Controllers
@@ -12,18 +10,41 @@ namespace hrms.API.Controllers
     [ApiController]
     public class ProfileController : ControllerBase
     {
-        private readonly ICreateNewProfile _createNewProfileService;
+        private readonly IUserProfileFacade _userProfileFacade;
 
-        public ProfileController(ICreateNewProfile createNewProfileService)
+        public ProfileController(IUserProfileFacade userProfileFacade)
         {
-            _createNewProfileService = createNewProfileService;
+            _userProfileFacade = userProfileFacade;
         }
 
-
+        /// <summary>
+        /// Create new profile
+        /// </summary>
+        /// <param name="profileDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost("CreateProfile")]
         public async Task<ActionResult<ServiceResult<User>>> CreateNewProfile([FromBody] UserProfileDTO profileDTO, CancellationToken cancellationToken)
         {
-            var result = await _createNewProfileService.Execute(profileDTO, cancellationToken);
+            var result = await _userProfileFacade.CreateNewProfile.Execute(profileDTO, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Update user profile
+        /// </summary>
+        /// <param name="profileDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("UpdateProfile")]
+        public async Task<ActionResult<ServiceResult<User>>> UpdateUserProfile([FromBody] UserProfileDTO profileDTO, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.UpdateUserProfileService.Execute(profileDTO, cancellationToken);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);

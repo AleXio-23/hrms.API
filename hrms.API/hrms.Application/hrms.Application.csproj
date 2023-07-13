@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
@@ -14,6 +15,12 @@
     <ProjectReference Include="..\hrms.Domain\hrms.Domain.csproj" />
     <ProjectReference Include="..\hrms.Persistance\hrms.Persistance.csproj" />
     <ProjectReference Include="..\hrms.Shared\hrms.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Dictionaries\Departments\AddOrUpdateDepartment\" />
+    <Folder Include="Services\Dictionaries\Departments\GetDepartment\" />
+    <Folder Include="Services\Dictionaries\JobPositions\" />
   </ItemGroup>
 
 </Project>

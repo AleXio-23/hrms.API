@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using hrms.Application;
+using AutoMapper;
+using hrms.Infranstructure.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,8 @@ builder.Services.RegisterPersistanceServces();
 builder.Services.RegisterApplicationServices();
 builder.Services.RegisterIfrastructureServices();
 
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddAuthentication(x =>
     {

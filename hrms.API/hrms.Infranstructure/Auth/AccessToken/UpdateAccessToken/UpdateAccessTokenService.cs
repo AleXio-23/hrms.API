@@ -43,14 +43,14 @@ namespace hrms.Infranstructure.Auth.AccessToken.UpdateAccessToken
                     throw new ArgumentException("UserId not found in access token");
                 }
 
-                var getRefreshToken = await _refreshTokenRepository.FirstOrDefaultAsync(x => x.UserId.ToString() == userId, cancellationToken) ?? throw new NotFoundException("Refresh token not found");
+                var getRefreshToken = await _refreshTokenRepository.FirstOrDefaultAsync(x => x.UserId.ToString() == userId, cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException("Refresh token not found");
 
                 if (DateTime.UtcNow >= getRefreshToken.ExpiryDate)
                 {
                     throw new SecurityTokenExpiredException("Refresh token expired");
                 }
 
-                var user = await _userRepository.FirstOrDefaultAsync(x => x.Id.ToString() == userId, cancellationToken) ?? throw new NotFoundException($"User with id: {userId} not found.");
+                var user = await _userRepository.FirstOrDefaultAsync(x => x.Id.ToString() == userId, cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"User with id: {userId} not found.");
 
                 if (!(user.IsActive ?? false))
                 {

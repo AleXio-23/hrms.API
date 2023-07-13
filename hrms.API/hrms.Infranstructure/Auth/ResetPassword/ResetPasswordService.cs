@@ -24,7 +24,7 @@ namespace hrms.Infranstructure.Auth.ResetPassword
         }
         public async Task<ServiceResult<string>> Execute(string usernameOrEmail, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.FirstOrDefaultAsync(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail, cancellationToken) ?? throw new NotFoundException("User not found");
+            var user = await _userRepository.FirstOrDefaultAsync(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail, cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException("User not found");
             if (!(user.IsActive ?? false))
             {
                 throw new ValidationException("Your user is blocked. Contact Support to get help");

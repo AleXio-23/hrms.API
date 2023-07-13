@@ -69,11 +69,11 @@ namespace hrms.Infranstructure.Auth.Register
 
         private async Task<bool> UserExists(string username)
         {
-            return await _userRepository.AnyAsync(x => x.Username.ToLower() == username.ToLower());
+            return await _userRepository.AnyAsync(x => x.Username.ToLower() == username.ToLower()).ConfigureAwait(false);
         }
         private async Task<bool> UserWithEmailExists(string email)
         {
-            return await _userRepository.AnyAsync(x => x.Email == email);
+            return await _userRepository.AnyAsync(x => x.Email == email).ConfigureAwait(false);
         }
 
     }

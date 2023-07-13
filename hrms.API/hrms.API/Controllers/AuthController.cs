@@ -1,4 +1,5 @@
 ﻿using hrms.Domain.Models.Auth;
+using hrms.Infranstructure.Auth;
 using hrms.Infranstructure.Auth.AccessToken.UpdateAccessToken;
 using hrms.Infranstructure.Auth.LogIn;
 using hrms.Infranstructure.Auth.LogOut;
@@ -14,23 +15,12 @@ namespace hrms.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IRegisterService _registerService;
-        private readonly ILogInService _loginService;
-        private readonly IUpdateAccessTokenService _updateAccessTokenService;
-        private readonly ILogOutService _logOutService;
-        private readonly IResetPasswordService _resetPasswordService;
+        private readonly IAuthenticationFacade _authentication;
 
-        public AuthController(IRegisterService registerService,
-                                ILogInService loginService,
-                                IUpdateAccessTokenService updateAccessTokenService,
-                                ILogOutService logOutService,
-                                IResetPasswordService resetPasswordService)
+
+        public AuthController(IAuthenticationFacade authentication)
         {
-            _registerService = registerService;
-            _loginService = loginService;
-            _updateAccessTokenService = updateAccessTokenService;
-            _logOutService = logOutService;
-            _resetPasswordService = resetPasswordService;
+            _authentication = authentication;
         }
 
 
@@ -44,7 +34,7 @@ namespace hrms.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResult<User>>> RegisterNewUser([FromBody] RegisterDto registerDto, CancellationToken cancellationToken)
         {
-            var result = await _registerService.Execute(registerDto, cancellationToken);
+            var result = await _authentication.RegisterService.Execute(registerDto, cancellationToken);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -63,7 +53,7 @@ namespace hrms.API.Controllers
         [HttpPost("signIn")]
         public async Task<ActionResult<ServiceResult<LoginResponse>>> SignIn([FromBody] LoginDto loginDto, CancellationToken cancellationToken)
         {
-            var result = await _loginService.Exeute(loginDto, cancellationToken);
+            var result = await _authentication.LoginService.Exeute(loginDto, cancellationToken);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -81,7 +71,7 @@ namespace hrms.API.Controllers
         [HttpPost("UpdateAccessToken")]
         public async Task<ActionResult<ServiceResult<string>>> UpdateAccessToken([FromBody] UpdateAccessTokenRequest updateAccessTokenRequest, CancellationToken cancellationToken)
         {
-            var result = await _updateAccessTokenService.Execute(updateAccessTokenRequest.AccessToken, cancellationToken);
+            var result = await _authentication.UpdateAccessTokenService.Execute(updateAccessTokenRequest.AccessToken, cancellationToken);
 
             if (result.ErrorOccured)
             {
@@ -101,7 +91,7 @@ namespace hrms.API.Controllers
         [HttpPost("SignOut")]
         public async Task<ActionResult<ServiceResult<bool>>> SignOut([FromBody] UpdateAccessTokenRequest updateAccessTokenRequest, CancellationToken cancellationToken)
         {
-            var result = await _logOutService.Execute(updateAccessTokenRequest.AccessToken, cancellationToken);
+            var result = await _authentication.LogOutService.Execute(updateAccessTokenRequest.AccessToken, cancellationToken);
 
             if (result.ErrorOccured)
             {
@@ -120,7 +110,7 @@ namespace hrms.API.Controllers
         [HttpPost("ResetPassword")]
         public async Task<ActionResult<ServiceResult<string>>> ResetPassword([FromBody] string userNameOrEmail, CancellationToken cancellationToken)
         {
-            var result = await _resetPasswordService.Execute(userNameOrEmail, cancellationToken);
+            var result = await _authentication.ResetPasswordService.Execute(userNameOrEmail, cancellationToken);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
