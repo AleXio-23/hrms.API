@@ -13,7 +13,7 @@ public partial class User
 
     public byte[] PasswordSalt { get; set; } = null!;
 
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
     public bool? PasswordExpires { get; set; }
 
@@ -25,7 +25,7 @@ public partial class User
 
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
-    public virtual ICollection<UserProfile> UserProfiles { get; set; } = new List<UserProfile>();
+    public virtual UserProfile? UserProfile { get; set; }
 
     public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 }
