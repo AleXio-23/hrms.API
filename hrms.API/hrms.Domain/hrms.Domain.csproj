@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Dictionary\Departments\" />
     <Folder Include="Models\Dictionary\JobPositions\" />
   </ItemGroup>
 

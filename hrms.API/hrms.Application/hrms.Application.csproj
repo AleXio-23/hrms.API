@@ -18,9 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Dictionaries\Departments\AddOrUpdateDepartment\" />
-    <Folder Include="Services\Dictionaries\Departments\GetDepartment\" />
-    <Folder Include="Services\Dictionaries\JobPositions\" />
+    <Folder Include="Services\Dictionaries\JobPositions\AddOrUpdateJobPosition\" />
+    <Folder Include="Services\Dictionaries\JobPositions\DeleteJobPosition\" />
+    <Folder Include="Services\Dictionaries\JobPositions\GetJobPosition\" />
+    <Folder Include="Services\Dictionaries\JobPositions\GetJobPositions\" />
   </ItemGroup>
 
 </Project>

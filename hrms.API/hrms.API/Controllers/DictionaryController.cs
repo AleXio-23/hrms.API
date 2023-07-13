@@ -1,10 +1,8 @@
 ﻿using hrms.Application.Services.Dictionaries;
+using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Shared;
-using hrms.Domain.Models.User;
-using hrms.Persistance.Entities;
 using hrms.Shared.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace hrms.API.Controllers
@@ -79,10 +77,82 @@ namespace hrms.API.Controllers
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpDelete("DeleteGener")]
-        public async Task<ActionResult<ServiceResult<bool>>> DeleteGener([FromBody] IdRequest request, CancellationToken cancellationToken)
+        [HttpDelete("DeleteGender")]
+        public async Task<ActionResult<ServiceResult<bool>>> DeleteGender([FromBody] IdRequest request, CancellationToken cancellationToken)
         {
             var result = await _dictionaryiFacade.DeleteGenerService.Execute(request.Id, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        #endregion
+
+        #region Departments CRUDs
+ 
+        /// <summary>
+        /// Get single department
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetDepartment")]
+        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> GetDepartment([FromQuery] int id, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetDepartmentService.Execute(id, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get departments list with filter
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetDepartments")]
+        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> GetDepartments([FromQuery] DepartmentFilter filter, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetDepartmentsService.Execute(filter, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Add or update department (depend Id is null or not)
+        /// </summary>
+        /// <param name="departmentDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("AddOrUpdateDepartment")]
+        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> AddOrUpdateDepartment([FromBody] DepartmentDTO departmentDTO, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.AddOrUpdateDepartmentService.Execute(departmentDTO, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Delete department
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpDelete("DeleteDepartment")]
+        public async Task<ActionResult<ServiceResult<bool>>> DeleteDepartment([FromBody] IdRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.DeleteDepartmentService.Execute(request.Id, cancellationToken);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);

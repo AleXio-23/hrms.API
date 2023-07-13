@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
+using hrms.Persistance.Entities;
 
 namespace hrms.Infranstructure.AutoMapper
 {
@@ -7,7 +9,8 @@ namespace hrms.Infranstructure.AutoMapper
     {
         public AutomapperProfile() : base()
         {
-            CreateMap<Persistance.Entities.Gender, GenderDTO>().ReverseMap();
+            CreateMap<Gender, GenderDTO>().ReverseMap();
+            CreateMap<Department, DepartmentDTO>().ReverseMap();
         }
     }
 }
