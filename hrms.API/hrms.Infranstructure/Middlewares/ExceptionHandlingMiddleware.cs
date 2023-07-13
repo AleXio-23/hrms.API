@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace hrms.Infranstructure.Middlewares
 {

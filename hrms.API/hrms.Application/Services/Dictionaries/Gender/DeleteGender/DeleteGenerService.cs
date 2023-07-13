@@ -24,8 +24,7 @@ namespace hrms.Application.Services.Dictionaries.Gender.DeleteGender
                 Success = true,
                 Data = true,
                 ErrorOccured = false
-            };
-
+            }; 
         }
     }
 }

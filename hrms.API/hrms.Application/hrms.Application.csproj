@@ -17,11 +17,5 @@
     <ProjectReference Include="..\hrms.Shared\hrms.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Dictionaries\JobPositions\AddOrUpdateJobPosition\" />
-    <Folder Include="Services\Dictionaries\JobPositions\DeleteJobPosition\" />
-    <Folder Include="Services\Dictionaries\JobPositions\GetJobPosition\" />
-    <Folder Include="Services\Dictionaries\JobPositions\GetJobPositions\" />
-  </ItemGroup>
-
 </Project>
+    

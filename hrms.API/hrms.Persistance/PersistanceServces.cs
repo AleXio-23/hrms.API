@@ -13,8 +13,10 @@ namespace hrms.Persistance
             services.AddScoped<IRepository<RefreshToken>, Repository<RefreshToken>>();
             services.AddScoped<IRepository<Gender>, Repository<Gender>>();
             services.AddScoped<IRepository<Department>, Repository<Department>>();
+            services.AddScoped<IRepository<JobPosition>, Repository<JobPosition>>();
+            services.AddScoped<IRepository<JobPositionDepartment>, Repository<JobPositionDepartment>>();
             services.AddScoped<IRepository<VwUserSignInResponse>, Repository<VwUserSignInResponse>>();
-                          
+
             return services;
         }
     }

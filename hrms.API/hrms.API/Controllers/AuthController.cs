@@ -22,9 +22,7 @@ namespace hrms.API.Controllers
         {
             _authentication = authentication;
         }
-
-
-
+         
         /// <summary>
         /// User registration
         /// </summary>
@@ -42,8 +40,7 @@ namespace hrms.API.Controllers
 
             return Ok(result);
         }
-
-
+         
         /// <summary>
         /// Authorization
         /// </summary>
@@ -80,8 +77,7 @@ namespace hrms.API.Controllers
 
             return Ok(result);
         }
-
-
+         
         /// <summary>
         /// Sign out
         /// </summary>
