@@ -36,8 +36,13 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
 
+    public virtual DbSet<UserRole> UserRoles { get; set; }
+
     public virtual DbSet<VwUserSignInResponse> VwUserSignInResponses { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=HRMS;Persist Security Info=True;User Id=;Password=;Trusted_Connection=true;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -165,23 +170,6 @@ public partial class HrmsAppDbContext : DbContext
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
             entity.Property(e => e.Username).HasMaxLength(50);
-
-            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "UserRole",
-                    r => r.HasOne<Role>().WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__UserRoles__RoleI__2F10007B"),
-                    l => l.HasOne<User>().WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__UserRoles__UserI__2E1BDC42"),
-                    j =>
-                    {
-                        j.HasKey("UserId", "RoleId").HasName("PK__UserRole__AF2760AD2A41FBEA");
-                        j.ToTable("UserRoles", "ums");
-                    });
         });
 
         modelBuilder.Entity<UserJobPosition>(entity =>
@@ -236,6 +224,27 @@ public partial class HrmsAppDbContext : DbContext
             entity.HasOne(d => d.User).WithOne(p => p.UserProfile)
                 .HasForeignKey<UserProfile>(d => d.UserId)
                 .HasConstraintName("FK__UserProfi__UserI__3E52440B");
+        });
+
+        modelBuilder.Entity<UserRole>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.RoleId }).HasName("PK__UserRole__AF2760ADD9FB1796");
+
+            entity.ToTable("UserRoles", "ums");
+
+            entity.HasIndex(e => e.UserId, "UQ__UserRole__1788CC4D10F4D071").IsUnique();
+
+            entity.HasIndex(e => e.RoleId, "UQ__UserRole__8AFACE1B337A00A6").IsUnique();
+
+            entity.HasOne(d => d.Role).WithOne(p => p.UserRole)
+                .HasForeignKey<UserRole>(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UserRoles__RoleI__75A278F5");
+
+            entity.HasOne(d => d.User).WithOne(p => p.UserRole)
+                .HasForeignKey<UserRole>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UserRoles__UserI__74AE54BC");
         });
 
         modelBuilder.Entity<VwUserSignInResponse>(entity =>

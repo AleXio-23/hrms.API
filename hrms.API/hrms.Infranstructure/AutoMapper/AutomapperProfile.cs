@@ -15,10 +15,14 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<Department, DepartmentDTO>().ReverseMap();
             CreateMap<JobPosition, JobPositionDTO>().ReverseMap();
 
+            CreateMap<Role, RoleDTO>().ReverseMap();
+
             CreateMap<UserJobPosition, UserJobPositionDTO>()
                 .ForMember(dep => dep.Department, opt => opt.MapFrom(x => x.Department))
                 .ForMember(pos => pos.Position, opt => opt.MapFrom(x => x.Position))
                 .ReverseMap();
+
+
         }
     }
 }

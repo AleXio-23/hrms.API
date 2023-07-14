@@ -98,5 +98,10 @@ namespace hrms.Persistance.Repository
 
             return query;
         }
+
+        public async Task SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }

@@ -13,7 +13,7 @@ public partial class Role
 
     public bool? IsActive { get; set; }
 
-    public virtual ICollection<Claim> Claims { get; set; } = new List<Claim>();
+    public virtual UserRole? UserRole { get; set; }
 
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
+    public virtual ICollection<Claim> Claims { get; set; } = new List<Claim>();
 }

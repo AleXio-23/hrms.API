@@ -16,6 +16,11 @@ using hrms.Application.Services.User.UserJobPosition.DeleteUserJobPosition;
 using hrms.Application.Services.User.UserJobPosition.GetUserJobPosition;
 using hrms.Application.Services.User.UserProfile.CreateUserProfile;
 using hrms.Application.Services.User.UserProfile.UpdateUserProfile;
+using hrms.Application.Services.User.UserRoles.Roles.AddOrUpdateRoles;
+using hrms.Application.Services.User.UserRoles.Roles.DeleteRole;
+using hrms.Application.Services.User.UserRoles.Roles.GetRole;
+using hrms.Application.Services.User.UserRoles.Roles.GetRoles;
+using hrms.Application.Services.User.UserRoles.UserRoles.AddOrUpdateUserRole;
 using hrms.Application.Services.UserProfile;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,6 +36,14 @@ namespace hrms.Application
             services.AddScoped<IAddOrUpdateUserJobPositionService, AddOrUpdateUserJobPositionService>();
             services.AddScoped<IDeleteUserJobPositionService, DeleteUserJobPositionService>();
             services.AddScoped<IGetUserJobPositionService, GetUserJobPositionService>();
+
+            services.AddScoped<IAddOrUpdateRolesService, AddOrUpdateRolesService>();
+            services.AddScoped<IDeleteRoleService, DeleteRoleService>();
+            services.AddScoped<IGetRoleService, GetRoleService>();
+            services.AddScoped<IGetRolesService, GetRolesService>();
+
+            services.AddScoped<IAddOrUpdateUserRoleService, AddOrUpdateUserRoleService>();
+
 
             services.AddScoped<IUserProfileFacade, UserProfileFacade>();
 
