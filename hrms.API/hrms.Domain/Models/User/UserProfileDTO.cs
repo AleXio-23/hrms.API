@@ -21,5 +21,7 @@
         public int? GenderId { get; set; }
 
         public DateTime RegisterDate { get; set; }
+
+        public UserJobPositionDTO UserJobPositionDTO { get; set; }
     }
 }

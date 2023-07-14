@@ -3,7 +3,7 @@ using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
 
-namespace hrms.Application.Services.UserProfile.UpdateUserProfile
+namespace hrms.Application.Services.User.UserProfile.UpdateUserProfile
 {
     public class UpdateUserProfileService : IUpdateUserProfileService
     {

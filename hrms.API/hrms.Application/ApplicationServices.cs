@@ -11,9 +11,12 @@ using hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosition
 using hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
+using hrms.Application.Services.User.UserJobPosition.AddOrUpdateUserJobPosition;
+using hrms.Application.Services.User.UserJobPosition.DeleteUserJobPosition;
+using hrms.Application.Services.User.UserJobPosition.GetUserJobPosition;
+using hrms.Application.Services.User.UserProfile.CreateUserProfile;
+using hrms.Application.Services.User.UserProfile.UpdateUserProfile;
 using hrms.Application.Services.UserProfile;
-using hrms.Application.Services.UserProfile.CreateUserProfile;
-using hrms.Application.Services.UserProfile.UpdateUserProfile;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace hrms.Application
@@ -24,6 +27,11 @@ namespace hrms.Application
         {
             services.AddScoped<ICreateNewProfileService, CreateNewProfileService>();
             services.AddScoped<IUpdateUserProfileService, UpdateUserProfileService>();
+
+            services.AddScoped<IAddOrUpdateUserJobPositionService, AddOrUpdateUserJobPositionService>();
+            services.AddScoped<IDeleteUserJobPositionService, DeleteUserJobPositionService>();
+            services.AddScoped<IGetUserJobPositionService, GetUserJobPositionService>();
+
             services.AddScoped<IUserProfileFacade, UserProfileFacade>();
 
 

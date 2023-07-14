@@ -24,8 +24,6 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<JobPosition> JobPositions { get; set; }
 
-    public virtual DbSet<JobPositionDepartment> JobPositionDepartments { get; set; }
-
     public virtual DbSet<Log> Logs { get; set; }
 
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
@@ -40,7 +38,10 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<VwUserSignInResponse> VwUserSignInResponses { get; set; }
 
-   
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=HRMS;Persist Security Info=True;User Id=;Password=;Trusted_Connection=true;TrustServerCertificate=true;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -90,23 +91,6 @@ public partial class HrmsAppDbContext : DbContext
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
             entity.Property(e => e.Name).HasMaxLength(255);
-        });
-
-        modelBuilder.Entity<JobPositionDepartment>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("JobPositionDepartments", "dictionary");
-
-            entity.HasIndex(e => new { e.PositionId, e.DepartmentId }, "UQ__JobPosit__AB9BE3C6D66F3B06").IsUnique();
-
-            entity.HasOne(d => d.Department).WithMany()
-                .HasForeignKey(d => d.DepartmentId)
-                .HasConstraintName("FK__JobPositi__Depar__52593CB8");
-
-            entity.HasOne(d => d.Position).WithMany()
-                .HasForeignKey(d => d.PositionId)
-                .HasConstraintName("FK__JobPositi__Posit__5165187F");
         });
 
         modelBuilder.Entity<Log>(entity =>
@@ -205,19 +189,23 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<UserJobPosition>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("UserJobPositions", "ums");
+            entity.HasKey(e => e.Id).HasName("PK__UserJobP__3214EC0751E7C351");
 
-            entity.HasIndex(e => new { e.UserId, e.PositionId }, "UQ__UserJobP__918375EAAFF0D8BA").IsUnique();
+            entity.ToTable("UserJobPositions", "ums");
 
-            entity.HasOne(d => d.Position).WithMany()
+            entity.HasIndex(e => new { e.UserId, e.PositionId, e.DepartmentId }, "UQ__UserJobP__7D31727119EA65F2").IsUnique();
+
+            entity.HasOne(d => d.Department).WithMany(p => p.UserJobPositions)
+                .HasForeignKey(d => d.DepartmentId)
+                .HasConstraintName("FK__UserJobPo__Depar__6477ECF3");
+
+            entity.HasOne(d => d.Position).WithMany(p => p.UserJobPositions)
                 .HasForeignKey(d => d.PositionId)
-                .HasConstraintName("FK__UserJobPo__Posit__5629CD9C");
+                .HasConstraintName("FK__UserJobPo__Posit__6383C8BA");
 
-            entity.HasOne(d => d.User).WithMany()
+            entity.HasOne(d => d.User).WithMany(p => p.UserJobPositions)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__UserJobPo__UserI__5535A963");
+                .HasConstraintName("FK__UserJobPo__UserI__628FA481");
         });
 
         modelBuilder.Entity<UserProfile>(entity =>

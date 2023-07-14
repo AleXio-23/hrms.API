@@ -2,7 +2,7 @@
 using hrms.Persistance.Repository;
 using hrms.Shared.Models;
 
-namespace hrms.Application.Services.UserProfile.CreateUserProfile
+namespace hrms.Application.Services.User.UserProfile.CreateUserProfile
 {
     public class CreateNewProfileService : ICreateNewProfileService
     {

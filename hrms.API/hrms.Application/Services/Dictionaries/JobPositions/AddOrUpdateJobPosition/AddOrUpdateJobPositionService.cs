@@ -11,6 +11,13 @@ namespace hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosi
     {
         private readonly IMapper _mapper;
         private readonly IRepository<JobPosition> _jobPositionRepository;
+
+        public AddOrUpdateJobPositionService(IMapper mapper, IRepository<JobPosition> jobPositionRepository)
+        {
+            _mapper = mapper;
+            _jobPositionRepository = jobPositionRepository;
+        }
+
         public async Task<ServiceResult<JobPositionDTO>> Execute(JobPositionDTO jobPositionDTO, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(jobPositionDTO.Name)) throw new ArgumentException("Job position name can't be null or empty");

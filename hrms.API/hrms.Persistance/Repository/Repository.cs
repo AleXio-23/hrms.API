@@ -24,6 +24,7 @@ namespace hrms.Persistance.Repository
             return await _context.Set<TEntity>().FindAsync(new object?[] { id, cancellationToken }, cancellationToken: cancellationToken);
         }
 
+
         public async Task<TEntity> Add(TEntity entity, CancellationToken cancellationToken)
         {
             var newData = await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
@@ -48,6 +49,12 @@ namespace hrms.Persistance.Repository
         public async Task Delete(TEntity entity, CancellationToken cancellationToken)
         {
             _context.Set<TEntity>().Remove(entity);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        public async Task Delete(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
+        {
+            var getTEntity = await SingleOrDefaultAsync(predicate, cancellationToken) ?? throw new ArgumentException($"Record with {predicate.Name} not found");
+            _context.Set<TEntity>().Remove(getTEntity);
             await _context.SaveChangesAsync(cancellationToken);
         }
 
@@ -79,6 +86,17 @@ namespace hrms.Persistance.Repository
         public IQueryable<TEntity> GetAllAsQueryable()
         {
             return _context.Set<TEntity>().AsQueryable();
+        }
+
+        public IQueryable<TEntity> GetIncluding(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            IQueryable<TEntity> query = _context.Set<TEntity>();
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return query;
         }
     }
 }
