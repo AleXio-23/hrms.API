@@ -38,9 +38,6 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<VwUserSignInResponse> VwUserSignInResponses { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=HRMS;Persist Security Info=True;User Id=;Password=;Trusted_Connection=true;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -189,23 +186,23 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<UserJobPosition>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserJobP__3214EC0751E7C351");
+            entity.HasKey(e => e.Id).HasName("PK__UserJobP__3214EC07006CED34");
 
             entity.ToTable("UserJobPositions", "ums");
 
-            entity.HasIndex(e => new { e.UserId, e.PositionId, e.DepartmentId }, "UQ__UserJobP__7D31727119EA65F2").IsUnique();
+            entity.HasIndex(e => new { e.UserId, e.PositionId, e.DepartmentId }, "UQ__UserJobP__7D317271A0CD5621").IsUnique();
 
             entity.HasOne(d => d.Department).WithMany(p => p.UserJobPositions)
                 .HasForeignKey(d => d.DepartmentId)
-                .HasConstraintName("FK__UserJobPo__Depar__6477ECF3");
+                .HasConstraintName("FK__UserJobPo__Depar__6FE99F9F");
 
             entity.HasOne(d => d.Position).WithMany(p => p.UserJobPositions)
                 .HasForeignKey(d => d.PositionId)
-                .HasConstraintName("FK__UserJobPo__Posit__6383C8BA");
+                .HasConstraintName("FK__UserJobPo__Posit__6EF57B66");
 
             entity.HasOne(d => d.User).WithMany(p => p.UserJobPositions)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK__UserJobPo__UserI__628FA481");
+                .HasConstraintName("FK__UserJobPo__UserI__6E01572D");
         });
 
         modelBuilder.Entity<UserProfile>(entity =>
