@@ -10,4 +10,6 @@ public partial class Department
     public string Name { get; set; } = null!;
 
     public bool? IsActive { get; set; }
+
+    public virtual ICollection<UserJobPosition> UserJobPositions { get; set; } = new List<UserJobPosition>();
 }

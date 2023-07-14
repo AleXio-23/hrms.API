@@ -3,7 +3,6 @@ using hrms.Persistance;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
-using System.Net.Http;
 
 namespace hrms.Infranstructure.Middlewares
 {

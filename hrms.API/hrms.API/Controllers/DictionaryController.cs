@@ -1,6 +1,7 @@
 ﻿using hrms.Application.Services.Dictionaries;
 using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
+using hrms.Domain.Models.Dictionary.JobPositions;
 using hrms.Domain.Models.Shared;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -91,7 +92,7 @@ namespace hrms.API.Controllers
         #endregion
 
         #region Departments CRUDs
- 
+
         /// <summary>
         /// Get single department
         /// </summary>
@@ -161,5 +162,78 @@ namespace hrms.API.Controllers
         }
 
         #endregion
+
+        #region JobPosition CRUDs
+
+        /// <summary>
+        /// Get single job position
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetJobPosition")]
+        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> GetJobPosition([FromQuery] int id, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetJobPositionService.Execute(id, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get job positions list
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetJobPositions")]
+        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> GetJobPositions([FromQuery] JobPositionFilter filter, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetJobPositionsService.Execute(filter, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Add or Update job position based on Id is null or not
+        /// </summary>
+        /// <param name="jobPositionDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("AddOrUpdateJobPosition")]
+        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> AddOrUpdateJobPosition([FromBody] JobPositionDTO jobPositionDTO, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.AddOrUpdateJobPositionService.Execute(jobPositionDTO, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Delete job position
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpDelete("DeleteJobPosition")]
+        public async Task<ActionResult<ServiceResult<bool>>> DeleteJobPosition([FromBody] IdRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.DeleteJobPositionService.Execute(request.Id, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        #endregion
+
     }
 }
