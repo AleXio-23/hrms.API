@@ -18,5 +18,6 @@ namespace hrms.Persistance.Repository
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
         IQueryable<TEntity> GetAllAsQueryable();
         IQueryable<TEntity> GetIncluding(params Expression<Func<TEntity, object>>[] includeProperties);
+        Task SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
