@@ -1,9 +1,7 @@
 ﻿using hrms.Domain.Models.User;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
-using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace hrms.Application.Services.User.UserRoles.UserRoles.AddOrUpdateUserRole
 {
@@ -11,36 +9,35 @@ namespace hrms.Application.Services.User.UserRoles.UserRoles.AddOrUpdateUserRole
     {
         private readonly IRepository<Persistance.Entities.User> _usersRepository;
         private readonly IRepository<Role> _rolesRepository;
+        private readonly IRepository<UserRole> _userRoleRepository;
 
-        public AddOrUpdateUserRoleService(IRepository<Persistance.Entities.User> usersRepository, IRepository<Role> rolesRepository)
+        public AddOrUpdateUserRoleService(IRepository<Persistance.Entities.User> usersRepository, IRepository<Role> rolesRepository, IRepository<UserRole> userRoleRepository)
         {
             _usersRepository = usersRepository;
             _rolesRepository = rolesRepository;
+            _userRoleRepository = userRoleRepository;
         }
 
         public async Task<ServiceResult<bool>> Execute(AddOrUpdateUserRoleRequest request, CancellationToken cancellationToken)
         {
             if (request.RoleId < 1) throw new ArgumentException("Wrong id value");
             if (request.UserId < 1) throw new ArgumentException("Wrong id value");
-            var user = await _usersRepository.GetIncluding(x => x.Roles).FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken) ?? throw new NotFoundException($"User on Id: {request.UserId} not found");
+            var userExists = await _usersRepository.AnyAsync(x => x.Id == request.UserId, cancellationToken).ConfigureAwait(false);
 
-            if (user.Roles != null && user.Roles.Count > 0)
+
+            var roleExists = await _rolesRepository.AnyAsync(x => x.Id == request.RoleId, cancellationToken).ConfigureAwait(false);
+
+            var newUserRole = new UserRole()
             {
-                if (user.Roles.Any(x => x.Id == request.RoleId))
-                {
-                    throw new ArgumentException("Role on this user exists");
-                }
-            }
-
-            var role = await _rolesRepository.Get(request.RoleId, cancellationToken) ?? throw new NotFoundException($"Role on Id: {request.RoleId} not found");
-
-            user?.Roles?.Add(role);
-            await _usersRepository.SaveChangesAsync(cancellationToken);
+                UserId = request.UserId,
+                RoleId = request.RoleId
+            };
+            await _userRoleRepository.Add(newUserRole, cancellationToken).ConfigureAwait(false);
             return new ServiceResult<bool>()
             {
                 Success = true,
                 Data = true,
-                ErrorOccured = false 
+                ErrorOccured = false
             };
         }
     }

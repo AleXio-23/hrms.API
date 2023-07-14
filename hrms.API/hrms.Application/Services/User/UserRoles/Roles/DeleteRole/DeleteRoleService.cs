@@ -2,17 +2,18 @@
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace hrms.Application.Services.User.UserRoles.Roles.DeleteRole
 {
     public class DeleteRoleService : IDeleteRoleService
     {
         private readonly IRepository<Role> _rolesRepository;
+        private readonly IRepository<UserRole> _userRolesRepository;
 
-        public DeleteRoleService(IRepository<Role> rolesRepository)
+        public DeleteRoleService(IRepository<Role> rolesRepository, IRepository<UserRole> userRolesRepository)
         {
             _rolesRepository = rolesRepository;
+            _userRolesRepository = userRolesRepository;
         }
 
         public async Task<ServiceResult<bool>> Execute(int roleId, CancellationToken cancellationToken)
@@ -20,10 +21,10 @@ namespace hrms.Application.Services.User.UserRoles.Roles.DeleteRole
             if (roleId < 1) { throw new ArgumentException("Wrong id format"); }
 
             var getExistingRole = await _rolesRepository
-                                            .GetIncluding(x => x.Users)
                                             .FirstOrDefaultAsync(x => x.Id == roleId, cancellationToken)
                                             .ConfigureAwait(false) ?? throw new NotFoundException($"Role on Id: {roleId} not found");
-            if (getExistingRole.Users.Count > 0)
+            if (await _userRolesRepository.AnyAsync(x => x.RoleId == roleId, cancellationToken).ConfigureAwait(false))
+
             {
                 throw new ArgumentException($"Can't remove role on Id: {roleId}. It's assigned on some users");
             }
