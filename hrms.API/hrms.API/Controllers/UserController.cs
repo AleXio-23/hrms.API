@@ -190,6 +190,14 @@ namespace hrms.API.Controllers
         #endregion
 
         #region UserRole Cruds
+
+
+        /// <summary>
+        /// Add new role for user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost("AddOrUpdateUserRole")]
         public async Task<ActionResult<ServiceResult<UserJobPositionDTO>>> AddOrUpdateUserRole([FromBody] AddOrUpdateUserRoleRequest request, CancellationToken cancellationToken)
         {
@@ -201,6 +209,84 @@ namespace hrms.API.Controllers
 
             return Ok(result);
         }
+
         #endregion
-    }   
+
+        #region RoleClaims Cruds
+
+        /// <summary>
+        /// Assing new claim to role
+        /// </summary>
+        /// <param name="roleClaimsDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("AddOrUpdateRoleClaims")]
+        public async Task<ActionResult<ServiceResult<RoleClaimsDTO>>> AddOrUpdateRoleClaims([FromBody] RoleClaimsDTO roleClaimsDTO, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.AddOrUpdateRoleClaimsService.Execute(roleClaimsDTO, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Delete claim for role
+        /// </summary>
+        /// <param name="roleClaimsDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpDelete("DeleteRoleClaim")]
+        public async Task<ActionResult<ServiceResult<bool>>> DeleteRoleClaim([FromBody] RoleClaimsDTO roleClaimsDTO, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.DeleteRoleClaimsService.Execute(roleClaimsDTO, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get single claim for role
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="claimId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetRoleClaim")]
+        public async Task<ActionResult<ServiceResult<ClaimsDTO>>> GetRoleClaim([FromQuery] int roleId, [FromQuery] int claimId, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.GetRoleClaimService.Execute(roleId, claimId, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get role assigned claims
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetRoleClaims")]
+        public async Task<ActionResult<ServiceResult<UserJobPositionDTO>>> GetRoleClaims([FromQuery] int roleId, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.GetRoleClaimsService.Execute(roleId, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        #endregion
+
+    }
 }
