@@ -288,5 +288,27 @@ namespace hrms.API.Controllers
 
         #endregion
 
+
+        #region GetSingleUser By Id
+
+        /// <summary>
+        /// Get user by user id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetUser")]
+        public async Task<ActionResult<ServiceResult<UserDTO>>> GetUser([FromQuery] int userId, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.GetUserService.Execute(userId, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        #endregion
     }
 }
