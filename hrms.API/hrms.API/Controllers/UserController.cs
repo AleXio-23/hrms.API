@@ -3,7 +3,9 @@ using hrms.Domain.Models.Shared;
 using hrms.Domain.Models.User;
 using hrms.Persistance.Entities;
 using hrms.Shared.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace hrms.API.Controllers
 {
@@ -306,6 +308,36 @@ namespace hrms.API.Controllers
                 return BadRequest(result);
             }
 
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// update user
+        /// </summary>
+        /// <param name="userDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("UpdateUserFromProfile")]
+        [Authorize]
+        public async Task<ActionResult<ServiceResult<UserDTO>>> UpdateUser([FromBody] UserDTO userDTO, CancellationToken cancellationToken)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(string.IsNullOrEmpty(userId))
+            {
+                throw new UnauthorizedAccessException("You need to authorize to execute this request");
+            } else
+            {
+                if(userId != userDTO.Id.ToString())
+                {
+                    throw new ArgumentException("You cant update another persons profile information");
+                }
+            }
+
+            var result = await _userProfileFacade.UpdateUserService.Execute(userDTO, cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
             return Ok(result);
         }
 
