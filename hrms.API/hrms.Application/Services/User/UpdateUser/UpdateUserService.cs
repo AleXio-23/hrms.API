@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using hrms.Application.Services.User.UserProfile.UpdateUserProfile;
 using hrms.Domain.Models.User;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
@@ -11,10 +12,12 @@ namespace hrms.Application.Services.User.UpdateUser
     public class UpdateUserService : IUpdateUserService
     {
         private readonly IRepository<Persistance.Entities.User> _userRepository;
+        private readonly IUpdateUserProfileService _updateUserProfileService;
 
-        public UpdateUserService(IRepository<Persistance.Entities.User> userRepository)
+        public UpdateUserService(IRepository<Persistance.Entities.User> userRepository, IUpdateUserProfileService updateUserProfileService)
         {
             _userRepository = userRepository;
+            _updateUserProfileService = updateUserProfileService;
         }
 
         public async Task<ServiceResult<UserDTO>> Execute(UserDTO userDTO, CancellationToken cancellationToken)
@@ -44,6 +47,13 @@ namespace hrms.Application.Services.User.UpdateUser
                 }
                 getUser.Username = userDTO.Username;
                 getUser.Email = userDTO.Email;
+
+                await _userRepository.Update(getUser, cancellationToken);
+
+                if (userDTO.UserProfileDTO != null)
+                {
+                    await _updateUserProfileService.Execute(userDTO.UserProfileDTO, cancellationToken); 
+                }
 
                 return new ServiceResult<UserDTO>()
                 {
