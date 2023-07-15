@@ -11,10 +11,12 @@ using hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosition
 using hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
+using hrms.Application.Services.User.GetUser;
 using hrms.Application.Services.User.RoleClaims.AddOrUpdateRoleClaims;
 using hrms.Application.Services.User.RoleClaims.DeleteRoleClaims;
 using hrms.Application.Services.User.RoleClaims.GetRoleClaim;
 using hrms.Application.Services.User.RoleClaims.GetRoleClaims;
+using hrms.Application.Services.User.UpdateUser;
 using hrms.Application.Services.User.UserJobPosition.AddOrUpdateUserJobPosition;
 using hrms.Application.Services.User.UserJobPosition.DeleteUserJobPosition;
 using hrms.Application.Services.User.UserJobPosition.GetUserJobPosition;
@@ -53,6 +55,8 @@ namespace hrms.Application
             services.AddScoped<IDeleteRoleClaimsService, DeleteRoleClaimsService>();
             services.AddScoped<IAddOrUpdateRoleClaimsService, AddOrUpdateRoleClaimsService>();
 
+            services.AddScoped<IGetUserService, GetUserService>();
+            services.AddScoped<IUpdateUserService, UpdateUserService>();
 
             services.AddScoped<IUserProfileFacade, UserProfileFacade>();
 

@@ -14,6 +14,7 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<Gender, GenderDTO>().ReverseMap();
             CreateMap<Department, DepartmentDTO>().ReverseMap();
             CreateMap<JobPosition, JobPositionDTO>().ReverseMap();
+            CreateMap<UserProfile, UserProfileDTO>().ReverseMap();
 
             CreateMap<Role, RoleDTO>().ReverseMap();
 
