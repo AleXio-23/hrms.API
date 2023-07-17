@@ -40,12 +40,7 @@ namespace hrms.Application.Services.Dictionaries.Gender.GetGenders
                 IsActive = x.IsActive
             }).ToListAsync(cancellationToken);
 
-            return new ServiceResult<List<GenderDTO>>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = result ?? new List<GenderDTO>()
-            };
+            return ServiceResult<List<GenderDTO>>.SuccessResult(result ?? new List<GenderDTO>());
         }
     }
 }

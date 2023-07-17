@@ -32,13 +32,8 @@ namespace hrms.Infranstructure.Auth.LogOut
 
             var refreshToken = await _refreshTokenRepository.FirstOrDefaultAsync(x => x.UserId.ToString() == userId, cancellationToken).ConfigureAwait(false) ?? throw new ArgumentException("Refresh token not found");
             await _refreshTokenRepository.Delete(refreshToken, cancellationToken).ConfigureAwait(false);
-
-            return new ServiceResult<bool>()
-            {
-                Success = true,
-                Data = true
-            };
-
+             
+            return ServiceResult<bool>.SuccessResult(true); 
         }
     }
 }

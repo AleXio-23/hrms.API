@@ -29,12 +29,7 @@ namespace hrms.Application.Services.Dictionaries.Gender.GetGender
 
             var genderDto = _mapper.Map<GenderDTO>(getGender);
 
-            return new ServiceResult<GenderDTO>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = genderDto
-            };
+            return ServiceResult<GenderDTO>.SuccessResult(genderDto);
         }
     }
 }

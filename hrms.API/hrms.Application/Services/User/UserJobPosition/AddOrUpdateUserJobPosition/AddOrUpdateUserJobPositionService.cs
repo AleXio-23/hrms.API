@@ -24,12 +24,7 @@ namespace hrms.Application.Services.User.UserJobPosition.AddOrUpdateUserJobPosit
 
             var result = await _userJobPositionRepository.Add(newJobPosition, cancellationToken).ConfigureAwait(false);
 
-            return new ServiceResult<UserJobPositionDTO>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = userJobPositionDTO
-            };
+            return ServiceResult<UserJobPositionDTO>.SuccessResult(userJobPositionDTO);
         }
     }
 }

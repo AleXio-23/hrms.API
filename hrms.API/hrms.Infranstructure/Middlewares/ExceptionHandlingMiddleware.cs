@@ -38,12 +38,8 @@ namespace hrms.Infranstructure.Middlewares
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Response.ContentType = "application/json";
 
-            var errorResponse = new ServiceResult<object>
-            {
-                Success = false,
-                ErrorOccured = true,
-                ErrorMessage = ex.Message,
-            };
+            var errorResponse = ServiceResult<object>.ErrorResult(ex.Message);
+           
 
             var jsonErrorResponse = JsonConvert.SerializeObject(errorResponse);
             return context.Response.WriteAsync(jsonErrorResponse);

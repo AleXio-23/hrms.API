@@ -25,12 +25,7 @@ namespace hrms.Application.Services.User.RoleClaims.DeleteRoleClaims
 
             await _roleRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-            return new ServiceResult<bool>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = true
-            };
+            return ServiceResult<bool>.SuccessResult(true);
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class UserProfileDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public int? UserId { get; set; }
 
@@ -20,8 +20,8 @@
 
         public int? GenderId { get; set; }
 
-        public DateTime RegisterDate { get; set; }
+        public DateTime? RegisterDate { get; set; }
 
-        public UserJobPositionDTO UserJobPositionDTO { get; set; }
+        public UserJobPositionDTO? UserJobPositionDTO { get; set; }
     }
 }

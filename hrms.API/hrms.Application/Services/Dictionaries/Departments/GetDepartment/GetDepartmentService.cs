@@ -29,12 +29,7 @@ namespace hrms.Application.Services.Dictionaries.Departments.GetDepartment
 
             var departmentDTO = _mapper.Map<DepartmentDTO>(getDepartment);
 
-            return new ServiceResult<DepartmentDTO>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = departmentDTO
-            };
+            return ServiceResult<DepartmentDTO>.SuccessResult(departmentDTO);
         }
     }
 }

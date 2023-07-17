@@ -28,12 +28,7 @@ namespace hrms.Application.Services.User.UserProfile.UpdateUserProfile
 
             var saveResult = await _profileRepository.Update(getExistingProfile, cancellationToken).ConfigureAwait(false);
 
-            return new ServiceResult<Persistance.Entities.UserProfile>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = saveResult
-            };
+            return ServiceResult<Persistance.Entities.UserProfile>.SuccessResult(saveResult);
         }
     }
 }

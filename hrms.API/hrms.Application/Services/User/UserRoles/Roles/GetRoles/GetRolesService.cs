@@ -34,12 +34,7 @@ namespace hrms.Application.Services.User.UserRoles.Roles.GetRoles
                                     .Select(x => _mapper.Map<RoleDTO>(x))
                                     .ToListAsync(cancellationToken);
 
-            return new ServiceResult<List<RoleDTO>>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = getRoleDtoList
-            };
+            return ServiceResult<List<RoleDTO>>.SuccessResult(getRoleDtoList);
         }
     }
 }

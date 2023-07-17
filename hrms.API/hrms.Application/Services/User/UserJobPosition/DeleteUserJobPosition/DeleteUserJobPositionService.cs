@@ -22,12 +22,7 @@ namespace hrms.Application.Services.User.UserJobPosition.DeleteUserJobPosition
 
             await _userJobPositionRepository.Delete(x => x.UserId == userId, cancellationToken).ConfigureAwait(false);
 
-            return new ServiceResult<bool>()
-            {
-                Success = true,
-                ErrorOccured = true,
-                Data = true
-            };
+            return ServiceResult<bool>.SuccessResult(true);
         }
     }
 }

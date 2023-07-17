@@ -31,12 +31,8 @@ namespace hrms.Application.Services.User.UserRoles.Roles.DeleteRole
 
             getExistingRole.IsActive = false;
             var updateRole = await _rolesRepository.Update(getExistingRole, cancellationToken).ConfigureAwait(false);
-            return new ServiceResult<bool>()
-            {
-                Success = true,
-                Data = true,
-                ErrorOccured = false,
-            };
+
+            return ServiceResult<bool>.SuccessResult(true);
         }
     }
 }

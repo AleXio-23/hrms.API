@@ -26,12 +26,7 @@ namespace hrms.Application.Services.Dictionaries.Gender.AddOrUpdateGender
                 var addResult = await _genderRepository.Add(newGender, cancellationToken).ConfigureAwait(false);
                 var returnResult = _mapper.Map<GenderDTO>(addResult);
 
-                return new ServiceResult<GenderDTO>()
-                {
-                    Success = true,
-                    ErrorOccured = false,
-                    Data = returnResult
-                };
+                return ServiceResult<GenderDTO>.SuccessResult(returnResult);
             }
             else if (gender.Id > 1)
             {
@@ -42,12 +37,8 @@ namespace hrms.Application.Services.Dictionaries.Gender.AddOrUpdateGender
 
                 var saveResult = await _genderRepository.Update(getGender, cancellationToken).ConfigureAwait(false);
                 var resultDto = _mapper.Map<GenderDTO>(saveResult);
-                return new ServiceResult<GenderDTO>()
-                {
-                    Success = true,
-                    ErrorOccured = false,
-                    Data = resultDto
-                };
+
+                return ServiceResult<GenderDTO>.SuccessResult(resultDto);
 
             }
             else

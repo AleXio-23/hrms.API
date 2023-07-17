@@ -38,12 +38,7 @@ namespace hrms.Application.Services.User.GetUser
                        .ConfigureAwait(false) ?? throw new NotFoundException($"User on id: {userId} not found");
 #pragma warning restore CS8603 // Possible null reference return.
 
-            return new ServiceResult<UserDTO>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = getUser
-            };
+            return ServiceResult<UserDTO>.SuccessResult(getUser);
         }
     }
 }
