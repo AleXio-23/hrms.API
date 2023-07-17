@@ -13,7 +13,7 @@
             return new ServiceResult<T>()
             {
                 Success = true,
-                ErrorOccured = true,
+                ErrorOccured = false,
                 Data = data
             };
         }
