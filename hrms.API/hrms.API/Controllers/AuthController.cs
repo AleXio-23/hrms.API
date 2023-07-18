@@ -1,10 +1,5 @@
 ﻿using hrms.Domain.Models.Auth;
 using hrms.Infranstructure.Auth;
-using hrms.Infranstructure.Auth.AccessToken.UpdateAccessToken;
-using hrms.Infranstructure.Auth.LogIn;
-using hrms.Infranstructure.Auth.LogOut;
-using hrms.Infranstructure.Auth.Register;
-using hrms.Infranstructure.Auth.ResetPassword;
 using hrms.Persistance.Entities;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
