@@ -20,12 +20,8 @@ namespace hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition
             var getJobPosition = await _jobPositionRepository.Get(id, cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"JobPosition on id: {id} not found");
             getJobPosition.IsActive = false;
             await _jobPositionRepository.Update(getJobPosition, cancellationToken).ConfigureAwait(false);
-            return new ServiceResult<bool>
-            {
-                Success = true,
-                Data = true,
-                ErrorOccured = false
-            };
+
+            return ServiceResult<bool>.SuccessResult(true);
         }
     }
 }

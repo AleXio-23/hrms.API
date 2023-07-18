@@ -84,14 +84,10 @@ namespace hrms.Infranstructure.Auth.LogIn
                     DepartmentId = op.DepartmentId,
                     Department = op.DepartmentName
                 }
-            }).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
+            }).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"User in id {user.Id} no found");
 
 
-            return new ServiceResult<LoginResponse>()
-            {
-                Success = true,
-                Data = getUser
-            };
+            return ServiceResult<LoginResponse>.SuccessResult(getUser); 
         }
 
         private static bool IsValidEmail(string email)

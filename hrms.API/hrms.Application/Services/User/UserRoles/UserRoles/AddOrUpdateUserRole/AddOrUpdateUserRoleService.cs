@@ -33,12 +33,8 @@ namespace hrms.Application.Services.User.UserRoles.UserRoles.AddOrUpdateUserRole
                 RoleId = request.RoleId
             };
             await _userRoleRepository.Add(newUserRole, cancellationToken).ConfigureAwait(false);
-            return new ServiceResult<bool>()
-            {
-                Success = true,
-                Data = true,
-                ErrorOccured = false
-            };
+
+            return ServiceResult<bool>.SuccessResult(true);
         }
     }
 }

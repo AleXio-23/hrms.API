@@ -27,12 +27,7 @@ namespace hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosi
                 var addResult = await _jobPositionRepository.Add(newJobPosition, cancellationToken).ConfigureAwait(false);
                 var returnResult = _mapper.Map<JobPositionDTO>(addResult);
 
-                return new ServiceResult<JobPositionDTO>()
-                {
-                    Success = true,
-                    ErrorOccured = false,
-                    Data = returnResult
-                };
+                return ServiceResult<JobPositionDTO>.SuccessResult(returnResult);
             }
             else if (jobPositionDTO.Id > 1)
             {
@@ -42,12 +37,8 @@ namespace hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosi
 
                 var saveResult = await _jobPositionRepository.Update(getJobPosition, cancellationToken).ConfigureAwait(false);
                 var resultDto = _mapper.Map<JobPositionDTO>(saveResult);
-                return new ServiceResult<JobPositionDTO>()
-                {
-                    Success = true,
-                    ErrorOccured = false,
-                    Data = resultDto
-                }; 
+
+                return ServiceResult<JobPositionDTO>.SuccessResult(resultDto); 
             }
             else
             {

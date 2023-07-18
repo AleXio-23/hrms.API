@@ -25,16 +25,12 @@ namespace hrms.Application.Services.User.UserProfile.CreateUserProfile
                 BirthDate = userPrfileDTO.BirthDate,
                 PersonalNumber = userPrfileDTO.PersonalNumber,
                 GenderId = userPrfileDTO.GenderId,
-                RegisterDate = userPrfileDTO.RegisterDate
+                RegisterDate = DateTime.Now
             };
 
             var addNewProfile = await _profileRepository.Add(newProfile, cancellationToken).ConfigureAwait(false);
-            return new ServiceResult<Persistance.Entities.UserProfile>()
-            {
-                Success = true,
-                Data = addNewProfile,
-                ErrorOccured = false
-            };
+
+            return ServiceResult<Persistance.Entities.UserProfile>.SuccessResult(addNewProfile);
         }
     }
 }

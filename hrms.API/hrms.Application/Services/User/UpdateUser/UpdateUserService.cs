@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using hrms.Application.Services.User.UserProfile.UpdateUserProfile;
+﻿using hrms.Application.Services.User.UserProfile.UpdateUserProfile;
 using hrms.Domain.Models.User;
-using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace hrms.Application.Services.User.UpdateUser
 {
@@ -52,15 +49,10 @@ namespace hrms.Application.Services.User.UpdateUser
 
                 if (userDTO.UserProfileDTO != null)
                 {
-                    await _updateUserProfileService.Execute(userDTO.UserProfileDTO, cancellationToken); 
+                    await _updateUserProfileService.Execute(userDTO.UserProfileDTO, cancellationToken);
                 }
 
-                return new ServiceResult<UserDTO>()
-                {
-                    Success = true,
-                    ErrorOccured = false,
-                    Data = userDTO
-                };
+                return ServiceResult<UserDTO>.SuccessResult(userDTO);
             }
             else
             {

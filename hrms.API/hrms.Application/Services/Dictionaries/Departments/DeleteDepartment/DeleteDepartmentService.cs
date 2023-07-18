@@ -20,12 +20,8 @@ namespace hrms.Application.Services.Dictionaries.Departments.DeleteDepartment
             var getDepartment = await _departmentRepository.Get(id, cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Department on id: {id} not found");
             getDepartment.IsActive = false;
             await _departmentRepository.Update(getDepartment, cancellationToken).ConfigureAwait(false);
-            return new ServiceResult<bool>
-            {
-                Success = true,
-                Data = true,
-                ErrorOccured = false
-            };
+
+            return ServiceResult<bool>.SuccessResult(true);
         }
     }
 }

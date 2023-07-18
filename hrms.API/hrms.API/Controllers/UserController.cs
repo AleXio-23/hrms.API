@@ -321,7 +321,7 @@ namespace hrms.API.Controllers
         [Authorize]
         public async Task<ActionResult<ServiceResult<UserDTO>>> UpdateUser([FromBody] UserDTO userDTO, CancellationToken cancellationToken)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = User.FindFirstValue("Id");
             if(string.IsNullOrEmpty(userId))
             {
                 throw new UnauthorizedAccessException("You need to authorize to execute this request");

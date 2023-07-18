@@ -31,12 +31,7 @@ namespace hrms.Application.Services.User.RoleClaims.GetRoleClaim
 
             var getClaims = _mapper.Map<ClaimsDTO>(getRoleWithClaims.Claims.FirstOrDefault(x => x.Id == claimId));
 
-            return new ServiceResult<ClaimsDTO>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = getClaims
-            };
+            return ServiceResult<ClaimsDTO>.SuccessResult(getClaims);
         }
     }
 }

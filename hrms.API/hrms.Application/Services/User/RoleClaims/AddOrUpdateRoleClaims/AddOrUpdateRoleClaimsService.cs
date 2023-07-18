@@ -33,12 +33,8 @@ namespace hrms.Application.Services.User.RoleClaims.AddOrUpdateRoleClaims
 
             getRole.Claims.Add(getClaim);
             await _roleRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-            return new ServiceResult<RoleClaimsDTO>
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = roleClaimsDTO
-            };
+
+            return ServiceResult<RoleClaimsDTO>.SuccessResult(roleClaimsDTO);
         }
     }
 }

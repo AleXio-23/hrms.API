@@ -26,12 +26,8 @@ namespace hrms.Application.Services.User.UserRoles.Roles.AddOrUpdateRoles
                 var newRole = _mapper.Map<Role>(roleDTO);
                 var createNewRole = await _rolesRepository.Add(newRole, cancellationToken).ConfigureAwait(false);
                 roleDTO.Id = newRole.Id;
-                return new ServiceResult<RoleDTO>()
-                {
-                    Success = true,
-                    ErrorOccured = false,
-                    Data = roleDTO
-                };
+
+                return ServiceResult<RoleDTO>.SuccessResult(roleDTO);
             }
             //Update role
             else if (roleDTO.Id > 0)
@@ -45,12 +41,8 @@ namespace hrms.Application.Services.User.UserRoles.Roles.AddOrUpdateRoles
 
                 var updateRole = await _rolesRepository.Update(getExistingRole, cancellationToken).ConfigureAwait(false);
                 var resultDto = _mapper.Map<RoleDTO>(updateRole);
-                return new ServiceResult<RoleDTO>()
-                {
-                    Success = true,
-                    ErrorOccured = false,
-                    Data = resultDto
-                };
+
+                return ServiceResult<RoleDTO>.SuccessResult(resultDto);
             }
             else
             {

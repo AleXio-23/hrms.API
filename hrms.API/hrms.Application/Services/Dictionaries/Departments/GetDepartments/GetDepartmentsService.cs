@@ -35,12 +35,7 @@ namespace hrms.Application.Services.Dictionaries.Departments.GetDepartments
                 IsActive = x.IsActive
             }).ToListAsync(cancellationToken);
 
-            return new ServiceResult<List<DepartmentDTO>>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = result ?? new List<DepartmentDTO>()
-            };
+            return ServiceResult<List<DepartmentDTO>>.SuccessResult(result ?? new List<DepartmentDTO>());
         }
     }
 }

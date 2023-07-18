@@ -34,12 +34,7 @@ namespace hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions
                 IsActive = x.IsActive
             }).ToListAsync(cancellationToken);
 
-            return new ServiceResult<List<JobPositionDTO>>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = result ?? new List<JobPositionDTO>()
-            };
+            return ServiceResult<List<JobPositionDTO>>.SuccessResult(result ?? new List<JobPositionDTO>());
         }
     }
 }

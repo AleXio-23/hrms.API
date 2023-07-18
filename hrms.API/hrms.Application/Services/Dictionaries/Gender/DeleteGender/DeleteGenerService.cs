@@ -1,4 +1,5 @@
-﻿using hrms.Persistance.Repository;
+﻿using hrms.Domain.Models.Dictionary.Departments;
+using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
 
@@ -19,12 +20,9 @@ namespace hrms.Application.Services.Dictionaries.Gender.DeleteGender
             var getGender = await _genderRepository.Get(id, cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Gender on id: {id} not found");
             getGender.IsActive = false;
             await _genderRepository.Update(getGender, cancellationToken).ConfigureAwait(false);
-            return new ServiceResult<bool>
-            {
-                Success = true,
-                Data = true,
-                ErrorOccured = false
-            }; 
+
+
+            return ServiceResult<bool>.SuccessResult(true);
         }
     }
 }

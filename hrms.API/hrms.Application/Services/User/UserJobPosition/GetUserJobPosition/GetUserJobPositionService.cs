@@ -35,12 +35,7 @@ namespace hrms.Application.Services.User.UserJobPosition.GetUserJobPosition
             userJobPosition.Position = jobPosition;
             userJobPosition.Department = department;
 
-            return new ServiceResult<UserJobPositionDTO>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = userJobPosition
-            };
+            return ServiceResult<UserJobPositionDTO>.SuccessResult(userJobPosition);
         }
     }
 }

@@ -53,11 +53,7 @@ namespace hrms.Infranstructure.Auth.Register
 
             await _userRepository.Add(newUser, cancellationToken);
 
-            return new ServiceResult<string>()
-            {
-                Success = true,
-                Data = newUser.Email + " Added"
-            };
+            return ServiceResult<string>.SuccessResult(newUser.Email + " Added");
         }
         private static bool IsValidEmail(string email)
         {

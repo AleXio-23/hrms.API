@@ -1,4 +1,5 @@
-﻿using hrms.Persistance.Entities;
+﻿using hrms.Domain.Models.Auth;
+using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
@@ -60,11 +61,9 @@ namespace hrms.Infranstructure.Auth.AccessToken.UpdateAccessToken
 
                 var generateNewToken = GenerateJwtToken(user, jwtSecret, false);
 
-                return new ServiceResult<string>
-                {
-                    Success = true,
-                    Data = generateNewToken.Item1
-                };
+
+                return ServiceResult<string>.SuccessResult(generateNewToken.Item1);
+
             }
             catch (Exception ex)
             {

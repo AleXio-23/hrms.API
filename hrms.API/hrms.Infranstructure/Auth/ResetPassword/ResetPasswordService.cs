@@ -47,11 +47,7 @@ namespace hrms.Infranstructure.Auth.ResetPassword
             {
                 //todo
                 //Send this token on mail
-                return new ServiceResult<string>()
-                {
-                    Success = true,
-                    Data = "Message Sent"
-                };
+                return ServiceResult<string>.SuccessResult("Message Sent");
             }
             catch (Exception ex)
             {

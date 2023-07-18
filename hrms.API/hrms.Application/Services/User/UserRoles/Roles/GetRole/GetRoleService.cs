@@ -26,12 +26,8 @@ namespace hrms.Application.Services.User.UserRoles.Roles.GetRole
                                           .Get(roleId, cancellationToken)
                                           .ConfigureAwait(false) ?? throw new NotFoundException($"Role on Id: {roleId} not found");
             var getMappedDto = _mapper.Map<RoleDTO>(getExistingRole);
-            return new ServiceResult<RoleDTO>
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = getMappedDto
-            };
+
+            return ServiceResult<RoleDTO>.SuccessResult(getMappedDto);
         }
     }
 }

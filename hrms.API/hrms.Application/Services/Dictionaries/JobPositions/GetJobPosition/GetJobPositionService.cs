@@ -29,12 +29,7 @@ namespace hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition
 
             var jobPositionDto = _mapper.Map<JobPositionDTO>(getJobPosition);
 
-            return new ServiceResult<JobPositionDTO>()
-            {
-                Success = true,
-                ErrorOccured = false,
-                Data = jobPositionDto
-            };
+            return ServiceResult<JobPositionDTO>.SuccessResult(jobPositionDto);
         }
     }
 }

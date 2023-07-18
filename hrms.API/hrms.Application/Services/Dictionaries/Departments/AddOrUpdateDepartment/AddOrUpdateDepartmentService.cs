@@ -26,12 +26,7 @@ namespace hrms.Application.Services.Dictionaries.Departments.AddOrUpdateDepartme
                 var addResult = await _departmentRepository.Add(newDepartment, cancellationToken).ConfigureAwait(false);
                 var returnResult = _mapper.Map<DepartmentDTO>(addResult);
 
-                return new ServiceResult<DepartmentDTO>()
-                {
-                    Success = true,
-                    ErrorOccured = false,
-                    Data = returnResult
-                };
+                return ServiceResult<DepartmentDTO>.SuccessResult(returnResult);
             }
             else if (departmentDTO.Id > 1)
             {
@@ -41,12 +36,8 @@ namespace hrms.Application.Services.Dictionaries.Departments.AddOrUpdateDepartme
 
                 var saveResult = await _departmentRepository.Update(getDepartment, cancellationToken).ConfigureAwait(false);
                 var resultDto = _mapper.Map<DepartmentDTO>(saveResult);
-                return new ServiceResult<DepartmentDTO>()
-                {
-                    Success = true,
-                    ErrorOccured = false,
-                    Data = resultDto
-                };
+
+                return ServiceResult<DepartmentDTO>.SuccessResult(resultDto);
             }
             else
             {
