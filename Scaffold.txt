@@ -1,9 +1,1 @@
-const [authorisedUser, setAuthorisedUser] = useState<IUser | null>();
-
-  useEffect(() => {
-    let storedUser = localStorage.getItem("authorisedUser");
-    let user: IUser | null = null;
-    if (storedUser) {
-      user = JSON.parse(storedUser) as IUser;
-      setAuthorisedUser(user);
-    }
+Scaffold-DbContext "Data Source=.;Initial Catalog=HRMS;Persist Security Info=True;User Id=;Password=;Trusted_Connection=true;TrustServerCertificate=true;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entities -ContextDir . -Context HrmsAppDbContext -force

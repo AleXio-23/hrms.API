@@ -1,4 +1,5 @@
 ﻿using hrms.Domain.Models.Auth;
+using hrms.Infranstructure.Services.UserActionLogger;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
@@ -20,22 +21,28 @@ namespace hrms.Infranstructure.Auth.LogIn
         private readonly IRepository<RefreshToken> _refreshTokenRepository;
         private readonly IRepository<VwUserSignInResponse> _vwUserSignInResponseRepository;
         private readonly IConfiguration _configuration;
+        private readonly IUserActionLoggerService _userActionLogger;
 
-        public LogInService(IRepository<User> userRepository,
-                            IRepository<RefreshToken> refreshTokenRepository,
-                            IRepository<VwUserSignInResponse> vwUserSignInResponseRepository,
-                            IConfiguration configuration)
+        public LogInService(IRepository<User> userRepository, IRepository<RefreshToken> refreshTokenRepository, IRepository<VwUserSignInResponse> vwUserSignInResponseRepository, IConfiguration configuration, IUserActionLoggerService userActionLogger)
         {
             _userRepository = userRepository;
             _refreshTokenRepository = refreshTokenRepository;
             _vwUserSignInResponseRepository = vwUserSignInResponseRepository;
             _configuration = configuration;
+            _userActionLogger = userActionLogger;
         }
 
         public async Task<ServiceResult<LoginResponse>> Exeute(LoginDto loginDto, CancellationToken cancellationToken)
         {
             var user = (User?)(IsValidEmail(loginDto.EmailOrUsername) ? await _userRepository.SingleOrDefaultAsync(x => x.Email == loginDto.EmailOrUsername, cancellationToken: cancellationToken).ConfigureAwait(false) :
-                 await _userRepository.SingleOrDefaultAsync(x => x.Username == loginDto.EmailOrUsername.ToLower(), cancellationToken: cancellationToken).ConfigureAwait(false)) ?? throw new ArgumentException("User not found.");
+                 await _userRepository.SingleOrDefaultAsync(x => x.Username == loginDto.EmailOrUsername.ToLower(), cancellationToken: cancellationToken).ConfigureAwait(false));
+
+            if (user == null)
+            {
+                var errorMessage = $"User {loginDto.EmailOrUsername} not found";
+                await _userActionLogger.Execute(userId: null, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken);
+                throw new ArgumentException("User not found.");
+            }
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
@@ -43,7 +50,9 @@ namespace hrms.Infranstructure.Auth.LogIn
             {
                 if (computedHash[i] != user.PasswordHash[i])
                 {
-                    throw new ArgumentException("Incorrect password");
+                    var errorMessage = $"User {loginDto.EmailOrUsername}: Incorrect password";
+                    await _userActionLogger.Execute(userId: null, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken);
+                    throw new ArgumentException(errorMessage);
                 }
             }
             var jwtSecret = _configuration["Jwt:Secret"] ?? throw new NotFoundException("Jwt Secret Key not found");
@@ -84,10 +93,17 @@ namespace hrms.Infranstructure.Auth.LogIn
                     DepartmentId = op.DepartmentId,
                     Department = op.DepartmentName
                 }
-            }).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"User in id {user.Id} no found");
+            }).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false);
 
+            if (getUser == null)
+            {
+                var errorMessage = $"User in id {user.Id} no found";
+                await _userActionLogger.Execute(userId: user.Id, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken);
+                throw new NotFoundException(errorMessage);
+            }
 
-            return ServiceResult<LoginResponse>.SuccessResult(getUser); 
+            await _userActionLogger.Execute(userId: user.Id, actionName: "Auth", actionResult: "Success", ErrorReason: null, cancellationToken: cancellationToken);
+            return ServiceResult<LoginResponse>.SuccessResult(getUser);
         }
 
         private static bool IsValidEmail(string email)

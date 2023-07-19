@@ -30,7 +30,11 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<TraceWorking> TraceWorkings { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<UserAuthLog> UserAuthLogs { get; set; }
 
     public virtual DbSet<UserJobPosition> UserJobPositions { get; set; }
 
@@ -39,6 +43,8 @@ public partial class HrmsAppDbContext : DbContext
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
     public virtual DbSet<VwUserSignInResponse> VwUserSignInResponses { get; set; }
+
+    public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -148,6 +154,27 @@ public partial class HrmsAppDbContext : DbContext
                     });
         });
 
+        modelBuilder.Entity<TraceWorking>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__TraceWor__3214EC0718D557DA");
+
+            entity.ToTable("TraceWorking", "hrms");
+
+            entity.Property(e => e.Comment).HasMaxLength(4000);
+            entity.Property(e => e.EventName)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.EventOccurTime).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.EventType)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.WorkingTrace).WithMany(p => p.TraceWorkings)
+                .HasForeignKey(d => d.WorkingTraceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__TraceWork__Worki__634EBE90");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Users__3214EC07EF3ED36C");
@@ -166,6 +193,26 @@ public partial class HrmsAppDbContext : DbContext
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
             entity.Property(e => e.Username).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<UserAuthLog>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UserAuth__3214EC07F689DE51");
+
+            entity.ToTable("UserAuthLogs", "report");
+
+            entity.Property(e => e.ActionResult).HasMaxLength(255);
+            entity.Property(e => e.ActionType).HasMaxLength(255);
+            entity.Property(e => e.ErrorReason).HasMaxLength(1024);
+            entity.Property(e => e.Ip)
+                .HasMaxLength(50)
+                .HasColumnName("IP");
+            entity.Property(e => e.Time).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.UserAgent).HasMaxLength(255);
+
+            entity.HasOne(d => d.User).WithMany(p => p.UserAuthLogs)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__UserAuthL__UserI__4D5F7D71");
         });
 
         modelBuilder.Entity<UserJobPosition>(entity =>
@@ -254,6 +301,22 @@ public partial class HrmsAppDbContext : DbContext
             entity.Property(e => e.FirstName).HasMaxLength(100);
             entity.Property(e => e.JobPositionName).HasMaxLength(255);
             entity.Property(e => e.LastName).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<WorkingTraceReport>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__WorkingT__3214EC07BEB27DCB");
+
+            entity.ToTable("WorkingTraceReport", "report");
+
+            entity.HasIndex(e => e.WorkStarted, "index_WorkStarted_datetime");
+
+            entity.Property(e => e.WorkStarted).HasDefaultValueSql("(getdate())");
+
+            entity.HasOne(d => d.User).WithMany(p => p.WorkingTraceReports)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__WorkingTr__UserI__5BAD9CC8");
         });
 
         OnModelCreatingPartial(modelBuilder);

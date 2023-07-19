@@ -1,4 +1,6 @@
-﻿using hrms.Application.Services.Dictionaries;
+﻿using hrms.Application.Services.Accounting;
+using hrms.Application.Services.Accounting.StartAccounting;
+using hrms.Application.Services.Dictionaries;
 using hrms.Application.Services.Dictionaries.Departments.AddOrUpdateDepartment;
 using hrms.Application.Services.Dictionaries.Departments.DeleteDepartment;
 using hrms.Application.Services.Dictionaries.Departments.GetDepartment;
@@ -36,47 +38,41 @@ namespace hrms.Application
     {
         public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<IUserProfileFacade, UserProfileFacade>();
             services.AddScoped<ICreateNewProfileService, CreateNewProfileService>();
             services.AddScoped<IUpdateUserProfileService, UpdateUserProfileService>();
-
             services.AddScoped<IAddOrUpdateUserJobPositionService, AddOrUpdateUserJobPositionService>();
             services.AddScoped<IDeleteUserJobPositionService, DeleteUserJobPositionService>();
             services.AddScoped<IGetUserJobPositionService, GetUserJobPositionService>();
-
             services.AddScoped<IAddOrUpdateRolesService, AddOrUpdateRolesService>();
             services.AddScoped<IDeleteRoleService, DeleteRoleService>();
             services.AddScoped<IGetRoleService, GetRoleService>();
             services.AddScoped<IGetRolesService, GetRolesService>();
-
             services.AddScoped<IAddOrUpdateUserRoleService, AddOrUpdateUserRoleService>();
-
             services.AddScoped<IGetRoleClaimsService, GetRoleClaimsService>();
             services.AddScoped<IGetRoleClaimService, GetRoleClaimService>();
             services.AddScoped<IDeleteRoleClaimsService, DeleteRoleClaimsService>();
             services.AddScoped<IAddOrUpdateRoleClaimsService, AddOrUpdateRoleClaimsService>();
-
             services.AddScoped<IGetUserService, GetUserService>();
             services.AddScoped<IUpdateUserService, UpdateUserService>();
 
-            services.AddScoped<IUserProfileFacade, UserProfileFacade>();
 
-
+            services.AddScoped<IDictionaryiFacade, DictionaryiFacade>();
             services.AddScoped<IGetGenderService, GetGenderService>();
             services.AddScoped<IAddOrUpdateGenderService, AddOrUpdateGenderService>();
             services.AddScoped<IGetGendersService, GetGendersService>();
             services.AddScoped<IDeleteGenerService, DeleteGenerService>();
-
             services.AddScoped<IGetDepartmentsService, GetDepartmentsService>();
             services.AddScoped<IGetDepartmentService, GetDepartmentService>();
             services.AddScoped<IDeleteDepartmentService, DeleteDepartmentService>();
             services.AddScoped<IAddOrUpdateDepartmentService, AddOrUpdateDepartmentService>();
-
             services.AddScoped<IAddOrUpdateJobPositionService, AddOrUpdateJobPositionService>();
             services.AddScoped<IDeleteJobPositionService, DeleteJobPositionService>();
             services.AddScoped<IGetJobPositionService, GetJobPositionService>();
             services.AddScoped<IGetJobPositionsService, GetJobPositionsService>();
 
-            services.AddScoped<IDictionaryiFacade, DictionaryiFacade>();
+            services.AddScoped<IAccountingFacade, AccountingFacade>();
+            services.AddScoped<IStartAccountingService, StartAccountingService>();
 
             return services;
         }

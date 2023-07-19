@@ -30,6 +30,7 @@ builder.Services.RegisterPersistanceServces();
 builder.Services.RegisterApplicationServices();
 builder.Services.RegisterIfrastructureServices();
 
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -61,7 +62,7 @@ builder.Services.AddCors(options =>
             builder.WithOrigins("http://localhost:3000")
                    .AllowAnyHeader()
                    .AllowAnyMethod()
-                   .AllowCredentials();
+                   .AllowCredentials(); 
         });
 });
 builder.Services.AddControllers();
@@ -127,6 +128,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseMiddleware<UserAgentMiddleware>();
 app.UseMiddleware<LoggingMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
