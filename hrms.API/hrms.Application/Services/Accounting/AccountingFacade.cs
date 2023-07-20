@@ -2,17 +2,21 @@
 using hrms.Application.Services.Accounting.GetBackFromBreak;
 using hrms.Application.Services.Accounting.StartAccounting;
 using hrms.Application.Services.Accounting.TakeBreak;
+using hrms.Application.Services.Accounting.WorkOnLateLog.AddWorkOnLateLog;
+using hrms.Application.Services.Accounting.WorkOnLateLog.GetWorkOnLateLogs;
 
 namespace hrms.Application.Services.Accounting
 {
     public class AccountingFacade : IAccountingFacade
     {
-        public AccountingFacade(IStartAccountingService startAccountingService, IFinishAccountingService finishAccountingService, ITakeBreakService takeBreakService, IGetBackFromBreakService getBackFromBreakService)
+        public AccountingFacade(IStartAccountingService startAccountingService, IFinishAccountingService finishAccountingService, ITakeBreakService takeBreakService, IGetBackFromBreakService getBackFromBreakService, IAddWorkOnLateLogService addWorkOnLateLogService, IGetWorkOnLateLogsService getWorkOnLateLogsService)
         {
             StartAccountingService = startAccountingService;
             FinishAccountingService = finishAccountingService;
             TakeBreakService = takeBreakService;
             GetBackFromBreakService = getBackFromBreakService;
+            AddWorkOnLateLogService = addWorkOnLateLogService;
+            GetWorkOnLateLogsService = getWorkOnLateLogsService;
         }
 
         public IStartAccountingService StartAccountingService { get; }
@@ -22,5 +26,9 @@ namespace hrms.Application.Services.Accounting
         public ITakeBreakService TakeBreakService { get; }
 
         public IGetBackFromBreakService GetBackFromBreakService { get; }
+
+        public IAddWorkOnLateLogService AddWorkOnLateLogService { get; }
+
+        public IGetWorkOnLateLogsService GetWorkOnLateLogsService {get; }
     }
 }

@@ -26,6 +26,10 @@ namespace hrms.Application.Services.Configuration.NumberTypesConfigurations.GetN
             {
                 query = query.Where(x => x.ConfigName.Contains(filter.ConfigName));
             }
+            if (filter.IsActive != null)
+            {
+                query = query.Where(x => x.IsActive == filter.IsActive);
+            }
 
             var result = await query.Select(x => _mapper.Map<NumberTypesConfigurationDTO>(x))
                                 .ToListAsync(cancellationToken).ConfigureAwait(false);

@@ -15,6 +15,8 @@ public partial class WorkOnLateLog
 
     public bool? IsHonorable { get; set; }
 
+    public DateTime LogDate { get; set; }
+
     public virtual User User { get; set; } = null!;
 
     public virtual WorkingTraceReport WorkingTraceReport { get; set; } = null!;

@@ -15,6 +15,8 @@ public partial class LateFromBreak
 
     public string? Comment { get; set; }
 
+    public DateTime LogDate { get; set; }
+
     public bool? IsHonorable { get; set; }
 
     public virtual TraceWorking TraceWorkingNavigation { get; set; } = null!;
