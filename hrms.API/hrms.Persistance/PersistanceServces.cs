@@ -27,6 +27,9 @@ namespace hrms.Persistance
             services.AddScoped<IRepository<WorkingTraceReport>, Repository<WorkingTraceReport>>();
             services.AddScoped<IRepository<EventNameTypeLookup>, Repository<EventNameTypeLookup>>();
             services.AddScoped<IRepository<WorkingStatus>, Repository<WorkingStatus>>();
+            services.AddScoped<IRepository<WorkOnLateLog>, Repository<WorkOnLateLog>>();
+            services.AddScoped<IRepository<LateFromBreak>, Repository<LateFromBreak>>();
+            services.AddScoped<IRepository<NumberTypesConfiguration>, Repository<NumberTypesConfiguration>>();
 
             return services;
         }

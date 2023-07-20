@@ -25,7 +25,11 @@ public partial class WorkingTraceReport
 
     public virtual WorkingStatus? CurrentStatus { get; set; }
 
+    public virtual ICollection<LateFromBreak> LateFromBreaks { get; set; } = new List<LateFromBreak>();
+
     public virtual ICollection<TraceWorking> TraceWorkings { get; set; } = new List<TraceWorking>();
 
     public virtual User User { get; set; } = null!;
+
+    public virtual ICollection<WorkOnLateLog> WorkOnLateLogs { get; set; } = new List<WorkOnLateLog>();
 }

@@ -3,6 +3,11 @@ using hrms.Application.Services.Accounting.FinishAccounting;
 using hrms.Application.Services.Accounting.GetBackFromBreak;
 using hrms.Application.Services.Accounting.StartAccounting;
 using hrms.Application.Services.Accounting.TakeBreak;
+using hrms.Application.Services.Configuration;
+using hrms.Application.Services.Configuration.NumberTypesConfigurations.DeleteNumberTypesConfiguration;
+using hrms.Application.Services.Configuration.NumberTypesConfigurations.GetNumberTypesConfiguration;
+using hrms.Application.Services.Configuration.NumberTypesConfigurations.GetNumberTypesConfigurations;
+using hrms.Application.Services.Configuration.NumberTypesConfigurations.UpdateNumberTypesConfiguration;
 using hrms.Application.Services.Dictionaries;
 using hrms.Application.Services.Dictionaries.Departments.AddOrUpdateDepartment;
 using hrms.Application.Services.Dictionaries.Departments.DeleteDepartment;
@@ -79,6 +84,14 @@ namespace hrms.Application
             services.AddScoped<IFinishAccountingService, FinishAccountingService>();
             services.AddScoped<ITakeBreakService, TakeBreakService>();
             services.AddScoped<IGetBackFromBreakService, GetBackFromBreakService>();
+
+            services.AddScoped<IConfigurationFacade, ConfigurationFacade>();
+            services.AddScoped<IUpdateNumberTypesConfigurationService, UpdateNumberTypesConfigurationService>();
+            services.AddScoped<IDeleteNumberTypesConfigurationService, DeleteNumberTypesConfigurationService>();
+            services.AddScoped<IGetNumberTypesConfigurationService, GetNumberTypesConfigurationService>();
+            services.AddScoped<IGetNumberTypesConfigurationsService, GetNumberTypesConfigurationsService>();
+
+
 
             return services;
         }
