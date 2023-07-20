@@ -2,6 +2,9 @@
 using hrms.Application.Services.Accounting.FinishAccounting;
 using hrms.Application.Services.Accounting.GetBackFromBreak;
 using hrms.Application.Services.Accounting.LateFromBreak;
+using hrms.Application.Services.Accounting.LogLateFromBreak.AddLogLateFromBreak;
+using hrms.Application.Services.Accounting.LogLateFromBreak.GetLogLateFromBreak;
+using hrms.Application.Services.Accounting.LogLateFromBreak.GetLogsLateFromBreak;
 using hrms.Application.Services.Accounting.StartAccounting;
 using hrms.Application.Services.Accounting.TakeBreak;
 using hrms.Application.Services.Accounting.WorkOnLateLog;
@@ -91,6 +94,9 @@ namespace hrms.Application
             services.AddScoped<IAddWorkOnLateLogService, AddWorkOnLateLogService>();
             services.AddScoped<IGetWorkOnLateLogService, GetWorkOnLateLogService>();
             services.AddScoped<IGetWorkOnLateLogsService, GetWorkOnLateLogsService>();
+            services.AddScoped<IAddLogLateFromBreakService, AddLogLateFromBreakService>();
+            services.AddScoped<IGetLogLateFromBreakService, GetLogLateFromBreakService>();
+            services.AddScoped<IGetLogsLateFromBreakService, GetLogsLateFromBreakService>();
 
             services.AddScoped<IConfigurationFacade, ConfigurationFacade>();
             services.AddScoped<IAddOrUpdateNumberTypesConfigurationService, AddOrUpdateNumberTypesConfigurationService>();
