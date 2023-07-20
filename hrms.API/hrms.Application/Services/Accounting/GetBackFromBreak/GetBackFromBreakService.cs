@@ -82,7 +82,7 @@ namespace hrms.Application.Services.Accounting.GetBackFromBreak
                 int differenceInMinutes = (int)breakTimeDifference.TotalMinutes;
 
                 getResult.CurrentStatusId = getCurrentStatus.Id;
-                getResult.UsedBreakMinutes = differenceInMinutes;
+                getResult.UsedBreakMinutes += differenceInMinutes;
                 await _workingTraceReportRepository.Update(getResult, cancellationToken);
 
                 //Check if there are overdue minutes after getting back from break
