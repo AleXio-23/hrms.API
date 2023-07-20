@@ -47,7 +47,7 @@ namespace hrms.Application.Services.Accounting.StartAccounting
                 ?? throw new NotFoundException("Error getting working start status");
             var getJobStartId = await _eventTypeNameLookupRepository.FirstOrDefaultAsync(x => x.EventName == "Job" && x.EventType == "Start", cancellationToken) ?? throw new NotFoundException($"Job Start type not found");
 
-
+            //If job not started today
             if (getResult == null)
             {
                 //first make record in report
@@ -70,6 +70,8 @@ namespace hrms.Application.Services.Accounting.StartAccounting
                 newReport.WorkStarted = newTraceRecordAddResult.EventOccurTime;
                 await _workingTraceReportRepository.Update(newReport, cancellationToken);
             }
+
+            //If job started, but was finished and renewed working
             else if (getResult != null && getResult.WorkEnded != null)
             {
                 var createNewTraceRecord = new TraceWorking()
