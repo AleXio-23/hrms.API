@@ -49,5 +49,22 @@ namespace hrms.API.Controllers
             }
             return Ok(result);
         }
+
+        /// <summary>
+        /// Finish work accountig
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("TakeBreak")]
+        [Authorize]
+        public async Task<ActionResult<ServiceResult<bool>>> TakeBreak(CancellationToken cancellationToken)
+        {
+            var result = await _accountingFacade.TakeBreakService.Execute(cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using hrms.Application.Services.Accounting.FinishAccounting;
 using hrms.Application.Services.Accounting.StartAccounting;
+using hrms.Application.Services.Accounting.TakeBreak;
 
 namespace hrms.Application.Services.Accounting
 {
@@ -7,5 +8,6 @@ namespace hrms.Application.Services.Accounting
     {
         IStartAccountingService StartAccountingService { get; }
         IFinishAccountingService FinishAccountingService { get; }
+        ITakeBreakService TakeBreakService { get; }
     }
 }
