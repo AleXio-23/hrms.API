@@ -1,4 +1,7 @@
-﻿using hrms.Infranstructure.Services.CurrentUserId;
+﻿using hrms.Application.Services.Accounting.LogLateFromBreak.AddLogLateFromBreak;
+using hrms.Application.Services.Configuration.NumberTypesConfigurations.GetNumberTypesConfiguration;
+using hrms.Domain.Models.Accounting;
+using hrms.Infranstructure.Services.CurrentUserId;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Enums;
@@ -16,14 +19,18 @@ namespace hrms.Application.Services.Accounting.GetBackFromBreak
         private readonly IGetCurrentUserIdService _getCurrentUserIdService;
         private readonly IRepository<EventNameTypeLookup> _eventTypeNameLookupRepository;
         private readonly IRepository<WorkingStatus> _workingStatusRepository;
+        private readonly IGetNumberTypesConfigurationService _getNumberTypesConfigurationService;
+        private readonly IAddLogLateFromBreakService _addLogLateFromBreakService;
 
-        public GetBackFromBreakService(IRepository<TraceWorking> traceWorkingRepositroy, IRepository<WorkingTraceReport> workingTraceReportRepository, IGetCurrentUserIdService getCurrentUserIdService, IRepository<EventNameTypeLookup> eventTypeNameLookupRepository, IRepository<WorkingStatus> workingStatusRepository)
+        public GetBackFromBreakService(IRepository<TraceWorking> traceWorkingRepositroy, IRepository<WorkingTraceReport> workingTraceReportRepository, IGetCurrentUserIdService getCurrentUserIdService, IRepository<EventNameTypeLookup> eventTypeNameLookupRepository, IRepository<WorkingStatus> workingStatusRepository, IGetNumberTypesConfigurationService getNumberTypesConfigurationService, IAddLogLateFromBreakService addLogLateFromBreakService)
         {
             _traceWorkingRepositroy = traceWorkingRepositroy;
             _workingTraceReportRepository = workingTraceReportRepository;
             _getCurrentUserIdService = getCurrentUserIdService;
             _eventTypeNameLookupRepository = eventTypeNameLookupRepository;
             _workingStatusRepository = workingStatusRepository;
+            _getNumberTypesConfigurationService = getNumberTypesConfigurationService;
+            _addLogLateFromBreakService = addLogLateFromBreakService;
         }
 
         public async Task<ServiceResult<bool>> Execute(CancellationToken cancellationToken)
@@ -77,6 +84,22 @@ namespace hrms.Application.Services.Accounting.GetBackFromBreak
                 getResult.CurrentStatusId = getCurrentStatus.Id;
                 getResult.UsedBreakMinutes = differenceInMinutes;
                 await _workingTraceReportRepository.Update(getResult, cancellationToken);
+
+                //Check if there are overdue minutes after getting back from break
+                var getConfigurationForBreakMinutes = await _getNumberTypesConfigurationService.Execute("MaxBreakTimeMinutes", cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException("MaxBreakTimeMinutes configuration not found");
+                if (differenceInMinutes > getConfigurationForBreakMinutes?.Data?.Value)
+                {
+                    var createNewLog = new LateFromBreakDTO()
+                    {
+                        UserId = userId,
+                        WorkingTraceReportId = getResult.Id,
+                        TraceWorkingId = createNewTraceRecord.Id,
+                        LateMinutes = differenceInMinutes - getConfigurationForBreakMinutes?.Data?.Value,
+                    };
+
+                    await _addLogLateFromBreakService.Execute(createNewLog, cancellationToken);
+                }
+
                 return ServiceResult<bool>.SuccessResult(true);
             }
 
