@@ -34,33 +34,39 @@ namespace hrms.Application.Services.Accounting.TakeBreak
                                       && x.WorkStarted.HasValue
                                       && x.WorkStarted.Value.Date == DateTime.Today.Date, cancellationToken);
 
-            if (getResult == null || (getResult != null & getResult.WorkEnded != null))
+            if (getResult == null || (getResult != null & getResult?.WorkEnded != null))
             {
                 throw new ArgumentException($"User {userId} not started work yet.");
             }
-
-            var getCurrentStatus = await _workingStatusRepository.FirstOrDefaultAsync(x => x.Code == EnumDescription.GetDescription(CurrentStatusEnums.BREAK), cancellationToken) ?? throw new NotFoundException("Break status not found");
-            var getAllTodaysTraces = await _traceWorkingRepositroy.Where(x => x.WorkingTraceId == getResult.Id)
-                                                                .OrderByDescending(x => x.EventOccurTime)
-                                                                .ToListAsync(cancellationToken);
-            var getBreakEndStatus = await _eventTypeNameLookupRepository.FirstOrDefaultAsync(x => x.EventName == "Break" && x.EventType == "End", cancellationToken) ?? throw new NotFoundException($"Break End type not found");
-            if (getAllTodaysTraces.Count > 0 && getAllTodaysTraces[0].EventNameTypeId == getBreakEndStatus.Id)
+            else if (getResult != null)
             {
-                throw new ArgumentException($"User {userId} is already on break");
+                var getCurrentStatus = await _workingStatusRepository.FirstOrDefaultAsync(x => x.Code == EnumDescription.GetDescription(CurrentStatusEnums.BREAK), cancellationToken) ?? throw new NotFoundException("Break status not found");
+                var getAllTodaysTraces = await _traceWorkingRepositroy.Where(x => x.WorkingTraceId == getResult.Id)
+                                                                    .OrderByDescending(x => x.EventOccurTime)
+                                                                    .ToListAsync(cancellationToken);
+                var getBreakEndStatus = await _eventTypeNameLookupRepository.FirstOrDefaultAsync(x => x.EventName == "Break" && x.EventType == "End", cancellationToken) ?? throw new NotFoundException($"Break End type not found");
+                if (getAllTodaysTraces.Count > 0 && getAllTodaysTraces[0].EventNameTypeId == getBreakEndStatus.Id)
+                {
+                    throw new ArgumentException($"User {userId} is already on break");
+                }
+
+                //create new trace record
+                var createNewTraceRecord = new TraceWorking()
+                {
+                    WorkingTraceId = getResult.Id,
+                    EventNameTypeId = getBreakEndStatus.Id
+                };
+
+                var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken);
+
+                getResult.CurrentStatusId = getCurrentStatus.Id;
+                await _workingTraceReportRepository.Update(getResult, cancellationToken);
+                return ServiceResult<bool>.SuccessResult(true);
             }
-
-            //create new trace record
-            var createNewTraceRecord = new TraceWorking()
+            else
             {
-                WorkingTraceId = getResult.Id,
-                EventNameTypeId = getBreakEndStatus.Id
-            };
-
-            var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken);
-
-            getResult.CurrentStatusId = getCurrentStatus.Id;
-            await _workingTraceReportRepository.Update(getResult, cancellationToken);
-            return ServiceResult<bool>.SuccessResult(true);
+                throw new Exception("Unexpected error occured on taking break");
+            }
         }
     }
 }
