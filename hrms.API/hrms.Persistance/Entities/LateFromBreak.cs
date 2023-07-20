@@ -13,6 +13,8 @@ public partial class LateFromBreak
 
     public long TraceWorking { get; set; }
 
+    public int LateMinutes { get; set; }
+
     public string? Comment { get; set; }
 
     public DateTime LogDate { get; set; }

@@ -7,6 +7,7 @@
         public int UserId { get; set; }
 
         public long WorkingTraceReportId { get; set; }
+        public int LateMinutes { get; set; }
 
         public string? Comment { get; set; }
 

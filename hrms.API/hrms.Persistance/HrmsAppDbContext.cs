@@ -56,6 +56,10 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=HRMS;Persist Security Info=True;User Id=;Password=;Trusted_Connection=true;TrustServerCertificate=true;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -124,9 +128,9 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<LateFromBreak>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LateFrom__3214EC07016D0362");
+            entity.HasKey(e => e.Id).HasName("PK__LateFrom__3214EC0758D7B5CA");
 
-            entity.ToTable("LateFromBreak");
+            entity.ToTable("LateFromBreak", "hrms");
 
             entity.Property(e => e.Comment).HasMaxLength(4000);
             entity.Property(e => e.LogDate).HasDefaultValueSql("(getdate())");
@@ -134,17 +138,17 @@ public partial class HrmsAppDbContext : DbContext
             entity.HasOne(d => d.TraceWorkingNavigation).WithMany(p => p.LateFromBreaks)
                 .HasForeignKey(d => d.TraceWorking)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__LateFromB__Trace__2DB1C7EE");
+                .HasConstraintName("FK__LateFromB__Trace__3FD07829");
 
             entity.HasOne(d => d.User).WithMany(p => p.LateFromBreaks)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__LateFromB__UserI__2BC97F7C");
+                .HasConstraintName("FK__LateFromB__UserI__3DE82FB7");
 
             entity.HasOne(d => d.WorkingTraceReport).WithMany(p => p.LateFromBreaks)
                 .HasForeignKey(d => d.WorkingTraceReportId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__LateFromB__Worki__2CBDA3B5");
+                .HasConstraintName("FK__LateFromB__Worki__3EDC53F0");
         });
 
         modelBuilder.Entity<Log>(entity =>
@@ -367,7 +371,7 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<WorkOnLateLog>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__WorkOnLa__3214EC07E5C9C6AD");
+            entity.HasKey(e => e.Id).HasName("PK__WorkOnLa__3214EC075DC8A8BA");
 
             entity.ToTable("WorkOnLateLogs", "hrms");
 
@@ -377,12 +381,12 @@ public partial class HrmsAppDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.WorkOnLateLogs)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WorkOnLat__UserI__2704CA5F");
+                .HasConstraintName("FK__WorkOnLat__UserI__382F5661");
 
             entity.HasOne(d => d.WorkingTraceReport).WithMany(p => p.WorkOnLateLogs)
                 .HasForeignKey(d => d.WorkingTraceReportId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WorkOnLat__Worki__28ED12D1");
+                .HasConstraintName("FK__WorkOnLat__Worki__3B0BC30C");
         });
 
         modelBuilder.Entity<WorkingStatus>(entity =>

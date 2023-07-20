@@ -1,4 +1,7 @@
-﻿using hrms.Infranstructure.Services.CurrentUserId;
+﻿using hrms.Application.Services.Accounting.WorkOnLateLog.AddWorkOnLateLog;
+using hrms.Application.Services.Configuration.NumberTypesConfigurations.GetNumberTypesConfiguration;
+using hrms.Domain.Models.Accounting;
+using hrms.Infranstructure.Services.CurrentUserId;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Enums;
@@ -15,14 +18,18 @@ namespace hrms.Application.Services.Accounting.StartAccounting
         private readonly IGetCurrentUserIdService _getCurrentUserIdService;
         private readonly IRepository<EventNameTypeLookup> _eventTypeNameLookupRepository;
         private readonly IRepository<WorkingStatus> _workingStatusRepository;
+        private readonly IAddWorkOnLateLogService _workOnLateLogService;
+        private readonly IGetNumberTypesConfigurationService _getNumberTypesConfigurationService;
 
-        public StartAccountingService(IRepository<TraceWorking> traceWorkingRepositroy, IRepository<WorkingTraceReport> workingTraceReportRepository, IGetCurrentUserIdService getCurrentUserIdService, IRepository<EventNameTypeLookup> eventTypeNameLookupRepository, IRepository<WorkingStatus> workingStatusRepository)
+        public StartAccountingService(IRepository<TraceWorking> traceWorkingRepositroy, IRepository<WorkingTraceReport> workingTraceReportRepository, IGetCurrentUserIdService getCurrentUserIdService, IRepository<EventNameTypeLookup> eventTypeNameLookupRepository, IRepository<WorkingStatus> workingStatusRepository, IAddWorkOnLateLogService workOnLateLogService, IGetNumberTypesConfigurationService getNumberTypesConfigurationService)
         {
             _traceWorkingRepositroy = traceWorkingRepositroy;
             _workingTraceReportRepository = workingTraceReportRepository;
             _getCurrentUserIdService = getCurrentUserIdService;
             _eventTypeNameLookupRepository = eventTypeNameLookupRepository;
             _workingStatusRepository = workingStatusRepository;
+            _workOnLateLogService = workOnLateLogService;
+            _getNumberTypesConfigurationService = getNumberTypesConfigurationService;
         }
 
         public async Task<ServiceResult<bool>> Execute(CancellationToken cancellationToken)
@@ -69,6 +76,38 @@ namespace hrms.Application.Services.Accounting.StartAccounting
 
                 newReport.WorkStarted = newTraceRecordAddResult.EventOccurTime;
                 await _workingTraceReportRepository.Update(newReport, cancellationToken);
+
+                //Check if work start is late => then log it
+                var getConfigurationForStartingHour = await _getNumberTypesConfigurationService.Execute("WorkTimeStartHour", cancellationToken).ConfigureAwait(false);
+                var getConfigurationForStartingMinute = await _getNumberTypesConfigurationService.Execute("WorkTimeStartMinute", cancellationToken).ConfigureAwait(false);
+
+                if (getConfigurationForStartingHour == null || getConfigurationForStartingHour.Data == null)
+                {
+                    throw new NotFoundException("WorkTimeStartHour not found in configuration");
+                }
+                if (getConfigurationForStartingMinute == null || getConfigurationForStartingMinute.Data == null)
+                {
+                    throw new NotFoundException("WorkTimeStartMinute not found in configuration");
+                }
+
+                var datetimeNow = DateTime.Now;
+                DateTime generateTodayworkingStartTime = new(datetimeNow.Year, datetimeNow.Month, datetimeNow.Day, getConfigurationForStartingHour.Data.Value, getConfigurationForStartingMinute.Data.Value, 0);
+                DateTime workStartedDateTime = newReport.WorkStarted ?? throw new Exception("Work started date is null");
+
+                TimeSpan timeDifference = workStartedDateTime - generateTodayworkingStartTime;
+                int minutesDifference = (int)timeDifference.TotalMinutes;
+
+                if (minutesDifference > 0)
+                {
+                    var createNewWorkOnLateLog = new WorkOnLateLogDTO()
+                    {
+                        UserId = userId,
+                        WorkingTraceReportId = newReport.Id,
+                        LateMinutes = minutesDifference
+                    };
+
+                    await _workOnLateLogService.Execute(createNewWorkOnLateLog, cancellationToken);
+                }
             }
 
             //If job started, but was finished and renewed working

@@ -11,6 +11,8 @@ public partial class WorkOnLateLog
 
     public long WorkingTraceReportId { get; set; }
 
+    public int LateMinutes { get; set; }
+
     public string? Comment { get; set; }
 
     public bool? IsHonorable { get; set; }
