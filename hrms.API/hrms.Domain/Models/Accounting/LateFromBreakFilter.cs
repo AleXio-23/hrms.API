@@ -6,7 +6,7 @@
 
         public long? WorkingTraceReportId { get; set; }
 
-        public long? TraceWorking { get; set; }
+        public long? TraceWorkingId { get; set; }
 
         public int? LateMinutes { get; set; }
 

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using hrms.Domain.Models.Accounting;
+using hrms.Shared.Models;
 
 namespace hrms.Application.Services.Accounting.LogLateFromBreak.GetLogLateFromBreak
 {
-    internal interface IGetLogLateFromBreakService
+    public interface IGetLogLateFromBreakService
     {
+        Task<ServiceResult<LateFromBreakDTO>> Execute(int id, CancellationToken cancellationToken);
     }
 }

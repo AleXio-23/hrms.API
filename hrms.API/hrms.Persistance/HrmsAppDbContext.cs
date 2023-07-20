@@ -56,7 +56,6 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
-   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -125,27 +124,27 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<LateFromBreak>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LateFrom__3214EC0758D7B5CA");
+            entity.HasKey(e => e.Id).HasName("PK__LateFrom__3214EC072BB4AA3F");
 
             entity.ToTable("LateFromBreak", "hrms");
 
             entity.Property(e => e.Comment).HasMaxLength(4000);
             entity.Property(e => e.LogDate).HasDefaultValueSql("(getdate())");
 
-            entity.HasOne(d => d.TraceWorkingNavigation).WithMany(p => p.LateFromBreaks)
-                .HasForeignKey(d => d.TraceWorking)
+            entity.HasOne(d => d.TraceWorking).WithMany(p => p.LateFromBreaks)
+                .HasForeignKey(d => d.TraceWorkingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__LateFromB__Trace__3FD07829");
+                .HasConstraintName("FK__LateFromB__Trace__467D75B8");
 
             entity.HasOne(d => d.User).WithMany(p => p.LateFromBreaks)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__LateFromB__UserI__3DE82FB7");
+                .HasConstraintName("FK__LateFromB__UserI__44952D46");
 
             entity.HasOne(d => d.WorkingTraceReport).WithMany(p => p.LateFromBreaks)
                 .HasForeignKey(d => d.WorkingTraceReportId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__LateFromB__Worki__3EDC53F0");
+                .HasConstraintName("FK__LateFromB__Worki__4589517F");
         });
 
         modelBuilder.Entity<Log>(entity =>

@@ -17,17 +17,20 @@ namespace hrms.Application.Services.Accounting.LogLateFromBreak.AddLogLateFromBr
             _mapper = mapper;
         }
 
-        public Task<ServiceResult<LateFromBreakDTO>> Execute(LateFromBreakDTO lateFromBreakDTO, CancellationToken cancellationToken)
+        public async Task<ServiceResult<LateFromBreakDTO>> Execute(LateFromBreakDTO lateFromBreakDTO, CancellationToken cancellationToken)
         {
             var addNewLateFromBreakLog = new LateFromBreak()
             {
                 UserId = lateFromBreakDTO.UserId ?? throw new ArgumentException("User Id must be provided to log break late record"),
-                WorkingTraceReportId = lateFromBreakDTO.WorkingTraceReportId ?? throw new ArgumentException("WorkingTraceReportId must be provided to log break late record")
-
-
+                WorkingTraceReportId = lateFromBreakDTO.WorkingTraceReportId ?? throw new ArgumentException("WorkingTraceReportId must be provided to log break late record"),
+                TraceWorkingId = lateFromBreakDTO.TraceWorkingId ?? throw new ArgumentException("TraceWorkingId must be provided to log break late record"),
+                LateMinutes = lateFromBreakDTO.LateMinutes != null && lateFromBreakDTO.LateMinutes > 0 ? lateFromBreakDTO.LateMinutes ?? -1 : throw new ArgumentException($"Wrong late minutes. {lateFromBreakDTO.LateMinutes}")
             };
 
-            return null;
+            var result = await _lateFromBreakRepository.Add(addNewLateFromBreakLog, cancellationToken).ConfigureAwait(false);
+            var resultDTO = _mapper.Map<LateFromBreakDTO>(result);
+
+            return ServiceResult<LateFromBreakDTO>.SuccessResult(resultDTO);
         }
     }
 }

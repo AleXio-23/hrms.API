@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using hrms.Domain.Models.Accounting;
 using hrms.Domain.Models.Configuration;
 using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
@@ -16,6 +17,8 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<Department, DepartmentDTO>().ReverseMap();
             CreateMap<JobPosition, JobPositionDTO>().ReverseMap();
             CreateMap<UserProfile, UserProfileDTO>().ReverseMap();
+            CreateMap<LateFromBreak , LateFromBreakDTO>().ReverseMap();
+            CreateMap<WorkOnLateLog , WorkOnLateLogDTO>().ReverseMap();
 
             CreateMap<Role, RoleDTO>().ReverseMap();
 
