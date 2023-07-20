@@ -5,14 +5,17 @@ using hrms.Infranstructure.Auth.LogOut;
 using hrms.Infranstructure.Auth.Register;
 using hrms.Infranstructure.Auth.ResetPassword;
 using hrms.Infranstructure.Logging;
+using hrms.Infranstructure.Services.CurrentUserId;
+using hrms.Infranstructure.Services.UserActionLogger;
+using hrms.Infranstructure.Services.UserAgentAndIpAddress;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace hrms.Infranstructure
 {
     public static class InfranstructureServices
-    { 
+    {
         public static IServiceCollection RegisterIfrastructureServices(this IServiceCollection services)
-        { 
+        {
             services.AddScoped<IRegisterService, RegisterService>();
             services.AddScoped<ILogInService, LogInService>();
             services.AddScoped<IUpdateAccessTokenService, UpdateAccessTokenService>();
@@ -22,7 +25,11 @@ namespace hrms.Infranstructure
 
             services.AddScoped<ILogger, Logger>();
 
+            services.AddScoped<IUserAgentAndIpAddressService, UserAgentAndIpAddressService>();
+            services.AddScoped<IGetCurrentUserIdService, GetCurrentUserIdService>();
+            services.AddScoped<IUserActionLoggerService, UserActionLoggerService>();
+
             return services;
-        } 
+        }
     }
 }

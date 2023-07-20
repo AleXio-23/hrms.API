@@ -21,6 +21,13 @@ namespace hrms.Persistance
             services.AddScoped<IRepository<UserJobPosition>, Repository<UserJobPosition>>();
             services.AddScoped<IRepository<VwUserSignInResponse>, Repository<VwUserSignInResponse>>();
 
+
+            services.AddScoped<IRepository<UserAuthLog>, Repository<UserAuthLog>>();
+            services.AddScoped<IRepository<TraceWorking>, Repository<TraceWorking>>();
+            services.AddScoped<IRepository<WorkingTraceReport>, Repository<WorkingTraceReport>>();
+            services.AddScoped<IRepository<EventNameTypeLookup>, Repository<EventNameTypeLookup>>();
+            services.AddScoped<IRepository<WorkingStatus>, Repository<WorkingStatus>>();
+
             return services;
         }
     }
