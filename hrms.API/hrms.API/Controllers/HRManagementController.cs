@@ -66,5 +66,22 @@ namespace hrms.API.Controllers
             }
             return Ok(result);
         }
+
+        /// <summary>
+        /// Return from break 
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("GetBackFromBreak")]
+        [Authorize]
+        public async Task<ActionResult<ServiceResult<bool>>> GetBackFromBreak(CancellationToken cancellationToken)
+        {
+            var result = await _accountingFacade.GetBackFromBreakService.Execute(cancellationToken);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
     }
 }

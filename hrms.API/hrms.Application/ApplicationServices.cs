@@ -1,5 +1,6 @@
 ﻿using hrms.Application.Services.Accounting;
 using hrms.Application.Services.Accounting.FinishAccounting;
+using hrms.Application.Services.Accounting.GetBackFromBreak;
 using hrms.Application.Services.Accounting.StartAccounting;
 using hrms.Application.Services.Accounting.TakeBreak;
 using hrms.Application.Services.Dictionaries;
@@ -77,6 +78,7 @@ namespace hrms.Application
             services.AddScoped<IStartAccountingService, StartAccountingService>();
             services.AddScoped<IFinishAccountingService, FinishAccountingService>();
             services.AddScoped<ITakeBreakService, TakeBreakService>();
+            services.AddScoped<IGetBackFromBreakService, GetBackFromBreakService>();
 
             return services;
         }
