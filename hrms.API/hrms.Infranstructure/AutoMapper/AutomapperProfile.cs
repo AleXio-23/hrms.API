@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using hrms.Domain.Models.Configuration;
 using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Dictionary.JobPositions;
@@ -17,6 +18,8 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<UserProfile, UserProfileDTO>().ReverseMap();
 
             CreateMap<Role, RoleDTO>().ReverseMap();
+
+            CreateMap<NumberTypesConfiguration, NumberTypesConfigurationDTO>().ReverseMap();
 
             CreateMap<UserJobPosition, UserJobPositionDTO>()
                 .ForMember(dep => dep.Department, opt => opt.MapFrom(x => x.Department))

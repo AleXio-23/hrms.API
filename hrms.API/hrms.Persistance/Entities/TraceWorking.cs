@@ -13,11 +13,9 @@ public partial class TraceWorking
 
     public DateTime EventOccurTime { get; set; }
 
-    public string? Comment { get; set; }
-
-    public bool? IsHonorable { get; set; }
-
     public virtual EventNameTypeLookup EventNameType { get; set; } = null!;
+
+    public virtual ICollection<LateFromBreak> LateFromBreaks { get; set; } = new List<LateFromBreak>();
 
     public virtual WorkingTraceReport WorkingTrace { get; set; } = null!;
 }

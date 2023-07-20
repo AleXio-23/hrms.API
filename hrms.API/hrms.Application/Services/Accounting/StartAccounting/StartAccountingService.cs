@@ -34,7 +34,10 @@ namespace hrms.Application.Services.Accounting.StartAccounting
                 .FirstOrDefaultAsync(x => x.UserId == _getCurrentUserIdService.Execute()
                                         && x.WorkStarted.HasValue
                                         && x.WorkStarted.Value.Date == DateTime.Today.Date, cancellationToken);
-            if (getResult != null)
+
+            //Check if there is no record in report or if there is check, if work is finished
+            //Then notifie that work already started 
+            if (getResult != null && getResult.WorkEnded == null)
             {
                 throw new ArgumentException($"User {userId} already started work today");
             }
@@ -42,28 +45,46 @@ namespace hrms.Application.Services.Accounting.StartAccounting
             var getCurrentStauts = await _workingStatusRepository
                 .FirstOrDefaultAsync(x => x.Code == EnumDescription.GetDescription(CurrentStatusEnums.WORKING), cancellationToken)
                 ?? throw new NotFoundException("Error getting working start status");
-           
-            //first make record in report
-            var newReport = new WorkingTraceReport()
-            {
-                UserId = userId,
-                CurrentStatusId = getCurrentStauts?.Id
-            };
-
             var getJobStartId = await _eventTypeNameLookupRepository.FirstOrDefaultAsync(x => x.EventName == "Job" && x.EventType == "Start", cancellationToken) ?? throw new NotFoundException($"Job Start type not found");
-            var newReportRecord = await _workingTraceReportRepository.Add(newReport, cancellationToken);
 
-            var createNewTraceRecord = new TraceWorking()
+            //If job not started today
+            if (getResult == null)
             {
-                WorkingTraceId = newReportRecord.Id,
-                EventNameTypeId = getJobStartId.Id
-            };
+                //first make record in report
+                var newReport = new WorkingTraceReport()
+                {
+                    UserId = userId,
+                    CurrentStatusId = getCurrentStauts?.Id
+                };
 
-            var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken);
+                var newReportRecord = await _workingTraceReportRepository.Add(newReport, cancellationToken);
 
-            newReport.WorkStarted = newTraceRecordAddResult.EventOccurTime;
-            await _workingTraceReportRepository.Update(newReport, cancellationToken);
+                var createNewTraceRecord = new TraceWorking()
+                {
+                    WorkingTraceId = newReportRecord.Id,
+                    EventNameTypeId = getJobStartId.Id
+                };
 
+                var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken);
+
+                newReport.WorkStarted = newTraceRecordAddResult.EventOccurTime;
+                await _workingTraceReportRepository.Update(newReport, cancellationToken);
+            }
+
+            //If job started, but was finished and renewed working
+            else if (getResult != null && getResult.WorkEnded != null)
+            {
+                var createNewTraceRecord = new TraceWorking()
+                {
+                    WorkingTraceId = getResult.Id,
+                    EventNameTypeId = getJobStartId.Id
+                };
+                var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken);
+
+                getResult.WorkStarted = newTraceRecordAddResult.EventOccurTime;
+                getResult.WorkEnded = null;
+                await _workingTraceReportRepository.Update(getResult, cancellationToken);
+            }
             return ServiceResult<bool>.SuccessResult(true);
         }
     }

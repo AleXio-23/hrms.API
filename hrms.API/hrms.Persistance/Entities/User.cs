@@ -23,6 +23,8 @@ public partial class User
 
     public bool? IsActive { get; set; }
 
+    public virtual ICollection<LateFromBreak> LateFromBreaks { get; set; } = new List<LateFromBreak>();
+
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
     public virtual ICollection<UserAuthLog> UserAuthLogs { get; set; } = new List<UserAuthLog>();
@@ -32,6 +34,8 @@ public partial class User
     public virtual UserProfile? UserProfile { get; set; }
 
     public virtual UserRole? UserRole { get; set; }
+
+    public virtual ICollection<WorkOnLateLog> WorkOnLateLogs { get; set; } = new List<WorkOnLateLog>();
 
     public virtual ICollection<WorkingTraceReport> WorkingTraceReports { get; set; } = new List<WorkingTraceReport>();
 }
