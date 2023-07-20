@@ -7,7 +7,7 @@ namespace hrms.Application.Services.Configuration
 {
     public class ConfigurationFacade : IConfigurationFacade
     {
-        public ConfigurationFacade(IUpdateNumberTypesConfigurationService updateNumberTypesConfiguration, IDeleteNumberTypesConfigurationService deleteNumberTypesConfigurationService, IGetNumberTypesConfigurationService getNumberTypesConfigurationService, IGetNumberTypesConfigurationsService getNumberTypesConfigurationsService)
+        public ConfigurationFacade(IAddOrUpdateNumberTypesConfigurationService updateNumberTypesConfiguration, IDeleteNumberTypesConfigurationService deleteNumberTypesConfigurationService, IGetNumberTypesConfigurationService getNumberTypesConfigurationService, IGetNumberTypesConfigurationsService getNumberTypesConfigurationsService)
         {
             UpdateNumberTypesConfiguration = updateNumberTypesConfiguration;
             DeleteNumberTypesConfigurationService = deleteNumberTypesConfigurationService;
@@ -15,7 +15,7 @@ namespace hrms.Application.Services.Configuration
             GetNumberTypesConfigurationsService = getNumberTypesConfigurationsService;
         }
 
-        public IUpdateNumberTypesConfigurationService UpdateNumberTypesConfiguration { get; }
+        public IAddOrUpdateNumberTypesConfigurationService UpdateNumberTypesConfiguration { get; }
 
         public IDeleteNumberTypesConfigurationService DeleteNumberTypesConfigurationService { get; }
 

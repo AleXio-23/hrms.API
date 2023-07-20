@@ -7,7 +7,7 @@ namespace hrms.Application.Services.Configuration
 {
     public interface IConfigurationFacade
     {
-        IUpdateNumberTypesConfigurationService UpdateNumberTypesConfiguration { get; }
+        IAddOrUpdateNumberTypesConfigurationService UpdateNumberTypesConfiguration { get; }
         IDeleteNumberTypesConfigurationService DeleteNumberTypesConfigurationService { get; }
         IGetNumberTypesConfigurationService GetNumberTypesConfigurationService { get; }
         IGetNumberTypesConfigurationsService GetNumberTypesConfigurationsService { get; }

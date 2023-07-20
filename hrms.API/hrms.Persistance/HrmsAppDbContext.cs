@@ -56,10 +56,6 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=HRMS;Persist Security Info=True;User Id=;Password=;Trusted_Connection=true;TrustServerCertificate=true;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -165,13 +161,16 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<NumberTypesConfiguration>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__NumberTy__3214EC07F8732137");
+            entity.HasKey(e => e.Id).HasName("PK__NumberTy__3214EC07E3D394A0");
 
             entity.ToTable("NumberTypesConfigurations", "config");
 
             entity.Property(e => e.ConfigName)
                 .HasMaxLength(1024)
                 .IsUnicode(false);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
         });
 
         modelBuilder.Entity<RefreshToken>(entity =>

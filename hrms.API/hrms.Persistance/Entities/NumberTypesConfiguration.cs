@@ -10,4 +10,6 @@ public partial class NumberTypesConfiguration
     public string ConfigName { get; set; } = null!;
 
     public int Value { get; set; }
+
+    public bool? IsActive { get; set; }
 }

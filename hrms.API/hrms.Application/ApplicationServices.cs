@@ -86,7 +86,7 @@ namespace hrms.Application
             services.AddScoped<IGetBackFromBreakService, GetBackFromBreakService>();
 
             services.AddScoped<IConfigurationFacade, ConfigurationFacade>();
-            services.AddScoped<IUpdateNumberTypesConfigurationService, UpdateNumberTypesConfigurationService>();
+            services.AddScoped<IAddOrUpdateNumberTypesConfigurationService, AddOrUpdateNumberTypesConfigurationService>();
             services.AddScoped<IDeleteNumberTypesConfigurationService, DeleteNumberTypesConfigurationService>();
             services.AddScoped<IGetNumberTypesConfigurationService, GetNumberTypesConfigurationService>();
             services.AddScoped<IGetNumberTypesConfigurationsService, GetNumberTypesConfigurationsService>();

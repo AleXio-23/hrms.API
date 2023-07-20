@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace hrms.Domain.Models.Configuration
+﻿namespace hrms.Domain.Models.Configuration
 {
-    internal class NumberTypesConfigurationDTO
+    public class NumberTypesConfigurationDTO
     {
+        public int Id { get; set; }
+
+        public string ConfigName { get; set; } = null!;
+
+        public int Value { get; set; }
+
+        public bool? IsActive { get; set; }
     }
 }
