@@ -7,15 +7,15 @@ namespace hrms.Application.Services.Configuration
 {
     public class ConfigurationFacade : IConfigurationFacade
     {
-        public ConfigurationFacade(IAddOrUpdateNumberTypesConfigurationService updateNumberTypesConfiguration, IDeleteNumberTypesConfigurationService deleteNumberTypesConfigurationService, IGetNumberTypesConfigurationService getNumberTypesConfigurationService, IGetNumberTypesConfigurationsService getNumberTypesConfigurationsService)
+        public ConfigurationFacade(IAddOrUpdateNumberTypesConfigurationService addOrUpdateNumberTypesConfigurationService, IDeleteNumberTypesConfigurationService deleteNumberTypesConfigurationService, IGetNumberTypesConfigurationService getNumberTypesConfigurationService, IGetNumberTypesConfigurationsService getNumberTypesConfigurationsService)
         {
-            UpdateNumberTypesConfiguration = updateNumberTypesConfiguration;
+            AddOrUpdateNumberTypesConfigurationService = addOrUpdateNumberTypesConfigurationService;
             DeleteNumberTypesConfigurationService = deleteNumberTypesConfigurationService;
             GetNumberTypesConfigurationService = getNumberTypesConfigurationService;
             GetNumberTypesConfigurationsService = getNumberTypesConfigurationsService;
         }
 
-        public IAddOrUpdateNumberTypesConfigurationService UpdateNumberTypesConfiguration { get; }
+        public IAddOrUpdateNumberTypesConfigurationService AddOrUpdateNumberTypesConfigurationService { get; }
 
         public IDeleteNumberTypesConfigurationService DeleteNumberTypesConfigurationService { get; }
 

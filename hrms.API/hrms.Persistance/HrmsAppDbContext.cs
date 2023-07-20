@@ -124,26 +124,27 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<LateFromBreak>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LateFrom__3214EC0727768743");
+            entity.HasKey(e => e.Id).HasName("PK__LateFrom__3214EC072BB4AA3F");
 
-            entity.ToTable("LateFromBreak");
+            entity.ToTable("LateFromBreak", "hrms");
 
             entity.Property(e => e.Comment).HasMaxLength(4000);
+            entity.Property(e => e.LogDate).HasDefaultValueSql("(getdate())");
 
-            entity.HasOne(d => d.TraceWorkingNavigation).WithMany(p => p.LateFromBreaks)
-                .HasForeignKey(d => d.TraceWorking)
+            entity.HasOne(d => d.TraceWorking).WithMany(p => p.LateFromBreaks)
+                .HasForeignKey(d => d.TraceWorkingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__LateFromB__Trace__1F63A897");
+                .HasConstraintName("FK__LateFromB__Trace__467D75B8");
 
             entity.HasOne(d => d.User).WithMany(p => p.LateFromBreaks)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__LateFromB__UserI__1D7B6025");
+                .HasConstraintName("FK__LateFromB__UserI__44952D46");
 
             entity.HasOne(d => d.WorkingTraceReport).WithMany(p => p.LateFromBreaks)
                 .HasForeignKey(d => d.WorkingTraceReportId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__LateFromB__Worki__1E6F845E");
+                .HasConstraintName("FK__LateFromB__Worki__4589517F");
         });
 
         modelBuilder.Entity<Log>(entity =>
@@ -366,21 +367,22 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<WorkOnLateLog>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__WorkOnLa__3214EC078570ED78");
+            entity.HasKey(e => e.Id).HasName("PK__WorkOnLa__3214EC075DC8A8BA");
 
             entity.ToTable("WorkOnLateLogs", "hrms");
 
             entity.Property(e => e.Comment).HasMaxLength(4000);
+            entity.Property(e => e.LogDate).HasDefaultValueSql("(getdate())");
 
             entity.HasOne(d => d.User).WithMany(p => p.WorkOnLateLogs)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WorkOnLat__UserI__19AACF41");
+                .HasConstraintName("FK__WorkOnLat__UserI__382F5661");
 
             entity.HasOne(d => d.WorkingTraceReport).WithMany(p => p.WorkOnLateLogs)
                 .HasForeignKey(d => d.WorkingTraceReportId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WorkOnLat__Worki__1A9EF37A");
+                .HasConstraintName("FK__WorkOnLat__Worki__3B0BC30C");
         });
 
         modelBuilder.Entity<WorkingStatus>(entity =>

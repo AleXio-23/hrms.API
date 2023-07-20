@@ -1,8 +1,14 @@
 ﻿using hrms.Application.Services.Accounting;
 using hrms.Application.Services.Accounting.FinishAccounting;
 using hrms.Application.Services.Accounting.GetBackFromBreak;
+using hrms.Application.Services.Accounting.LogLateFromBreak.AddLogLateFromBreak;
+using hrms.Application.Services.Accounting.LogLateFromBreak.GetLogLateFromBreak;
+using hrms.Application.Services.Accounting.LogLateFromBreak.GetLogsLateFromBreak;
 using hrms.Application.Services.Accounting.StartAccounting;
 using hrms.Application.Services.Accounting.TakeBreak;
+using hrms.Application.Services.Accounting.WorkOnLateLog.AddWorkOnLateLog;
+using hrms.Application.Services.Accounting.WorkOnLateLog.GetWorkOnLateLog;
+using hrms.Application.Services.Accounting.WorkOnLateLog.GetWorkOnLateLogs;
 using hrms.Application.Services.Configuration;
 using hrms.Application.Services.Configuration.NumberTypesConfigurations.DeleteNumberTypesConfiguration;
 using hrms.Application.Services.Configuration.NumberTypesConfigurations.GetNumberTypesConfiguration;
@@ -64,7 +70,6 @@ namespace hrms.Application
             services.AddScoped<IGetUserService, GetUserService>();
             services.AddScoped<IUpdateUserService, UpdateUserService>();
 
-
             services.AddScoped<IDictionaryiFacade, DictionaryiFacade>();
             services.AddScoped<IGetGenderService, GetGenderService>();
             services.AddScoped<IAddOrUpdateGenderService, AddOrUpdateGenderService>();
@@ -84,14 +89,18 @@ namespace hrms.Application
             services.AddScoped<IFinishAccountingService, FinishAccountingService>();
             services.AddScoped<ITakeBreakService, TakeBreakService>();
             services.AddScoped<IGetBackFromBreakService, GetBackFromBreakService>();
+            services.AddScoped<IAddWorkOnLateLogService, AddWorkOnLateLogService>();
+            services.AddScoped<IGetWorkOnLateLogService, GetWorkOnLateLogService>();
+            services.AddScoped<IGetWorkOnLateLogsService, GetWorkOnLateLogsService>();
+            services.AddScoped<IAddLogLateFromBreakService, AddLogLateFromBreakService>();
+            services.AddScoped<IGetLogLateFromBreakService, GetLogLateFromBreakService>();
+            services.AddScoped<IGetLogsLateFromBreakService, GetLogsLateFromBreakService>();
 
             services.AddScoped<IConfigurationFacade, ConfigurationFacade>();
             services.AddScoped<IAddOrUpdateNumberTypesConfigurationService, AddOrUpdateNumberTypesConfigurationService>();
             services.AddScoped<IDeleteNumberTypesConfigurationService, DeleteNumberTypesConfigurationService>();
             services.AddScoped<IGetNumberTypesConfigurationService, GetNumberTypesConfigurationService>();
             services.AddScoped<IGetNumberTypesConfigurationsService, GetNumberTypesConfigurationsService>();
-
-
 
             return services;
         }

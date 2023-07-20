@@ -11,13 +11,17 @@ public partial class LateFromBreak
 
     public long WorkingTraceReportId { get; set; }
 
-    public long TraceWorking { get; set; }
+    public long TraceWorkingId { get; set; }
+
+    public int LateMinutes { get; set; }
 
     public string? Comment { get; set; }
 
+    public DateTime LogDate { get; set; }
+
     public bool? IsHonorable { get; set; }
 
-    public virtual TraceWorking TraceWorkingNavigation { get; set; } = null!;
+    public virtual TraceWorking TraceWorking { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
 
