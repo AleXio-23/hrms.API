@@ -1,4 +1,5 @@
 ﻿using hrms.Application.Services.Accounting;
+using hrms.Application.Services.Accounting.FinishAccounting;
 using hrms.Application.Services.Accounting.StartAccounting;
 using hrms.Application.Services.Dictionaries;
 using hrms.Application.Services.Dictionaries.Departments.AddOrUpdateDepartment;
@@ -73,6 +74,7 @@ namespace hrms.Application
 
             services.AddScoped<IAccountingFacade, AccountingFacade>();
             services.AddScoped<IStartAccountingService, StartAccountingService>();
+            services.AddScoped<IFinishAccountingService, FinishAccountingService>();
 
             return services;
         }
