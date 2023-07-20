@@ -21,6 +21,10 @@ public partial class WorkingTraceReport
 
     public int OvertimeWorkingMinutes { get; set; }
 
+    public int? CurrentStatusId { get; set; }
+
+    public virtual WorkingStatus? CurrentStatus { get; set; }
+
     public virtual ICollection<TraceWorking> TraceWorkings { get; set; } = new List<TraceWorking>();
 
     public virtual User User { get; set; } = null!;

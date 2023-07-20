@@ -46,6 +46,8 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<VwUserSignInResponse> VwUserSignInResponses { get; set; }
 
+    public virtual DbSet<WorkingStatus> WorkingStatuses { get; set; }
+
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -173,7 +175,7 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<TraceWorking>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TraceWor__3214EC079EC9917E");
+            entity.HasKey(e => e.Id).HasName("PK__TraceWor__3214EC07491E6BEA");
 
             entity.ToTable("TraceWorking", "hrms");
 
@@ -183,12 +185,12 @@ public partial class HrmsAppDbContext : DbContext
             entity.HasOne(d => d.EventNameType).WithMany(p => p.TraceWorkings)
                 .HasForeignKey(d => d.EventNameTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__TraceWork__Event__74794A92");
+                .HasConstraintName("FK__TraceWork__Event__0880433F");
 
             entity.HasOne(d => d.WorkingTrace).WithMany(p => p.TraceWorkings)
                 .HasForeignKey(d => d.WorkingTraceId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__TraceWork__Worki__73852659");
+                .HasConstraintName("FK__TraceWork__Worki__078C1F06");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -319,18 +321,38 @@ public partial class HrmsAppDbContext : DbContext
             entity.Property(e => e.LastName).HasMaxLength(100);
         });
 
+        modelBuilder.Entity<WorkingStatus>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__WorkingS__3214EC07BEED21BD");
+
+            entity.ToTable("WorkingStatuses", "dictionary");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Color).HasMaxLength(50);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
         modelBuilder.Entity<WorkingTraceReport>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__WorkingT__3214EC07B5417989");
+            entity.HasKey(e => e.Id).HasName("PK__WorkingT__3214EC0744E78264");
 
             entity.ToTable("WorkingTraceReport", "report");
 
             entity.HasIndex(e => e.WorkStarted, "index_WorkStarted_datetime");
 
+            entity.HasOne(d => d.CurrentStatus).WithMany(p => p.WorkingTraceReports)
+                .HasForeignKey(d => d.CurrentStatusId)
+                .HasConstraintName("FK__WorkingTr__Curre__03BB8E22");
+
             entity.HasOne(d => d.User).WithMany(p => p.WorkingTraceReports)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WorkingTr__UserI__671F4F74");
+                .HasConstraintName("FK__WorkingTr__UserI__7EF6D905");
         });
 
         OnModelCreatingPartial(modelBuilder);

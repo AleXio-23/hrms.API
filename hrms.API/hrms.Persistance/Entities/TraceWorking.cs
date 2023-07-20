@@ -1,4 +1,7 @@
-﻿namespace hrms.Persistance.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace hrms.Persistance.Entities;
 
 public partial class TraceWorking
 {
