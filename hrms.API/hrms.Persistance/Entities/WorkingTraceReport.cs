@@ -9,7 +9,7 @@ public partial class WorkingTraceReport
 
     public int UserId { get; set; }
 
-    public DateTime WorkStarted { get; set; }
+    public DateTime? WorkStarted { get; set; }
 
     public DateTime? WorkEnded { get; set; }
 

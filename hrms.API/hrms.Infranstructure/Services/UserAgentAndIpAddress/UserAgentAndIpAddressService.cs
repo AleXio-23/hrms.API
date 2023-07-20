@@ -19,7 +19,7 @@ namespace hrms.Infranstructure.Services.UserAgentAndIpAddress
 
             return new UserAgentAndIpAddressResponse()
             {
-                IpAddress = ip,
+                IpAddress = ip?? "Error detecting user IP address",
                 UserAgent = useAgent
             };
         }
