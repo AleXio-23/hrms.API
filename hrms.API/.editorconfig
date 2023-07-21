@@ -1,0 +1,51 @@
+﻿# .editorconfig for .NET 6.0 projects
+
+# Editor settings
+root = true
+
+# All files
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+
+# C# files
+[*.cs]
+# Code analysis rules
+dotnet_diagnostic.CA1303.severity = suggestion # Suggest to use StringComparison.OrdinalIgnoreCase when doing string comparisons for better performance
+dotnet_diagnostic.CA1822.severity = suggestion # Suggest to make methods static if they don't access instance data
+dotnet_diagnostic.CA2007.severity = suggestion # Suggest to use string interpolation instead of concatenation
+dotnet_diagnostic.CA2225.severity = suggestion # Suggest to make member virtual when declaring event accessors
+dotnet_diagnostic.CA2237.severity = suggestion # Suggest to mark ISerializable types with SerializableAttribute
+dotnet_diagnostic.CA2243.severity = suggestion # Suggest to make members static if they don't access instance data
+dotnet_diagnostic.CA5394.severity = suggestion # Suggest to use the overload of 'ConfigureAwait' that has a 'bool continueOnCapturedContext' parameter
+dotnet_diagnostic.CA5392.severity = suggestion # Suggest to use a conditional access expression when accessing a possibly null member
+
+# C# 9 and later
+# If you are using C# 8 or older, you can remove the following section
+[*.cs]
+csharp_version = latest
+
+# C# 9 and later nullability
+# If you are using C# 8 or older, you can remove the following section
+[*.cs]
+# Set the default nullability to "nullable"
+# Modify this based on your project's nullability strategy
+# "nullable" or "annotations" or "warnings"
+csharp_nullable_reference_type = nullable
+
+# Specify the nullable context for specific files or folders if needed
+#[nullable-context: nullable|annotations|warnings]
+
+# Global suppression for specific analyzer diagnostics if needed
+# You can add more diagnostics using the same pattern (e.g., dotnet_diagnostic.CA1234.severity)
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+
+[*.{cs,vb}]
+# suppress_message.{analyzer ID}.{check ID} = {optional justification}
+# Example:
+# suppress_message.RCS1023.suggest = The file name does not match the project name.

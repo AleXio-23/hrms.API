@@ -9,6 +9,9 @@ using System.Security.Claims;
 
 namespace hrms.API.Controllers
 {
+    /// <summary>
+    /// User services endpoints
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

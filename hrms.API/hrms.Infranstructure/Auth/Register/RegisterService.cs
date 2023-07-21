@@ -22,9 +22,13 @@ namespace hrms.Infranstructure.Auth.Register
         public async Task<ServiceResult<string>> Execute(RegisterDto registerDto, CancellationToken cancellationToken)
         {
 
-            if (!IsValidEmail(registerDto.Email))
+            if (string.IsNullOrEmpty(registerDto.Email) || !IsValidEmail(registerDto.Email))
             {
                 throw new ValidationException("Wrong email format");
+            }
+            if (string.IsNullOrEmpty(registerDto.Password))
+            {
+                throw new ValidationException("Wrong password");
             }
 
             var userName = registerDto.Email;
@@ -33,11 +37,11 @@ namespace hrms.Infranstructure.Auth.Register
             {
                 throw new ArgumentException("Passwords don't match");
             }
-            if (await UserExists(userName))
+            if (await UserExists(userName).ConfigureAwait(false))
             {
                 throw new RecordExistsException("Username is registered");
             }
-            if (await UserWithEmailExists(registerDto.Email))
+            if (await UserWithEmailExists(registerDto.Email).ConfigureAwait(false))
             {
                 throw new RecordExistsException("This email is registered");
             }
@@ -51,7 +55,7 @@ namespace hrms.Infranstructure.Auth.Register
                 PasswordSalt = hmac.Key
             };
 
-            await _userRepository.Add(newUser, cancellationToken);
+            await _userRepository.Add(newUser, cancellationToken).ConfigureAwait(false);
 
             return ServiceResult<string>.SuccessResult(newUser.Email + " Added");
         }
