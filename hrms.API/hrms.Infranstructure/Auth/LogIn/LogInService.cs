@@ -34,13 +34,20 @@ namespace hrms.Infranstructure.Auth.LogIn
 
         public async Task<ServiceResult<LoginResponse>> Exeute(LoginDto loginDto, CancellationToken cancellationToken)
         {
-            var user = (User?)(IsValidEmail(loginDto.EmailOrUsername) ? await _userRepository.SingleOrDefaultAsync(x => x.Email == loginDto.EmailOrUsername, cancellationToken: cancellationToken).ConfigureAwait(false) :
-                 await _userRepository.SingleOrDefaultAsync(x => x.Username == loginDto.EmailOrUsername.ToLower(), cancellationToken: cancellationToken).ConfigureAwait(false));
-
+            var user = (User?)(IsValidEmail(loginDto.EmailOrUsername ?? "") ? await _userRepository.SingleOrDefaultAsync(x => x.Email == loginDto.EmailOrUsername, cancellationToken: cancellationToken).ConfigureAwait(false) :
+                 await _userRepository.SingleOrDefaultAsync(x => x.Username == (loginDto.EmailOrUsername ?? "").ToLower(), cancellationToken: cancellationToken).ConfigureAwait(false));
+            if (string.IsNullOrEmpty(loginDto.EmailOrUsername))
+            {
+                throw new ArgumentException("Wrong username");
+            }
+            if (string.IsNullOrEmpty(loginDto.Password))
+            {
+                throw new ArgumentException("Wrong password");
+            }
             if (user == null)
             {
                 var errorMessage = $"User {loginDto.EmailOrUsername} not found";
-                await _userActionLogger.Execute(userId: null, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken);
+                await _userActionLogger.Execute(userId: null, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken).ConfigureAwait(false);
                 throw new ArgumentException("User not found.");
             }
             using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -51,7 +58,7 @@ namespace hrms.Infranstructure.Auth.LogIn
                 if (computedHash[i] != user.PasswordHash[i])
                 {
                     var errorMessage = $"User {loginDto.EmailOrUsername}: Incorrect password";
-                    await _userActionLogger.Execute(userId: null, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken);
+                    await _userActionLogger.Execute(userId: null, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken).ConfigureAwait(false);
                     throw new ArgumentException(errorMessage);
                 }
             }
@@ -75,7 +82,7 @@ namespace hrms.Infranstructure.Auth.LogIn
                     ExpiryDate = generateRefreshToken.Item2
 
                 };
-                await _refreshTokenRepository.Add(refreshTokenObject, cancellationToken);
+                await _refreshTokenRepository.Add(refreshTokenObject, cancellationToken).ConfigureAwait(false);
             }
 
 
@@ -98,11 +105,11 @@ namespace hrms.Infranstructure.Auth.LogIn
             if (getUser == null)
             {
                 var errorMessage = $"User in id {user.Id} no found";
-                await _userActionLogger.Execute(userId: user.Id, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken);
+                await _userActionLogger.Execute(userId: user.Id, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken).ConfigureAwait(false);
                 throw new NotFoundException(errorMessage);
             }
 
-            await _userActionLogger.Execute(userId: user.Id, actionName: "Auth", actionResult: "Success", ErrorReason: null, cancellationToken: cancellationToken);
+            await _userActionLogger.Execute(userId: user.Id, actionName: "Auth", actionResult: "Success", ErrorReason: null, cancellationToken: cancellationToken).ConfigureAwait(false);
             return ServiceResult<LoginResponse>.SuccessResult(getUser);
         }
 

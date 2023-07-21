@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace hrms.Domain.Models.Auth
 {
@@ -6,14 +6,14 @@ namespace hrms.Domain.Models.Auth
     {
          
         [Required]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Required]
         [StringLength(244, MinimumLength = 8)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         [Required]
         [StringLength(244, MinimumLength = 8)]
-        public string RepeatPassword { get; set; }
+        public string? RepeatPassword { get; set; }
     }
 }

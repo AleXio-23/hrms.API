@@ -1,14 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace hrms.Domain.Models.Auth
 {
     public class LoginDto
     {
         [Required]
-        public string EmailOrUsername { get; set; }
+        public string? EmailOrUsername { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
 }
-    

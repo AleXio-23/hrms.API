@@ -1,4 +1,4 @@
-﻿using hrms.Application.Services.Accounting.WorkOnLateLog.AddWorkOnLateLog;
+using hrms.Application.Services.Accounting.WorkOnLateLog.AddWorkOnLateLog;
 using hrms.Application.Services.Configuration.NumberTypesConfigurations.GetNumberTypesConfiguration;
 using hrms.Domain.Models.Accounting;
 using hrms.Infranstructure.Services.CurrentUserId;
@@ -40,7 +40,7 @@ namespace hrms.Application.Services.Accounting.StartAccounting
             var getResult = await _workingTraceReportRepository
                 .FirstOrDefaultAsync(x => x.UserId == _getCurrentUserIdService.Execute()
                                         && x.WorkStarted.HasValue
-                                        && x.WorkStarted.Value.Date == DateTime.Today.Date, cancellationToken);
+                                        && x.WorkStarted.Value.Date == DateTime.Today.Date, cancellationToken).ConfigureAwait(false);
 
             //Check if there is no record in report or if there is check, if work is finished
             //Then notifie that work already started 
@@ -50,9 +50,9 @@ namespace hrms.Application.Services.Accounting.StartAccounting
             }
 
             var getCurrentStauts = await _workingStatusRepository
-                .FirstOrDefaultAsync(x => x.Code == EnumDescription.GetDescription(CurrentStatusEnums.WORKING), cancellationToken)
+                .FirstOrDefaultAsync(x => x.Code == EnumDescription.GetDescription(CurrentStatusEnums.WORKING), cancellationToken).ConfigureAwait(false)
                 ?? throw new NotFoundException("Error getting working start status");
-            var getJobStartId = await _eventTypeNameLookupRepository.FirstOrDefaultAsync(x => x.EventName == "Job" && x.EventType == "Start", cancellationToken) ?? throw new NotFoundException($"Job Start type not found");
+            var getJobStartId = await _eventTypeNameLookupRepository.FirstOrDefaultAsync(x => x.EventName == "Job" && x.EventType == "Start", cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Job Start type not found");
 
             //If job not started today
             if (getResult == null)
@@ -64,7 +64,7 @@ namespace hrms.Application.Services.Accounting.StartAccounting
                     CurrentStatusId = getCurrentStauts?.Id
                 };
 
-                var newReportRecord = await _workingTraceReportRepository.Add(newReport, cancellationToken);
+                var newReportRecord = await _workingTraceReportRepository.Add(newReport, cancellationToken).ConfigureAwait(false);
 
                 var createNewTraceRecord = new TraceWorking()
                 {
@@ -72,10 +72,10 @@ namespace hrms.Application.Services.Accounting.StartAccounting
                     EventNameTypeId = getJobStartId.Id
                 };
 
-                var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken);
+                var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken).ConfigureAwait(false);
 
                 newReport.WorkStarted = newTraceRecordAddResult.EventOccurTime;
-                await _workingTraceReportRepository.Update(newReport, cancellationToken);
+                await _workingTraceReportRepository.Update(newReport, cancellationToken).ConfigureAwait(false);
 
                 //Check if work start is late => then log it
                 var getConfigurationForStartingHour = await _getNumberTypesConfigurationService.Execute("WorkTimeStartHour", cancellationToken).ConfigureAwait(false);
@@ -106,7 +106,7 @@ namespace hrms.Application.Services.Accounting.StartAccounting
                         LateMinutes = minutesDifference
                     };
 
-                    await _workOnLateLogService.Execute(createNewWorkOnLateLog, cancellationToken);
+                    await _workOnLateLogService.Execute(createNewWorkOnLateLog, cancellationToken).ConfigureAwait(false);
                 }
             }
 
@@ -118,11 +118,11 @@ namespace hrms.Application.Services.Accounting.StartAccounting
                     WorkingTraceId = getResult.Id,
                     EventNameTypeId = getJobStartId.Id
                 };
-                var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken);
+                var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken).ConfigureAwait(false);
 
                 getResult.WorkStarted = newTraceRecordAddResult.EventOccurTime;
                 getResult.WorkEnded = null;
-                await _workingTraceReportRepository.Update(getResult, cancellationToken);
+                await _workingTraceReportRepository.Update(getResult, cancellationToken).ConfigureAwait(false);
             }
             return ServiceResult<bool>.SuccessResult(true);
         }
