@@ -1,4 +1,4 @@
-﻿using hrms.Application.Services.Accounting.LogLateFromBreak.AddLogLateFromBreak;
+using hrms.Application.Services.Accounting.LogLateFromBreak.AddLogLateFromBreak;
 using hrms.Application.Services.Configuration.NumberTypesConfigurations.GetNumberTypesConfiguration;
 using hrms.Domain.Models.Accounting;
 using hrms.Infranstructure.Services.CurrentUserId;
@@ -72,7 +72,7 @@ namespace hrms.Application.Services.Accounting.GetBackFromBreak
                     EventNameTypeId = getBreakEndStatus.Id
                 };
 
-                var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken);
+                var newTraceRecordAddResult = await _traceWorkingRepositroy.Add(createNewTraceRecord, cancellationToken).ConfigureAwait(false);
 
                 //todo - create to define max break up time and then calculate overdue minutes
                 var breakTakeTime = getLastTakenBreak.EventOccurTime;
@@ -105,5 +105,5 @@ namespace hrms.Application.Services.Accounting.GetBackFromBreak
 
             throw new Exception("Unexpected error occured on taking break");
         }
-    }
+    } 
 }
