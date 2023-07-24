@@ -1,4 +1,4 @@
-﻿using hrms.Domain.Models.Dictionary.JobPositions;
+using hrms.Domain.Models.Dictionary.JobPositions;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Models;
@@ -32,7 +32,7 @@ namespace hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions
                 Id = x.Id,
                 Name = x.Name,
                 IsActive = x.IsActive
-            }).ToListAsync(cancellationToken);
+            }).ToListAsync(cancellationToken).ConfigureAwait(false);
 
             return ServiceResult<List<JobPositionDTO>>.SuccessResult(result ?? new List<JobPositionDTO>());
         }

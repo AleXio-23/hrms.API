@@ -343,5 +343,41 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
         #endregion
+
+        #region HolidayType CRUDs
+
+        /// <summary>
+        /// Get holiday type
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetHolidayType")]
+        public async Task<ActionResult<ServiceResult<HolidayTypeDTO>>> GetHolidayType([FromQuery] int id, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetHolidayTypeService.Execute(id, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get holiday types list
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetHolidayTypes")]
+        public async Task<ActionResult<ServiceResult<List<HolidayTypeDTO>>>> GetHolidayTypes(CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetHolidayTypesService.Execute(cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+        #endregion
     }
 }

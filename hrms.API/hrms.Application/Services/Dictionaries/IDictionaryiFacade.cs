@@ -16,6 +16,8 @@ using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompan
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHolidays;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeType;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeTypes;
+using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayType;
+using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayTypes;
 
 namespace hrms.Application.Services.Dictionaries
 {
@@ -43,5 +45,8 @@ namespace hrms.Application.Services.Dictionaries
 
         IGetHolidayRangeTypeService GetHolidayRangeTypeService { get; }
         IGetHolidayRangeTypesService GetHolidayRangeTypesService { get; }
+
+        IGetHolidayTypeService GetHolidayTypeService { get; }
+        IGetHolidayTypesService GetHolidayTypesService { get; }
     }
 }

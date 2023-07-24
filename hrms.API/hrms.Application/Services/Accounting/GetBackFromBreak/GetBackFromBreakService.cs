@@ -39,7 +39,7 @@ namespace hrms.Application.Services.Accounting.GetBackFromBreak
             var getResult = await _workingTraceReportRepository
               .FirstOrDefaultAsync(x => x.UserId == _getCurrentUserIdService.Execute()
                                       && x.WorkStarted.HasValue
-                                      && x.WorkStarted.Value.Date == DateTime.Today.Date, cancellationToken);
+                                      && x.WorkStarted.Value.Date == DateTime.Today.Date, cancellationToken).ConfigureAwait(false);
 
             if (getResult == null || (getResult != null & getResult?.WorkEnded != null))
             {
@@ -49,11 +49,11 @@ namespace hrms.Application.Services.Accounting.GetBackFromBreak
             {
                 var getAllTodaysTraces = await _traceWorkingRepositroy.Where(x => x.WorkingTraceId == getResult.Id)
                                                                       .OrderByDescending(x => x.EventOccurTime)
-                                                                      .ToListAsync(cancellationToken);
-                var getBreaStartStatus = await _eventTypeNameLookupRepository.FirstOrDefaultAsync(x => x.EventName == "Break" && x.EventType == "Start", cancellationToken) ?? throw new NotFoundException($"Break End type not found");
-                var getBreakEndStatus = await _eventTypeNameLookupRepository.FirstOrDefaultAsync(x => x.EventName == "Break" && x.EventType == "End", cancellationToken) ?? throw new NotFoundException($"Break End type not found");
+                                                                      .ToListAsync(cancellationToken).ConfigureAwait(false);
+                var getBreaStartStatus = await _eventTypeNameLookupRepository.FirstOrDefaultAsync(x => x.EventName == "Break" && x.EventType == "Start", cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Break End type not found");
+                var getBreakEndStatus = await _eventTypeNameLookupRepository.FirstOrDefaultAsync(x => x.EventName == "Break" && x.EventType == "End", cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Break End type not found");
 
-                var getCurrentStatus = await _workingStatusRepository.FirstOrDefaultAsync(x => x.Code == EnumDescription.GetDescription(CurrentStatusEnums.WORKING), cancellationToken) ?? throw new NotFoundException("Working status not found");
+                var getCurrentStatus = await _workingStatusRepository.FirstOrDefaultAsync(x => x.Code == EnumDescription.GetDescription(CurrentStatusEnums.WORKING), cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException("Working status not found");
 
                 var getLastTakenBreak = getAllTodaysTraces[0];
 
@@ -83,7 +83,7 @@ namespace hrms.Application.Services.Accounting.GetBackFromBreak
 
                 getResult.CurrentStatusId = getCurrentStatus.Id;
                 getResult.UsedBreakMinutes += differenceInMinutes;
-                await _workingTraceReportRepository.Update(getResult, cancellationToken);
+                await _workingTraceReportRepository.Update(getResult, cancellationToken).ConfigureAwait(false);
 
                 //Check if there are overdue minutes after getting back from break
                 var getConfigurationForBreakMinutes = await _getNumberTypesConfigurationService.Execute("MaxBreakTimeMinutes", cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException("MaxBreakTimeMinutes configuration not found");
@@ -97,7 +97,7 @@ namespace hrms.Application.Services.Accounting.GetBackFromBreak
                         LateMinutes = differenceInMinutes - getConfigurationForBreakMinutes?.Data?.Value,
                     };
 
-                    await _addLogLateFromBreakService.Execute(createNewLog, cancellationToken);
+                    await _addLogLateFromBreakService.Execute(createNewLog, cancellationToken).ConfigureAwait(false);
                 }
 
                 return ServiceResult<bool>.SuccessResult(true);

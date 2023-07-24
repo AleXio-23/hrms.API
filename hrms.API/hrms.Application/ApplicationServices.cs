@@ -33,6 +33,8 @@ using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompan
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHolidays;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeType;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeTypes;
+using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayType;
+using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayTypes;
 using hrms.Application.Services.User.GetUser;
 using hrms.Application.Services.User.RoleClaims.AddOrUpdateRoleClaims;
 using hrms.Application.Services.User.RoleClaims.DeleteRoleClaims;
@@ -95,6 +97,8 @@ namespace hrms.Application
             services.AddScoped<IGetCompanyHolidaysService, GetCompanyHolidaysService>();
             services.AddScoped<IGetHolidayRangeTypeService, GetHolidayRangeTypeService>();
             services.AddScoped<IGetHolidayRangeTypesService, GetHolidayRangeTypesService>();
+            services.AddScoped<IGetHolidayTypesService, GetHolidayTypesService>();
+            services.AddScoped<IGetHolidayTypeService, GetHolidayTypeService>();
 
             services.AddScoped<IAccountingFacade, AccountingFacade>();
             services.AddScoped<IStartAccountingService, StartAccountingService>();
