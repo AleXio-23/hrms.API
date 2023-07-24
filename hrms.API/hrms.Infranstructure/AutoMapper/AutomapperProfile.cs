@@ -1,9 +1,10 @@
-﻿using AutoMapper;
+using AutoMapper;
 using hrms.Domain.Models.Accounting;
 using hrms.Domain.Models.Configuration;
 using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Dictionary.JobPositions;
+using hrms.Domain.Models.Dictionary.Vacations;
 using hrms.Domain.Models.User;
 using hrms.Persistance.Entities;
 
@@ -17,12 +18,14 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<Department, DepartmentDTO>().ReverseMap();
             CreateMap<JobPosition, JobPositionDTO>().ReverseMap();
             CreateMap<UserProfile, UserProfileDTO>().ReverseMap();
-            CreateMap<LateFromBreak , LateFromBreakDTO>().ReverseMap();
-            CreateMap<WorkOnLateLog , WorkOnLateLogDTO>().ReverseMap();
+            CreateMap<LateFromBreak, LateFromBreakDTO>().ReverseMap();
+            CreateMap<WorkOnLateLog, WorkOnLateLogDTO>().ReverseMap();
 
             CreateMap<Role, RoleDTO>().ReverseMap();
 
             CreateMap<NumberTypesConfiguration, NumberTypesConfigurationDTO>().ReverseMap();
+
+            CreateMap<CompanyHoliday, CompanyHolidayDTO>().ReverseMap();
 
             CreateMap<UserJobPosition, UserJobPositionDTO>()
                 .ForMember(dep => dep.Department, opt => opt.MapFrom(x => x.Department))

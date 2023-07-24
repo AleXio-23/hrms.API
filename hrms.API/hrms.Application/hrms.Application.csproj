@@ -18,9 +18,5 @@
     <ProjectReference Include="..\hrms.Shared\hrms.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Dictionaries\Vacations\CompanyHolidays\" />
-  </ItemGroup>
-
 </Project>
     

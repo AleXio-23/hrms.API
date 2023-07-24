@@ -1,4 +1,4 @@
-﻿using hrms.Application.Services.Accounting;
+using hrms.Application.Services.Accounting;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +25,7 @@ namespace hrms.API.Controllers
         [Authorize]
         public async Task<ActionResult<ServiceResult<bool>>> StartAccounting(CancellationToken cancellationToken)
         {
-            var result = await _accountingFacade.StartAccountingService.Execute(cancellationToken);
+            var result = await _accountingFacade.StartAccountingService.Execute(cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -42,7 +42,7 @@ namespace hrms.API.Controllers
         [Authorize]
         public async Task<ActionResult<ServiceResult<bool>>> FinishWorkAccounting(CancellationToken cancellationToken)
         {
-            var result = await _accountingFacade.FinishAccountingService.Execute(cancellationToken);
+            var result = await _accountingFacade.FinishAccountingService.Execute(cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -59,7 +59,7 @@ namespace hrms.API.Controllers
         [Authorize]
         public async Task<ActionResult<ServiceResult<bool>>> TakeBreak(CancellationToken cancellationToken)
         {
-            var result = await _accountingFacade.TakeBreakService.Execute(cancellationToken);
+            var result = await _accountingFacade.TakeBreakService.Execute(cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -76,7 +76,7 @@ namespace hrms.API.Controllers
         [Authorize]
         public async Task<ActionResult<ServiceResult<bool>>> GetBackFromBreak(CancellationToken cancellationToken)
         {
-            var result = await _accountingFacade.GetBackFromBreakService.Execute(cancellationToken);
+            var result = await _accountingFacade.GetBackFromBreakService.Execute(cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);

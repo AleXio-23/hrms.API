@@ -1,4 +1,4 @@
-﻿using hrms.Application.Services.Dictionaries.Departments.AddOrUpdateDepartment;
+using hrms.Application.Services.Dictionaries.Departments.AddOrUpdateDepartment;
 using hrms.Application.Services.Dictionaries.Departments.DeleteDepartment;
 using hrms.Application.Services.Dictionaries.Departments.GetDepartment;
 using hrms.Application.Services.Dictionaries.Departments.GetDepartments;
@@ -10,6 +10,10 @@ using hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosition
 using hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.AddOrUpdateCompanyHolidays;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.DeleteCompanyHoliday;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHoliday;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHolidays;
 
 namespace hrms.Application.Services.Dictionaries
 {
@@ -29,5 +33,10 @@ namespace hrms.Application.Services.Dictionaries
         IDeleteJobPositionService DeleteJobPositionService { get; }
         IGetJobPositionService GetJobPositionService { get; }
         IGetJobPositionsService GetJobPositionsService { get; }
+
+        IAddOrUpdateCompanyHolidaysService AddOrUpdateCompanyHolidaysService { get; }
+        IDeleteCompanyHolidayService DeleteCompanyHolidayService { get; }
+        IGetCompanyHolidayService GetCompanyHolidayService { get; }
+        IGetCompanyHolidaysService GetCompanyHolidaysService { get; }
     }
 }

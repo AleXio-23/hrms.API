@@ -1,4 +1,4 @@
-﻿using hrms.Application.Services.Accounting;
+using hrms.Application.Services.Accounting;
 using hrms.Application.Services.Accounting.FinishAccounting;
 using hrms.Application.Services.Accounting.GetBackFromBreak;
 using hrms.Application.Services.Accounting.LogLateFromBreak.AddLogLateFromBreak;
@@ -27,6 +27,10 @@ using hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosition
 using hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.AddOrUpdateCompanyHolidays;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.DeleteCompanyHoliday;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHoliday;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHolidays;
 using hrms.Application.Services.User.GetUser;
 using hrms.Application.Services.User.RoleClaims.AddOrUpdateRoleClaims;
 using hrms.Application.Services.User.RoleClaims.DeleteRoleClaims;
@@ -83,6 +87,10 @@ namespace hrms.Application
             services.AddScoped<IDeleteJobPositionService, DeleteJobPositionService>();
             services.AddScoped<IGetJobPositionService, GetJobPositionService>();
             services.AddScoped<IGetJobPositionsService, GetJobPositionsService>();
+            services.AddScoped<IAddOrUpdateCompanyHolidaysService, AddOrUpdateCompanyHolidaysService>();
+            services.AddScoped<IDeleteCompanyHolidayService, DeleteCompanyHolidayService>();
+            services.AddScoped<IGetCompanyHolidayService, GetCompanyHolidayService>();
+            services.AddScoped<IGetCompanyHolidaysService, GetCompanyHolidaysService>();
 
             services.AddScoped<IAccountingFacade, AccountingFacade>();
             services.AddScoped<IStartAccountingService, StartAccountingService>();

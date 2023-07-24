@@ -1,4 +1,4 @@
-﻿using hrms.Domain.Models.Auth;
+using hrms.Domain.Models.Auth;
 using hrms.Infranstructure.Auth;
 using hrms.Persistance.Entities;
 using hrms.Shared.Models;
@@ -27,7 +27,7 @@ namespace hrms.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResult<User>>> RegisterNewUser([FromBody] RegisterDto registerDto, CancellationToken cancellationToken)
         {
-            var result = await _authentication.RegisterService.Execute(registerDto, cancellationToken);
+            var result = await _authentication.RegisterService.Execute(registerDto, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -45,7 +45,7 @@ namespace hrms.API.Controllers
         [HttpPost("signIn")]
         public async Task<ActionResult<ServiceResult<LoginResponse>>> SignIn([FromBody] LoginDto loginDto, CancellationToken cancellationToken)
         {
-            var result = await _authentication.LoginService.Exeute(loginDto, cancellationToken);
+            var result = await _authentication.LoginService.Exeute(loginDto, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -63,7 +63,7 @@ namespace hrms.API.Controllers
         [HttpPost("UpdateAccessToken")]
         public async Task<ActionResult<ServiceResult<string>>> UpdateAccessToken([FromBody] UpdateAccessTokenRequest updateAccessTokenRequest, CancellationToken cancellationToken)
         {
-            var result = await _authentication.UpdateAccessTokenService.Execute(updateAccessTokenRequest.AccessToken, cancellationToken);
+            var result = await _authentication.UpdateAccessTokenService.Execute(updateAccessTokenRequest.AccessToken, cancellationToken).ConfigureAwait(false);
 
             if (result.ErrorOccured)
             {
@@ -82,7 +82,7 @@ namespace hrms.API.Controllers
         [HttpPost("SignOut")]
         public async Task<ActionResult<ServiceResult<bool>>> SignOut([FromBody] UpdateAccessTokenRequest updateAccessTokenRequest, CancellationToken cancellationToken)
         {
-            var result = await _authentication.LogOutService.Execute(updateAccessTokenRequest.AccessToken, cancellationToken);
+            var result = await _authentication.LogOutService.Execute(updateAccessTokenRequest.AccessToken, cancellationToken).ConfigureAwait(false);
 
             if (result.ErrorOccured)
             {
@@ -101,7 +101,7 @@ namespace hrms.API.Controllers
         [HttpPost("ResetPassword")]
         public async Task<ActionResult<ServiceResult<string>>> ResetPassword([FromBody] string userNameOrEmail, CancellationToken cancellationToken)
         {
-            var result = await _authentication.ResetPasswordService.Execute(userNameOrEmail, cancellationToken);
+            var result = await _authentication.ResetPasswordService.Execute(userNameOrEmail, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
