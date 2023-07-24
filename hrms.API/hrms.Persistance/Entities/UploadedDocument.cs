@@ -11,5 +11,7 @@ public partial class UploadedDocument
 
     public string? DocumentBase64String { get; set; }
 
+    public string? DocumentName { get; set; }
+
     public bool? IsActive { get; set; }
 }

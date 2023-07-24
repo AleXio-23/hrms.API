@@ -35,6 +35,8 @@ namespace hrms.Persistance
             services.AddScoped<IRepository<HolidayRangeType>, Repository<HolidayRangeType>>();
             services.AddScoped<IRepository<HolidayType>, Repository<HolidayType>>();
 
+            services.AddScoped<IRepository<DocumentType>, Repository<DocumentType>>();
+
             return services;
         }
     }

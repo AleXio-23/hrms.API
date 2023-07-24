@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using hrms.Persistance.Entities;
@@ -76,7 +76,6 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
- 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -340,7 +339,7 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<SickLeaf>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SickLeav__3214EC077CC807AF");
+            entity.HasKey(e => e.Id).HasName("PK__SickLeav__3214EC07A1C2787E");
 
             entity.ToTable("SickLeaves", "vacation");
 
@@ -348,16 +347,16 @@ public partial class HrmsAppDbContext : DbContext
 
             entity.HasOne(d => d.ApprovedByUser).WithMany(p => p.SickLeafApprovedByUsers)
                 .HasForeignKey(d => d.ApprovedByUserId)
-                .HasConstraintName("FK__SickLeave__Appro__7DCDAAA2");
+                .HasConstraintName("FK__SickLeave__Appro__0D0FEE32");
 
             entity.HasOne(d => d.Document).WithMany(p => p.SickLeaves)
                 .HasForeignKey(d => d.DocumentId)
-                .HasConstraintName("FK__SickLeave__Docum__7BE56230");
+                .HasConstraintName("FK__SickLeave__Docum__0B27A5C0");
 
             entity.HasOne(d => d.User).WithMany(p => p.SickLeafUsers)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SickLeave__UserI__7AF13DF7");
+                .HasConstraintName("FK__SickLeave__UserI__0A338187");
         });
 
         modelBuilder.Entity<TraceWorking>(entity =>
@@ -399,10 +398,11 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<UploadedDocument>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Uploaded__3214EC079299357F");
+            entity.HasKey(e => e.Id).HasName("PK__Uploaded__3214EC07C59E2675");
 
             entity.ToTable("UploadedDocuments", "documents");
 
+            entity.Property(e => e.DocumentName).HasMaxLength(1024);
             entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
@@ -526,7 +526,7 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<UserUploadedDocument>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserUplo__3214EC078C6ADE42");
+            entity.HasKey(e => e.Id).HasName("PK__UserUplo__3214EC0729BF033B");
 
             entity.ToTable("UserUploadedDocuments", "documents");
 
@@ -534,17 +534,16 @@ public partial class HrmsAppDbContext : DbContext
 
             entity.HasIndex(e => e.UploadedByUserId, "IX_UserUploadedDocuments_UploadedByUser");
 
-            entity.Property(e => e.DocumentName).HasMaxLength(1024);
             entity.Property(e => e.DocumentTypeIfNotFoundInDicitonary).HasMaxLength(1024);
             entity.Property(e => e.UploadDate).HasDefaultValueSql("(getdate())");
 
             entity.HasOne(d => d.DocumentType).WithMany(p => p.UserUploadedDocuments)
                 .HasForeignKey(d => d.DocumentTypeId)
-                .HasConstraintName("FK__UserUploa__Docum__5F492382");
+                .HasConstraintName("FK__UserUploa__Docum__075714DC");
 
             entity.HasOne(d => d.UploadedByUser).WithMany(p => p.UserUploadedDocuments)
                 .HasForeignKey(d => d.UploadedByUserId)
-                .HasConstraintName("FK__UserUploa__Uploa__5D60DB10");
+                .HasConstraintName("FK__UserUploa__Uploa__056ECC6A");
         });
 
         modelBuilder.Entity<VwUserSignInResponse>(entity =>

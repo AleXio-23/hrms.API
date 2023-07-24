@@ -15,8 +15,6 @@ public partial class UserUploadedDocument
 
     public string? DocumentTypeIfNotFoundInDicitonary { get; set; }
 
-    public string? DocumentName { get; set; }
-
     public virtual DocumentType? DocumentType { get; set; }
 
     public virtual ICollection<SickLeaf> SickLeaves { get; set; } = new List<SickLeaf>();

@@ -1,5 +1,6 @@
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
+using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,15 +21,19 @@ namespace hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.Delet
             {
                 throw new ArgumentException("Wrong id value");
             }
+            var getHolday = await _companyHolidayRepository.Get(id, cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Holiday on id {id} not found");
+            getHolday.IsActive = false;
 
-            await _companyHolidayRepository.Delete(id, cancellationToken).ConfigureAwait(false);
+            await _companyHolidayRepository.Update(getHolday, cancellationToken).ConfigureAwait(false);
             return ServiceResult<bool>.SuccessResult(true);
         }
 
-        public async Task<ServiceResult<bool>> Execute(List<int> id, CancellationToken cancellationToken)
+        public async Task<ServiceResult<bool>> Execute(List<int> ids, CancellationToken cancellationToken)
         {
-            var getCompanyHolidays = await _companyHolidayRepository.Where(x => id.Contains(x.Id)).ToListAsync(cancellationToken).ConfigureAwait(false);
-            await _companyHolidayRepository.DeleteRange(getCompanyHolidays, cancellationToken).ConfigureAwait(false);
+            foreach (var id in ids)
+            {
+                await _companyHolidayRepository.Delete(id, cancellationToken).ConfigureAwait(false);
+            }
             return ServiceResult<bool>.SuccessResult(true);
         }
     }

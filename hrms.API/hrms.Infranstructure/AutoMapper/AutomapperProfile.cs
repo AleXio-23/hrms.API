@@ -5,6 +5,7 @@ using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Dictionary.JobPositions;
 using hrms.Domain.Models.Dictionary.Vacations;
+using hrms.Domain.Models.Documents;
 using hrms.Domain.Models.User;
 using hrms.Persistance.Entities;
 
@@ -28,6 +29,8 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<CompanyHoliday, CompanyHolidayDTO>().ReverseMap();
             CreateMap<HolidayRangeType, HolidayRangeTypeDTO>().ReverseMap();
             CreateMap<HolidayType, HolidayTypeDTO>().ReverseMap();
+
+            CreateMap<DocumentType, DocumentTypeDTO>().ReverseMap();
 
             CreateMap<UserJobPosition, UserJobPositionDTO>()
                 .ForMember(dep => dep.Department, opt => opt.MapFrom(x => x.Department))

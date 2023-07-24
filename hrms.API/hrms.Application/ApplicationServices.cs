@@ -35,6 +35,11 @@ using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolid
 using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeTypes;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayType;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayTypes;
+using hrms.Application.Services.Documents;
+using hrms.Application.Services.Documents.DocumentTypes.AddOrUpdateDocumentType;
+using hrms.Application.Services.Documents.DocumentTypes.DeleteDocumentType;
+using hrms.Application.Services.Documents.DocumentTypes.GetDocumentType;
+using hrms.Application.Services.Documents.DocumentTypes.GetDocumentTypes;
 using hrms.Application.Services.User.GetUser;
 using hrms.Application.Services.User.RoleClaims.AddOrUpdateRoleClaims;
 using hrms.Application.Services.User.RoleClaims.DeleteRoleClaims;
@@ -117,6 +122,12 @@ namespace hrms.Application
             services.AddScoped<IDeleteNumberTypesConfigurationService, DeleteNumberTypesConfigurationService>();
             services.AddScoped<IGetNumberTypesConfigurationService, GetNumberTypesConfigurationService>();
             services.AddScoped<IGetNumberTypesConfigurationsService, GetNumberTypesConfigurationsService>();
+
+            services.AddScoped<IDocumentsFacade, DocumentsFacade>();
+            services.AddScoped<IAddOrUpdateDocumentTypeService, AddOrUpdateDocumentTypeService>();
+            services.AddScoped<IDeleteDocumentTypeService, DeleteDocumentTypeService>();
+            services.AddScoped<IGetDocumentTypeService, GetDocumentTypeService>();
+            services.AddScoped<IGetDocumentTypesService, GetDocumentTypesService>();
 
             return services;
         }
