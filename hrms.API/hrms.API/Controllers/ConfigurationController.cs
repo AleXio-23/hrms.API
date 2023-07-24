@@ -46,7 +46,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetNumberTypesConfigurations")]
-        public async Task<ActionResult<ServiceResult<NumberTypesConfigurationDTO>>> GetNumberTypesConfigurations([FromQuery] NumberTypesConfigurationFilter filter, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<List<NumberTypesConfigurationDTO>>>> GetNumberTypesConfigurations([FromQuery] NumberTypesConfigurationFilter filter, CancellationToken cancellationToken)
         {
             var result = await _configurationFacade.GetNumberTypesConfigurationsService.Execute(filter, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)

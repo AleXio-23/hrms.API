@@ -124,7 +124,7 @@ namespace hrms.API.Controllers
         /// <param name="roleDTO"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPost("AddOrUpdateRoles")]
+        [HttpPost("AddOrUpdateRole")]
         public async Task<ActionResult<ServiceResult<RoleDTO>>> AddOrUpdateRoles([FromBody] RoleDTO roleDTO, CancellationToken cancellationToken)
         {
             var result = await _userProfileFacade.AddOrUpdateRolesService.Execute(roleDTO, cancellationToken).ConfigureAwait(false);
@@ -179,7 +179,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetRoles")]
-        public async Task<ActionResult<ServiceResult<UserJobPositionDTO>>> GetRoles([FromQuery] RolesFilter filter, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<List<UserJobPositionDTO>>>> GetRoles([FromQuery] RolesFilter filter, CancellationToken cancellationToken)
         {
             var result = await _userProfileFacade.GetRolesService.Execute(filter, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -203,7 +203,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("AddOrUpdateUserRole")]
-        public async Task<ActionResult<ServiceResult<UserJobPositionDTO>>> AddOrUpdateUserRole([FromBody] AddOrUpdateUserRoleRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<bool>>> AddOrUpdateUserRole([FromBody] AddOrUpdateUserRoleRequest request, CancellationToken cancellationToken)
         {
             var result = await _userProfileFacade.AddOrUpdateUserRoleService.Execute(request, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -279,7 +279,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetRoleClaims")]
-        public async Task<ActionResult<ServiceResult<UserJobPositionDTO>>> GetRoleClaims([FromQuery] int roleId, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<List<ClaimsDTO>>>> GetRoleClaims([FromQuery] int roleId, CancellationToken cancellationToken)
         {
             var result = await _userProfileFacade.GetRoleClaimsService.Execute(roleId, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)

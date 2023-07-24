@@ -14,6 +14,8 @@ using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.AddOrUpda
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.DeleteCompanyHoliday;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHoliday;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHolidays;
+using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeType;
+using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeTypes;
 
 namespace hrms.Application.Services.Dictionaries
 {
@@ -38,5 +40,8 @@ namespace hrms.Application.Services.Dictionaries
         IDeleteCompanyHolidayService DeleteCompanyHolidayService { get; }
         IGetCompanyHolidayService GetCompanyHolidayService { get; }
         IGetCompanyHolidaysService GetCompanyHolidaysService { get; }
+
+        IGetHolidayRangeTypeService GetHolidayRangeTypeService { get; }
+        IGetHolidayRangeTypesService GetHolidayRangeTypesService { get; }
     }
 }

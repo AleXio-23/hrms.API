@@ -26,6 +26,7 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<NumberTypesConfiguration, NumberTypesConfigurationDTO>().ReverseMap();
 
             CreateMap<CompanyHoliday, CompanyHolidayDTO>().ReverseMap();
+            CreateMap<HolidayRangeType, HolidayRangeTypeDTO>().ReverseMap();
 
             CreateMap<UserJobPosition, UserJobPositionDTO>()
                 .ForMember(dep => dep.Department, opt => opt.MapFrom(x => x.Department))

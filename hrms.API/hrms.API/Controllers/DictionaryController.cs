@@ -46,7 +46,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetGenders")]
-        public async Task<ActionResult<ServiceResult<GenderDTO>>> GetGenders([FromQuery] GenderFilter filter, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<List<GenderDTO>>>> GetGenders([FromQuery] GenderFilter filter, CancellationToken cancellationToken)
         {
             var result = await _dictionaryiFacade.GetGendersService.Execute(filter, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -118,7 +118,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetDepartments")]
-        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> GetDepartments([FromQuery] DepartmentFilter filter, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<List<DepartmentDTO>>>> GetDepartments([FromQuery] DepartmentFilter filter, CancellationToken cancellationToken)
         {
             var result = await _dictionaryiFacade.GetDepartmentsService.Execute(filter, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -173,7 +173,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetJobPosition")]
-        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> GetJobPosition([FromQuery] int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<JobPositionDTO>>> GetJobPosition([FromQuery] int id, CancellationToken cancellationToken)
         {
             var result = await _dictionaryiFacade.GetJobPositionService.Execute(id, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -190,7 +190,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetJobPositions")]
-        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> GetJobPositions([FromQuery] JobPositionFilter filter, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<List<JobPositionDTO>>>> GetJobPositions([FromQuery] JobPositionFilter filter, CancellationToken cancellationToken)
         {
             var result = await _dictionaryiFacade.GetJobPositionsService.Execute(filter, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -207,7 +207,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("AddOrUpdateJobPosition")]
-        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> AddOrUpdateJobPosition([FromBody] JobPositionDTO jobPositionDTO, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<JobPositionDTO>>> AddOrUpdateJobPosition([FromBody] JobPositionDTO jobPositionDTO, CancellationToken cancellationToken)
         {
             var result = await _dictionaryiFacade.AddOrUpdateJobPositionService.Execute(jobPositionDTO, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -262,7 +262,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetCompanyHolidays")]
-        public async Task<ActionResult<ServiceResult<CompanyHolidayDTO>>> GetCompanyHolidays([FromQuery] CompanyHolidayFilter filter, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<List<CompanyHolidayDTO>>>> GetCompanyHolidays([FromQuery] CompanyHolidayFilter filter, CancellationToken cancellationToken)
         {
             var result = await _dictionaryiFacade.GetCompanyHolidaysService.Execute(filter, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -279,7 +279,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("AddOrUpdateCompanyHoliday")]
-        public async Task<ActionResult<ServiceResult<DepartmentDTO>>> AddOrUpdateCompanyHolidays ([FromBody] CompanyHolidayDTO companyHolidayDTO, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<CompanyHolidayDTO>>> AddOrUpdateCompanyHolidays([FromBody] CompanyHolidayDTO companyHolidayDTO, CancellationToken cancellationToken)
         {
             var result = await _dictionaryiFacade.AddOrUpdateCompanyHolidaysService.Execute(companyHolidayDTO, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -296,7 +296,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpDelete("DeleteCompanyHoliday")]
-        public async Task<ActionResult<ServiceResult<bool>>> DeleteCompanyHoliday ([FromBody] IdRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<bool>>> DeleteCompanyHoliday([FromBody] IdRequest request, CancellationToken cancellationToken)
         {
             var result = await _dictionaryiFacade.DeleteCompanyHolidayService.Execute(request.Id, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -306,6 +306,42 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
+        #endregion
+
+        #region HolidayRangeType CRUDs
+
+        /// <summary>
+        /// Get hiliday range type
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetHolidayRangeType")]
+        public async Task<ActionResult<ServiceResult<HolidayRangeTypeDTO>>> GetHolidayRangeType([FromQuery] int id, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetHolidayRangeTypeService.Execute(id, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get hiliday range types list
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetHolidayRangeTypes")]
+        public async Task<ActionResult<ServiceResult<List<HolidayRangeTypeDTO>>>> GetHolidayRangeTypes(CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetHolidayRangeTypesService.Execute(cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
         #endregion
     }
 }
