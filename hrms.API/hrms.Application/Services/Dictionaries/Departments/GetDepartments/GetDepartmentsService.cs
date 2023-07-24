@@ -1,4 +1,4 @@
-﻿using hrms.Domain.Models.Dictionary.Departments;
+using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
@@ -33,7 +33,7 @@ namespace hrms.Application.Services.Dictionaries.Departments.GetDepartments
                 Id = x.Id,
                 Name = x.Name,
                 IsActive = x.IsActive
-            }).ToListAsync(cancellationToken);
+            }).ToListAsync(cancellationToken).ConfigureAwait(false);
 
             return ServiceResult<List<DepartmentDTO>>.SuccessResult(result ?? new List<DepartmentDTO>());
         }

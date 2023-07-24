@@ -1,4 +1,4 @@
-﻿using hrms.Application.Services.Configuration;
+using hrms.Application.Services.Configuration;
 using hrms.Domain.Models.Configuration;
 using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Shared;
@@ -31,7 +31,7 @@ namespace hrms.API.Controllers
         [HttpGet("GetNumberTypesConfiguration")]
         public async Task<ActionResult<ServiceResult<NumberTypesConfigurationDTO>>> GetNumberTypesConfiguration([FromQuery] int id, CancellationToken cancellationToken)
         {
-            var result = await _configurationFacade.GetNumberTypesConfigurationService.Execute(id, cancellationToken);
+            var result = await _configurationFacade.GetNumberTypesConfigurationService.Execute(id, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -46,9 +46,9 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetNumberTypesConfigurations")]
-        public async Task<ActionResult<ServiceResult<NumberTypesConfigurationDTO>>> GetNumberTypesConfigurations([FromQuery] NumberTypesConfigurationFilter filter, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<List<NumberTypesConfigurationDTO>>>> GetNumberTypesConfigurations([FromQuery] NumberTypesConfigurationFilter filter, CancellationToken cancellationToken)
         {
-            var result = await _configurationFacade.GetNumberTypesConfigurationsService.Execute(filter, cancellationToken);
+            var result = await _configurationFacade.GetNumberTypesConfigurationsService.Execute(filter, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -65,7 +65,7 @@ namespace hrms.API.Controllers
         [HttpPost("AddOrUpdateNumberTypesConfiguration")]
         public async Task<ActionResult<ServiceResult<DepartmentDTO>>> AddOrUpdateNumberTypesConfiguration([FromBody] NumberTypesConfigurationDTO numberTypesConfigurationDTO, CancellationToken cancellationToken)
         {
-            var result = await _configurationFacade.AddOrUpdateNumberTypesConfigurationService.Execute(numberTypesConfigurationDTO, cancellationToken);
+            var result = await _configurationFacade.AddOrUpdateNumberTypesConfigurationService.Execute(numberTypesConfigurationDTO, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -82,7 +82,7 @@ namespace hrms.API.Controllers
         [HttpDelete("DeleteNumberTypesConfiguration")]
         public async Task<ActionResult<ServiceResult<bool>>> DeleteNumberTypesConfiguration([FromBody] IdRequest request, CancellationToken cancellationToken)
         {
-            var result = await _configurationFacade.DeleteNumberTypesConfigurationService.Execute(request.Id, cancellationToken);
+            var result = await _configurationFacade.DeleteNumberTypesConfigurationService.Execute(request.Id, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);

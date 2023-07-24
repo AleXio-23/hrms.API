@@ -1,4 +1,4 @@
-﻿using hrms.Application.Services.Accounting;
+using hrms.Application.Services.Accounting;
 using hrms.Application.Services.Accounting.FinishAccounting;
 using hrms.Application.Services.Accounting.GetBackFromBreak;
 using hrms.Application.Services.Accounting.LogLateFromBreak.AddLogLateFromBreak;
@@ -27,6 +27,22 @@ using hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosition
 using hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.AddOrUpdateCompanyHolidays;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.DeleteCompanyHoliday;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHoliday;
+using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHolidays;
+using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeType;
+using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeTypes;
+using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayType;
+using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayTypes;
+using hrms.Application.Services.Documents;
+using hrms.Application.Services.Documents.DocumentsUpload.UploadDocument;
+using hrms.Application.Services.Documents.DocumentsUpload.UploadedDocuments.AddUploadedDocument;
+using hrms.Application.Services.Documents.DocumentsUpload.UserUploadedDocuments.AddUserUploadedDocument;
+using hrms.Application.Services.Documents.DocumentTypes.AddOrUpdateDocumentType;
+using hrms.Application.Services.Documents.DocumentTypes.DeleteDocumentType;
+using hrms.Application.Services.Documents.DocumentTypes.GetDocumentType;
+using hrms.Application.Services.Documents.DocumentTypes.GetDocumentTypes;
 using hrms.Application.Services.User.GetUser;
 using hrms.Application.Services.User.RoleClaims.AddOrUpdateRoleClaims;
 using hrms.Application.Services.User.RoleClaims.DeleteRoleClaims;
@@ -83,6 +99,14 @@ namespace hrms.Application
             services.AddScoped<IDeleteJobPositionService, DeleteJobPositionService>();
             services.AddScoped<IGetJobPositionService, GetJobPositionService>();
             services.AddScoped<IGetJobPositionsService, GetJobPositionsService>();
+            services.AddScoped<IAddOrUpdateCompanyHolidaysService, AddOrUpdateCompanyHolidaysService>();
+            services.AddScoped<IDeleteCompanyHolidayService, DeleteCompanyHolidayService>();
+            services.AddScoped<IGetCompanyHolidayService, GetCompanyHolidayService>();
+            services.AddScoped<IGetCompanyHolidaysService, GetCompanyHolidaysService>();
+            services.AddScoped<IGetHolidayRangeTypeService, GetHolidayRangeTypeService>();
+            services.AddScoped<IGetHolidayRangeTypesService, GetHolidayRangeTypesService>();
+            services.AddScoped<IGetHolidayTypesService, GetHolidayTypesService>();
+            services.AddScoped<IGetHolidayTypeService, GetHolidayTypeService>();
 
             services.AddScoped<IAccountingFacade, AccountingFacade>();
             services.AddScoped<IStartAccountingService, StartAccountingService>();
@@ -101,6 +125,15 @@ namespace hrms.Application
             services.AddScoped<IDeleteNumberTypesConfigurationService, DeleteNumberTypesConfigurationService>();
             services.AddScoped<IGetNumberTypesConfigurationService, GetNumberTypesConfigurationService>();
             services.AddScoped<IGetNumberTypesConfigurationsService, GetNumberTypesConfigurationsService>();
+
+            services.AddScoped<IDocumentsFacade, DocumentsFacade>();
+            services.AddScoped<IAddOrUpdateDocumentTypeService, AddOrUpdateDocumentTypeService>();
+            services.AddScoped<IDeleteDocumentTypeService, DeleteDocumentTypeService>();
+            services.AddScoped<IGetDocumentTypeService, GetDocumentTypeService>();
+            services.AddScoped<IGetDocumentTypesService, GetDocumentTypesService>();
+            services.AddScoped<IAddUploadedDocumentService, AddUploadedDocumentService>();
+            services.AddScoped<IAddUserUploadedDocumentService, AddUserUploadedDocumentService>();
+            services.AddScoped<IUploadDocumentService, UploadDocumentService>();
 
             return services;
         }

@@ -1,4 +1,4 @@
-﻿using hrms.Persistance.Entities;
+using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +30,14 @@ namespace hrms.Persistance
             services.AddScoped<IRepository<WorkOnLateLog>, Repository<WorkOnLateLog>>();
             services.AddScoped<IRepository<LateFromBreak>, Repository<LateFromBreak>>();
             services.AddScoped<IRepository<NumberTypesConfiguration>, Repository<NumberTypesConfiguration>>();
+
+            services.AddScoped<IRepository<CompanyHoliday>, Repository<CompanyHoliday>>();
+            services.AddScoped<IRepository<HolidayRangeType>, Repository<HolidayRangeType>>();
+            services.AddScoped<IRepository<HolidayType>, Repository<HolidayType>>();
+
+            services.AddScoped<IRepository<DocumentType>, Repository<DocumentType>>();
+            services.AddScoped<IRepository<UploadedDocument>, Repository<UploadedDocument>>();
+            services.AddScoped<IRepository<UserUploadedDocument>, Repository<UserUploadedDocument>>();
 
             return services;
         }

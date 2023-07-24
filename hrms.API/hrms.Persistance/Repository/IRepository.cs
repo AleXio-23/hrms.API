@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 
 namespace hrms.Persistance.Repository
 {
@@ -11,6 +11,8 @@ namespace hrms.Persistance.Repository
         Task Delete(int id, CancellationToken cancellationToken);
         Task Delete(TEntity entity, CancellationToken cancellationToken);
         Task Delete(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
+        Task DeleteRange(TEntity[] entities, CancellationToken cancellationToken);
+        Task DeleteRange(List<TEntity>  entities, CancellationToken cancellationToken);
         Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
         Task<TEntity?> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
         Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
