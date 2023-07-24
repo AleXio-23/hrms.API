@@ -18,11 +18,21 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<Claim> Claims { get; set; }
 
+    public virtual DbSet<CompanyHoliday> CompanyHolidays { get; set; }
+
+    public virtual DbSet<DayOff> DayOffs { get; set; }
+
     public virtual DbSet<Department> Departments { get; set; }
+
+    public virtual DbSet<DocumentType> DocumentTypes { get; set; }
 
     public virtual DbSet<EventNameTypeLookup> EventNameTypeLookups { get; set; }
 
     public virtual DbSet<Gender> Genders { get; set; }
+
+    public virtual DbSet<HolidayRangeType> HolidayRangeTypes { get; set; }
+
+    public virtual DbSet<HolidayType> HolidayTypes { get; set; }
 
     public virtual DbSet<JobPosition> JobPositions { get; set; }
 
@@ -32,11 +42,19 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<NumberTypesConfiguration> NumberTypesConfigurations { get; set; }
 
+    public virtual DbSet<PayedLeaf> PayedLeaves { get; set; }
+
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<SickLeaf> SickLeaves { get; set; }
+
     public virtual DbSet<TraceWorking> TraceWorkings { get; set; }
+
+    public virtual DbSet<UnpayedLeaf> UnpayedLeaves { get; set; }
+
+    public virtual DbSet<UploadedDocument> UploadedDocuments { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -48,6 +66,8 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
+    public virtual DbSet<UserUploadedDocument> UserUploadedDocuments { get; set; }
+
     public virtual DbSet<VwUserSignInResponse> VwUserSignInResponses { get; set; }
 
     public virtual DbSet<WorkOnLateLog> WorkOnLateLogs { get; set; }
@@ -56,6 +76,7 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -68,6 +89,39 @@ public partial class HrmsAppDbContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
+        modelBuilder.Entity<CompanyHoliday>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__CompanyH__3214EC07E7AABDB7");
+
+            entity.ToTable("CompanyHolidays", "dictionary");
+
+            entity.Property(e => e.EventDate).HasColumnType("datetime");
+            entity.Property(e => e.EventDescription)
+                .HasMaxLength(1024)
+                .IsUnicode(false);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+        });
+
+        modelBuilder.Entity<DayOff>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__DayOffs__3214EC077551D492");
+
+            entity.ToTable("DayOffs", "vacation");
+
+            entity.Property(e => e.Comment).HasMaxLength(1024);
+
+            entity.HasOne(d => d.ApprovedByUser).WithMany(p => p.DayOffApprovedByUsers)
+                .HasForeignKey(d => d.ApprovedByUserId)
+                .HasConstraintName("FK__DayOffs__Approve__7814D14C");
+
+            entity.HasOne(d => d.User).WithMany(p => p.DayOffUsers)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__DayOffs__UserId__762C88DA");
+        });
+
         modelBuilder.Entity<Department>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Departme__3214EC0787DF6BE1");
@@ -77,6 +131,25 @@ public partial class HrmsAppDbContext : DbContext
             entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<DocumentType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Document__3214EC079C280121");
+
+            entity.ToTable("DocumentTypes", "dictionary");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.IsDocumentSizeLimited)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.MaxDocumentSizeInMbsToUpload).HasDefaultValueSql("((100))");
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
@@ -108,6 +181,35 @@ public partial class HrmsAppDbContext : DbContext
             entity.Property(e => e.Value)
                 .HasMaxLength(1000)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<HolidayRangeType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__HolidayR__3214EC079C4C7915");
+
+            entity.ToTable("HolidayRangeTypes", "dictionary");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<HolidayType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__HolidayT__3214EC078C396C96");
+
+            entity.ToTable("HolidayTypes", "dictionary");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(255);
+
+            entity.HasOne(d => d.HolidayRangeType).WithMany(p => p.HolidayTypes)
+                .HasForeignKey(d => d.HolidayRangeTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__HolidayTy__Holid__66EA454A");
         });
 
         modelBuilder.Entity<JobPosition>(entity =>
@@ -174,6 +276,24 @@ public partial class HrmsAppDbContext : DbContext
                 .HasDefaultValueSql("((1))");
         });
 
+        modelBuilder.Entity<PayedLeaf>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__PayedLea__3214EC072C84CDD5");
+
+            entity.ToTable("PayedLeaves", "vacation");
+
+            entity.Property(e => e.Comment).HasMaxLength(1024);
+
+            entity.HasOne(d => d.ApprovedByUser).WithMany(p => p.PayedLeafApprovedByUsers)
+                .HasForeignKey(d => d.ApprovedByUserId)
+                .HasConstraintName("FK__PayedLeav__Appro__6E8B6712");
+
+            entity.HasOne(d => d.User).WithMany(p => p.PayedLeafUsers)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__PayedLeav__UserI__6BAEFA67");
+        });
+
         modelBuilder.Entity<RefreshToken>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__RefreshT__3214EC0742E1BF6C");
@@ -218,6 +338,28 @@ public partial class HrmsAppDbContext : DbContext
                     });
         });
 
+        modelBuilder.Entity<SickLeaf>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SickLeav__3214EC077CC807AF");
+
+            entity.ToTable("SickLeaves", "vacation");
+
+            entity.Property(e => e.Comment).HasMaxLength(1024);
+
+            entity.HasOne(d => d.ApprovedByUser).WithMany(p => p.SickLeafApprovedByUsers)
+                .HasForeignKey(d => d.ApprovedByUserId)
+                .HasConstraintName("FK__SickLeave__Appro__7DCDAAA2");
+
+            entity.HasOne(d => d.Document).WithMany(p => p.SickLeaves)
+                .HasForeignKey(d => d.DocumentId)
+                .HasConstraintName("FK__SickLeave__Docum__7BE56230");
+
+            entity.HasOne(d => d.User).WithMany(p => p.SickLeafUsers)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__SickLeave__UserI__7AF13DF7");
+        });
+
         modelBuilder.Entity<TraceWorking>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__TraceWor__3214EC07F94EFD5F");
@@ -235,6 +377,36 @@ public partial class HrmsAppDbContext : DbContext
                 .HasForeignKey(d => d.WorkingTraceId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__TraceWork__Worki__14E61A24");
+        });
+
+        modelBuilder.Entity<UnpayedLeaf>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UnpayedL__3214EC079E7BFB04");
+
+            entity.ToTable("UnpayedLeaves", "vacation");
+
+            entity.Property(e => e.Comment).HasMaxLength(1024);
+
+            entity.HasOne(d => d.ApprovedByUser).WithMany(p => p.UnpayedLeafApprovedByUsers)
+                .HasForeignKey(d => d.ApprovedByUserId)
+                .HasConstraintName("FK__UnpayedLe__Appro__73501C2F");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UnpayedLeafUsers)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UnpayedLe__UserI__7167D3BD");
+        });
+
+        modelBuilder.Entity<UploadedDocument>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Uploaded__3214EC079299357F");
+
+            entity.ToTable("UploadedDocuments", "documents");
+
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.UploadDate).HasDefaultValueSql("(getdate())");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -350,6 +522,29 @@ public partial class HrmsAppDbContext : DbContext
                 .HasForeignKey<UserRole>(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__UserRoles__UserI__74AE54BC");
+        });
+
+        modelBuilder.Entity<UserUploadedDocument>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UserUplo__3214EC078C6ADE42");
+
+            entity.ToTable("UserUploadedDocuments", "documents");
+
+            entity.HasIndex(e => e.DocumentTypeId, "IX_UserUploadedDocuments_DocumentTypeId");
+
+            entity.HasIndex(e => e.UploadedByUserId, "IX_UserUploadedDocuments_UploadedByUser");
+
+            entity.Property(e => e.DocumentName).HasMaxLength(1024);
+            entity.Property(e => e.DocumentTypeIfNotFoundInDicitonary).HasMaxLength(1024);
+            entity.Property(e => e.UploadDate).HasDefaultValueSql("(getdate())");
+
+            entity.HasOne(d => d.DocumentType).WithMany(p => p.UserUploadedDocuments)
+                .HasForeignKey(d => d.DocumentTypeId)
+                .HasConstraintName("FK__UserUploa__Docum__5F492382");
+
+            entity.HasOne(d => d.UploadedByUser).WithMany(p => p.UserUploadedDocuments)
+                .HasForeignKey(d => d.UploadedByUserId)
+                .HasConstraintName("FK__UserUploa__Uploa__5D60DB10");
         });
 
         modelBuilder.Entity<VwUserSignInResponse>(entity =>
