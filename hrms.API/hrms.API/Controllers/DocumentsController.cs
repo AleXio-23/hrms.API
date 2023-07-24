@@ -91,5 +91,22 @@ namespace hrms.API.Controllers
         }
 
         #endregion
+
+        /// <summary>
+        /// Upload document
+        /// </summary>
+        /// <param name="uploadDocumentRequest"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("UploadDocument")]
+        public async Task<ActionResult<ServiceResult<DocumentTypeDTO>>> UploadDocument([FromQuery] UploadDocumentRequest uploadDocumentRequest, CancellationToken cancellationToken)
+        {
+            var result = await _documentsFacade.UploadDocumentService.Execute(uploadDocumentRequest, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
     }
 }

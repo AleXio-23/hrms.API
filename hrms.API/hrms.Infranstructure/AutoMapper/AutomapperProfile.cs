@@ -29,6 +29,8 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<CompanyHoliday, CompanyHolidayDTO>().ReverseMap();
             CreateMap<HolidayRangeType, HolidayRangeTypeDTO>().ReverseMap();
             CreateMap<HolidayType, HolidayTypeDTO>().ReverseMap();
+            CreateMap<UploadedDocument, UploadedDocumentDTO>().ReverseMap();
+            CreateMap<UserUploadedDocument, UserUploadedDocumentDTO>().ReverseMap();
 
             CreateMap<DocumentType, DocumentTypeDTO>().ReverseMap();
 

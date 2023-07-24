@@ -36,6 +36,9 @@ using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolid
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayType;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayTypes;
 using hrms.Application.Services.Documents;
+using hrms.Application.Services.Documents.DocumentsUpload.UploadDocument;
+using hrms.Application.Services.Documents.DocumentsUpload.UploadedDocuments.AddUploadedDocument;
+using hrms.Application.Services.Documents.DocumentsUpload.UserUploadedDocuments.AddUserUploadedDocument;
 using hrms.Application.Services.Documents.DocumentTypes.AddOrUpdateDocumentType;
 using hrms.Application.Services.Documents.DocumentTypes.DeleteDocumentType;
 using hrms.Application.Services.Documents.DocumentTypes.GetDocumentType;
@@ -128,6 +131,9 @@ namespace hrms.Application
             services.AddScoped<IDeleteDocumentTypeService, DeleteDocumentTypeService>();
             services.AddScoped<IGetDocumentTypeService, GetDocumentTypeService>();
             services.AddScoped<IGetDocumentTypesService, GetDocumentTypesService>();
+            services.AddScoped<IAddUploadedDocumentService, AddUploadedDocumentService>();
+            services.AddScoped<IAddUserUploadedDocumentService, AddUserUploadedDocumentService>();
+            services.AddScoped<IUploadDocumentService, UploadDocumentService>();
 
             return services;
         }

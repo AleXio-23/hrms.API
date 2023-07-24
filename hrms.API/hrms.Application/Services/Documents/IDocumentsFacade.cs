@@ -1,3 +1,6 @@
+using hrms.Application.Services.Documents.DocumentsUpload.UploadDocument;
+using hrms.Application.Services.Documents.DocumentsUpload.UploadedDocuments.AddUploadedDocument;
+using hrms.Application.Services.Documents.DocumentsUpload.UserUploadedDocuments.AddUserUploadedDocument;
 using hrms.Application.Services.Documents.DocumentTypes.AddOrUpdateDocumentType;
 using hrms.Application.Services.Documents.DocumentTypes.DeleteDocumentType;
 using hrms.Application.Services.Documents.DocumentTypes.GetDocumentType;
@@ -11,5 +14,9 @@ namespace hrms.Application.Services.Documents
         IDeleteDocumentTypeService DeleteDocumentTypeService { get; }
         IGetDocumentTypeService GetDocumentTypeService { get; }
         IGetDocumentTypesService GetDocumentTypesService { get; }
+
+        IAddUploadedDocumentService AddUploadedDocumentService { get; }
+        IAddUserUploadedDocumentService AddUserUploadedDocumentService { get; }
+        IUploadDocumentService UploadDocumentService { get; }
     }
 }

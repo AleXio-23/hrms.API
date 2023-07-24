@@ -14,4 +14,6 @@ public partial class UploadedDocument
     public string? DocumentName { get; set; }
 
     public bool? IsActive { get; set; }
+
+    public virtual ICollection<UserUploadedDocument> UserUploadedDocuments { get; set; } = new List<UserUploadedDocument>();
 }
