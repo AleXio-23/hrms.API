@@ -2,8 +2,8 @@ using hrms.Application.Services.Documents.DocumentsUpload.UploadedDocuments.AddU
 using hrms.Application.Services.Documents.DocumentsUpload.UserUploadedDocuments.AddUserUploadedDocument;
 using hrms.Domain.Models.Documents;
 using hrms.Infranstructure.Services.CurrentUserId;
+using hrms.Persistance.Entities;
 using hrms.Shared.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace hrms.Application.Services.Documents.DocumentsUpload.UploadDocument
 {
@@ -20,7 +20,7 @@ namespace hrms.Application.Services.Documents.DocumentsUpload.UploadDocument
             _getCurrentUserIdService = getCurrentUserIdService;
         }
 
-        public async Task<ServiceResult<string>> Execute(UploadDocumentRequest uploadDocumentRequest, CancellationToken cancellationToken)
+        public async Task<ServiceResult<UploadDocumentResponse>> Execute(UploadDocumentRequest uploadDocumentRequest, CancellationToken cancellationToken)
         {
             var userId = _getCurrentUserIdService.Execute();
             var uloadDocObject = new UploadedDocumentRequest()
@@ -40,7 +40,26 @@ namespace hrms.Application.Services.Documents.DocumentsUpload.UploadDocument
 
             var addresult = await _addUserUploadedDocumentService.Execute(userUploadObject, cancellationToken).ConfigureAwait(false);
 
-            return ServiceResult<string>.SuccessResult("");
+            var response = new UploadDocumentResponse()
+            {
+                UploadedDocumentDTO = new UploadedDocumentDTO()
+                {
+                    Id = addDocument.Data?.Id,
+                    UploadDate = addDocument.Data?.UploadDate,
+                    DocumentName = addDocument.Data?.DocumentName
+                },
+                UserUploadedDocumentDTO = new UserUploadedDocumentDTO()
+                {
+                    Id = addresult.Data?.Id,
+                    UploadedByUserId = addresult.Data?.UploadedByUserId,
+                    DocumentId = addresult.Data?.DocumentId,
+                    UploadDate = addresult.Data?.UploadDate,
+                    DocumentTypeId = addresult.Data?.DocumentTypeId,
+                    DocumentTypeIfNotFoundInDicitonary = addresult.Data?.DocumentTypeIfNotFoundInDicitonary
+                }
+            };
+
+            return ServiceResult<UploadDocumentResponse>.SuccessResult(response);
         }
     }
 }

@@ -60,6 +60,9 @@ using hrms.Application.Services.User.UserRoles.Roles.GetRole;
 using hrms.Application.Services.User.UserRoles.Roles.GetRoles;
 using hrms.Application.Services.User.UserRoles.UserRoles.AddOrUpdateUserRole;
 using hrms.Application.Services.UserProfile;
+using hrms.Application.Services.Vacation;
+using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
+using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace hrms.Application
@@ -134,6 +137,10 @@ namespace hrms.Application
             services.AddScoped<IAddUploadedDocumentService, AddUploadedDocumentService>();
             services.AddScoped<IAddUserUploadedDocumentService, AddUserUploadedDocumentService>();
             services.AddScoped<IUploadDocumentService, UploadDocumentService>();
+
+            services.AddScoped<IVacationsFacade, VacationsFacade>();
+            services.AddScoped<IAddOrUpdatePayedLeaveService, AddOrUpdatePayedLeaveService>();
+            services.AddScoped<IGetCurrentActivePayedLeavesService, GetCurrentActivePayedLeavesService>();
 
             return services;
         }

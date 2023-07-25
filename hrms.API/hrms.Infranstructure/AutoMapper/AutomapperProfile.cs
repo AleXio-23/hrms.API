@@ -7,6 +7,7 @@ using hrms.Domain.Models.Dictionary.JobPositions;
 using hrms.Domain.Models.Dictionary.Vacations;
 using hrms.Domain.Models.Documents;
 using hrms.Domain.Models.User;
+using hrms.Domain.Models.Vacations.PayedLeave;
 using hrms.Persistance.Entities;
 
 namespace hrms.Infranstructure.AutoMapper
@@ -33,6 +34,7 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<UserUploadedDocument, UserUploadedDocumentDTO>().ReverseMap();
 
             CreateMap<DocumentType, DocumentTypeDTO>().ReverseMap();
+            CreateMap<PayedLeaf, PayedLeaveDTO>().ReverseMap();
 
             CreateMap<UserJobPosition, UserJobPositionDTO>()
                 .ForMember(dep => dep.Department, opt => opt.MapFrom(x => x.Department))

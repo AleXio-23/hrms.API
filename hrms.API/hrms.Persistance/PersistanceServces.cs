@@ -38,6 +38,8 @@ namespace hrms.Persistance
             services.AddScoped<IRepository<DocumentType>, Repository<DocumentType>>();
             services.AddScoped<IRepository<UploadedDocument>, Repository<UploadedDocument>>();
             services.AddScoped<IRepository<UserUploadedDocument>, Repository<UserUploadedDocument>>();
+            services.AddScoped<IRepository<PayedLeaf>, Repository<PayedLeaf>>();
+            services.AddScoped<IRepository<QuartersConfiguration>, Repository<QuartersConfiguration>>();
 
             return services;
         }
