@@ -11,7 +11,11 @@ public partial class QuartersConfiguration
 
     public string? Description { get; set; }
 
-    public DateTime QuarterStarts { get; set; }
+    public int QuarterStartsMonth { get; set; }
 
-    public DateTime QuarterEnds { get; set; }
+    public int QuarterStartsDay { get; set; }
+
+    public int QuarterEndsMonth { get; set; }
+
+    public int QuarterEndsDay { get; set; }
 }

@@ -113,13 +113,13 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
 
             if (isQuarterRange)
             {
-                var nextQuarterStartDate = holidayType.HolidayRangeType.QuarterEnds.AddDays(1);
-                var nextQuarterEndDate = nextQuarterStartDate.AddMonths(3).AddDays(-1);
+                //var nextQuarterStartDate = holidayType.HolidayRangeType.QuarterEnds.AddDays(1);
+                //var nextQuarterEndDate = nextQuarterStartDate.AddMonths(3).AddDays(-1);
 
-                if (payedLeaveDTO.DateStart < nextQuarterStartDate || payedLeaveDTO.DateEnd > nextQuarterEndDate)
-                {
-                    return false;
-                }
+                //if (payedLeaveDTO.DateStart < nextQuarterStartDate || payedLeaveDTO.DateEnd > nextQuarterEndDate)
+                //{
+                //    return false;
+                //}
             }
             else
             {

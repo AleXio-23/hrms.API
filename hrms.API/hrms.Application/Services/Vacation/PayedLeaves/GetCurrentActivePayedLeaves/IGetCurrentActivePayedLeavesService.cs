@@ -2,6 +2,6 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLe
 {
     public interface IGetCurrentActivePayedLeavesService
     {
-        Task<string> Execute(CancellationToken cancellationToken);
+        Task<string> Execute(int userId, CancellationToken cancellationToken);
     }
 }

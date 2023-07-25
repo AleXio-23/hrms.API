@@ -63,6 +63,7 @@ using hrms.Application.Services.UserProfile;
 using hrms.Application.Services.Vacation;
 using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
 using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
+using hrms.Application.Services.Vacation.QuartersCounts;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace hrms.Application
@@ -141,6 +142,7 @@ namespace hrms.Application
             services.AddScoped<IVacationsFacade, VacationsFacade>();
             services.AddScoped<IAddOrUpdatePayedLeaveService, AddOrUpdatePayedLeaveService>();
             services.AddScoped<IGetCurrentActivePayedLeavesService, GetCurrentActivePayedLeavesService>();
+            services.AddScoped<IQuartersCountsService, QuartersCountsService>();
 
             return services;
         }
