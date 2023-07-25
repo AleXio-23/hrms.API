@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using hrms.Persistance.Entities;
@@ -77,7 +77,7 @@ public partial class HrmsAppDbContext : DbContext
     public virtual DbSet<WorkingStatus> WorkingStatuses { get; set; }
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
-
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -198,7 +198,7 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<HolidayType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__HolidayT__3214EC078C396C96");
+            entity.HasKey(e => e.Id).HasName("PK__HolidayT__3214EC0752EEC8FD");
 
             entity.ToTable("HolidayTypes", "dictionary");
 
@@ -210,7 +210,7 @@ public partial class HrmsAppDbContext : DbContext
             entity.HasOne(d => d.HolidayRangeType).WithMany(p => p.HolidayTypes)
                 .HasForeignKey(d => d.HolidayRangeTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__HolidayTy__Holid__66EA454A");
+                .HasConstraintName("FK__HolidayTy__Holid__27C3E46E");
         });
 
         modelBuilder.Entity<JobPosition>(entity =>

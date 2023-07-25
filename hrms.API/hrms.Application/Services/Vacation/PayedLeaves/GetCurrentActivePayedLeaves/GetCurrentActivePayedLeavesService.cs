@@ -82,52 +82,63 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLe
 
             int? remainingAvailableDaysFromPastQuarterOrYear = null;
 
-            if (holidayType.MaxAmountReservedDaysForAnotherUsageRange > 0)
+            if (holidayType.MaxAmountReservedDaysForAnotherUsageRange > 0 && holidayType.CanUseReservedDaysInAnotherRangeForDays != null && holidayType.CanUseReservedDaysInAnotherRangeForDays > 0)
             {
                 if (isQuarterRange == true)
                 {
                     //Get last quarter date range
                     var (quartersConfiguration, PreviousQuarterStart, previousQuarterEnd) = await _quartersCountsService.GetPreviousQuarterWithDateRanges(cancellationToken).ConfigureAwait(false);
 
-                    //If user registered before the previous quarter, than use can use avalable days from past quarter if its configured to have
-                    if (user.Data?.UserProfileDTO.RegisterDate <= previousQuarterEnd)
+                    //Check if current datetime is in range of CanUseReservedDaysInAnotherRangeForDays
+                    var availableforDays = startDate.AddDays(holidayType.CanUseReservedDaysInAnotherRangeForDays ?? 0);
+                    if (DateTime.Now <= availableforDays)
                     {
-                        //Get all used payed leave for previous quarter
-                        var userPayedLeavesInPreviousQuarter = await _payedLeaveRepository
-                                    .Where(x => x.UserId == userId && x.DateStart >= PreviousQuarterStart && x.DateEnd <= previousQuarterEnd && x.Approved != false)
-                                    .ToListAsync(cancellationToken).ConfigureAwait(false);
+                        //If user registered before the previous quarter, than use can use avalable days from past quarter if its configured to have
+                        if (user.Data?.UserProfileDTO.RegisterDate <= previousQuarterEnd)
+                        {
+                            //Get all used payed leave for previous quarter
+                            var userPayedLeavesInPreviousQuarter = await _payedLeaveRepository
+                                        .Where(x => x.UserId == userId && x.DateStart >= PreviousQuarterStart && x.DateEnd <= previousQuarterEnd && x.Approved != false)
+                                        .ToListAsync(cancellationToken).ConfigureAwait(false);
 
-                        //Count total used days
-                        var totalUsedDaysForPreviusQuarter = userPayedLeaves.Sum(x => x.CountDays);
-                        //Count left days
-                        var leftPayedLeavesDaysForPreviusQuarter = holidayType.CountUsageDaysPerRange - totalUsedDays;
-                        //Calculate remaining max available days
-                        remainingAvailableDaysFromPastQuarterOrYear = leftPayedLeavesDaysForPreviusQuarter > holidayType.MaxAmountReservedDaysForAnotherUsageRange
-                            ? holidayType.MaxAmountReservedDaysForAnotherUsageRange
-                            : leftPayedLeavesDaysForPreviusQuarter;
+                            //Count total used days
+                            var totalUsedDaysForPreviusQuarter = userPayedLeaves.Sum(x => x.CountDays);
+                            //Count left days
+                            var leftPayedLeavesDaysForPreviusQuarter = holidayType.CountUsageDaysPerRange - totalUsedDays;
+                            //Calculate remaining max available days
+                            remainingAvailableDaysFromPastQuarterOrYear = leftPayedLeavesDaysForPreviusQuarter > holidayType.MaxAmountReservedDaysForAnotherUsageRange
+                                ? holidayType.MaxAmountReservedDaysForAnotherUsageRange
+                                : leftPayedLeavesDaysForPreviusQuarter;
+                        }
                     }
 
                 }
                 else if (isQuarterRange == false)
                 {
                     //Last year
-                    var startDateForPreviusyear = isQuarterRange == true ? currentquarterStartDate : new DateTime(currentYear - 1, 1, 1);
-                    var endDateForPreviusyear = isQuarterRange == true ? currentquarterEndDate : new DateTime(currentYear - 1, 12, 31);
-                    if (user.Data?.UserProfileDTO.RegisterDate <= endDateForPreviusyear)
-                    {
-                        //Get all used payed leave for previous year
-                        var userPayedLeavesInPreviousQuarter = await _payedLeaveRepository
-                                    .Where(x => x.UserId == userId && x.DateStart >= startDateForPreviusyear && x.DateEnd <= endDateForPreviusyear && x.Approved != false)
-                                    .ToListAsync(cancellationToken).ConfigureAwait(false);
+                    var startDateForPreviusyear = new DateTime(currentYear - 1, 1, 1);
+                    var endDateForPreviusyear = new DateTime(currentYear - 1, 12, 31);
 
-                        //Count total used days
-                        var totalUsedDaysForPreviusQuarter = userPayedLeaves.Sum(x => x.CountDays);
-                        //Count left days
-                        var leftPayedLeavesDaysForPreviusQuarter = holidayType.CountUsageDaysPerRange - totalUsedDays;
-                        //Calculate remaining max available days
-                        remainingAvailableDaysFromPastQuarterOrYear = leftPayedLeavesDaysForPreviusQuarter > holidayType.MaxAmountReservedDaysForAnotherUsageRange
-                            ? holidayType.MaxAmountReservedDaysForAnotherUsageRange
-                            : leftPayedLeavesDaysForPreviusQuarter;
+                    //Check if current datetime is in range of CanUseReservedDaysInAnotherRangeForDays
+                    var availableforDays = startDate.AddDays(holidayType.CanUseReservedDaysInAnotherRangeForDays ?? 0);
+                    if (DateTime.Now <= availableforDays)
+                    {
+                        if (user.Data?.UserProfileDTO.RegisterDate <= endDateForPreviusyear)
+                        {
+                            //Get all used payed leave for previous year
+                            var userPayedLeavesInPreviousQuarter = await _payedLeaveRepository
+                                        .Where(x => x.UserId == userId && x.DateStart >= startDateForPreviusyear && x.DateEnd <= endDateForPreviusyear && x.Approved != false)
+                                        .ToListAsync(cancellationToken).ConfigureAwait(false);
+
+                            //Count total used days
+                            var totalUsedDaysForPreviusQuarter = userPayedLeaves.Sum(x => x.CountDays);
+                            //Count left days
+                            var leftPayedLeavesDaysForPreviusQuarter = holidayType.CountUsageDaysPerRange - totalUsedDays;
+                            //Calculate remaining max available days
+                            remainingAvailableDaysFromPastQuarterOrYear = leftPayedLeavesDaysForPreviusQuarter > holidayType.MaxAmountReservedDaysForAnotherUsageRange
+                                ? holidayType.MaxAmountReservedDaysForAnotherUsageRange
+                                : leftPayedLeavesDaysForPreviusQuarter;
+                        }
                     }
                 }
             }

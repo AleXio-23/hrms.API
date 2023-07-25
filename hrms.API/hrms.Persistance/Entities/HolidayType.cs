@@ -17,5 +17,7 @@ public partial class HolidayType
 
     public int MaxAmountReservedDaysForAnotherUsageRange { get; set; }
 
+    public int? CanUseReservedDaysInAnotherRangeForDays { get; set; }
+
     public virtual HolidayRangeType HolidayRangeType { get; set; } = null!;
 }
