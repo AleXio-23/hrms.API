@@ -13,7 +13,7 @@ namespace hrms.Application.Services.Vacation.QuartersCounts
         {
             _quarterCfgRepository = quarterCfgRepository;
         }
-         
+
         /// <summary>
         /// 
         /// </summary>
@@ -53,11 +53,10 @@ namespace hrms.Application.Services.Vacation.QuartersCounts
             var getCurrentDateMonth = DateTime.Now.Month;
             var getCurrentDateDay = DateTime.Now.Day;
 
-
-            var getCurrentQuarter = getQUarterCfg
-                .FirstOrDefault(x =>
-                        (x.QuarterStartsMonth >= getCurrentDateMonth && x.QuarterStartsDay >= getCurrentDateDay) &&
-                        (x.QuarterEndsMonth <= getCurrentDateMonth && x.QuarterEndsDay <= getCurrentDateDay)) ?? throw new NotFoundException("Can't find correct quarter");
+            var getCurrentQuarter = getQUarterCfg.FirstOrDefault(x =>
+                (new DateTime(DateTime.Now.Year, x.QuarterStartsMonth, x.QuarterStartsDay) <= DateTime.Now) &&
+                (new DateTime(DateTime.Now.Year, x.QuarterEndsMonth, x.QuarterEndsDay) >= DateTime.Now)
+            ) ?? throw new NotFoundException("Can't find correct quarter");
             return getCurrentQuarter;
         }
 
