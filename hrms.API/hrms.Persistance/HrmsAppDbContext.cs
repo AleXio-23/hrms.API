@@ -70,7 +70,11 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<UserUploadedDocument> UserUploadedDocuments { get; set; }
 
+    public virtual DbSet<UsersWorkSchedule> UsersWorkSchedules { get; set; }
+
     public virtual DbSet<VwUserSignInResponse> VwUserSignInResponses { get; set; }
+
+    public virtual DbSet<WeekWorkingDay> WeekWorkingDays { get; set; }
 
     public virtual DbSet<WorkOnLateLog> WorkOnLateLogs { get; set; }
 
@@ -565,6 +569,18 @@ public partial class HrmsAppDbContext : DbContext
                 .HasConstraintName("FK__UserUploa__Uploa__0FEC5ADD");
         });
 
+        modelBuilder.Entity<UsersWorkSchedule>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UsersWor__3214EC070E288B2B");
+
+            entity.ToTable("UsersWorkSchedule", "ums");
+
+            entity.HasOne(d => d.WeekWorkingDay).WithMany(p => p.UsersWorkSchedules)
+                .HasForeignKey(d => d.WeekWorkingDayId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UsersWork__WeekW__324172E1");
+        });
+
         modelBuilder.Entity<VwUserSignInResponse>(entity =>
         {
             entity
@@ -576,6 +592,20 @@ public partial class HrmsAppDbContext : DbContext
             entity.Property(e => e.FirstName).HasMaxLength(100);
             entity.Property(e => e.JobPositionName).HasMaxLength(255);
             entity.Property(e => e.LastName).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<WeekWorkingDay>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__WeekWork__3214EC075AC183F7");
+
+            entity.ToTable("WeekWorkingDay", "dictionary");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<WorkOnLateLog>(entity =>

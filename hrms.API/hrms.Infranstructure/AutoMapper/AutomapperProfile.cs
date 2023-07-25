@@ -24,6 +24,7 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<WorkOnLateLog, WorkOnLateLogDTO>().ReverseMap();
 
             CreateMap<Role, RoleDTO>().ReverseMap();
+            CreateMap<UsersWorkSchedule, UsersWorkScheduleDTO>().ReverseMap();
 
             CreateMap<NumberTypesConfiguration, NumberTypesConfigurationDTO>().ReverseMap();
 

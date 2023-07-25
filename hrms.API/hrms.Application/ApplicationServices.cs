@@ -59,6 +59,7 @@ using hrms.Application.Services.User.UserRoles.Roles.DeleteRole;
 using hrms.Application.Services.User.UserRoles.Roles.GetRole;
 using hrms.Application.Services.User.UserRoles.Roles.GetRoles;
 using hrms.Application.Services.User.UserRoles.UserRoles.AddOrUpdateUserRole;
+using hrms.Application.Services.User.UsersWorkSchedule.AddOrUpdateUsersWorkSchedule;
 using hrms.Application.Services.UserProfile;
 using hrms.Application.Services.Vacation;
 using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
@@ -89,6 +90,7 @@ namespace hrms.Application
             services.AddScoped<IAddOrUpdateRoleClaimsService, AddOrUpdateRoleClaimsService>();
             services.AddScoped<IGetUserService, GetUserService>();
             services.AddScoped<IUpdateUserService, UpdateUserService>();
+            services.AddScoped<IAddOrUpdateUsersWorkScheduleService, AddOrUpdateUsersWorkScheduleService>();
 
             services.AddScoped<IDictionaryiFacade, DictionaryiFacade>();
             services.AddScoped<IGetGenderService, GetGenderService>();

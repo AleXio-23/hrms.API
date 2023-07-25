@@ -69,10 +69,6 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLe
              .Where(x => x.UserId == userId && x.DateStart >= startDate && x.DateEnd <= endDate && x.Approved != false)
              .ToListAsync(cancellationToken).ConfigureAwait(false);
 
-            //Count total used days and left days for current Year/Quarter
-            var totalUsedDays = userPayedLeaves.Sum(x => x.CountDays);
-            var leftPayedLeavesDays = holidayType.CountUsageDaysPerRange - totalUsedDays;
-
             //Get user for whom calculating remaining AvailableDaysFromPastQuarterOrYear
             var user = await _getUserService.Execute(userId, cancellationToken).ConfigureAwait(false);
             if (user == null || user.Data == null || user.Data.UserProfileDTO == null)
@@ -102,9 +98,9 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLe
                                         .ToListAsync(cancellationToken).ConfigureAwait(false);
 
                             //Count total used days
-                            var totalUsedDaysForPreviusQuarter = userPayedLeaves.Sum(x => x.CountDays);
+                            var totalUsedDaysForPreviusQuarter = userPayedLeavesInPreviousQuarter.Sum(x => x.CountDays);
                             //Count left days
-                            var leftPayedLeavesDaysForPreviusQuarter = holidayType.CountUsageDaysPerRange - totalUsedDays;
+                            var leftPayedLeavesDaysForPreviusQuarter = holidayType.CountUsageDaysPerRange - totalUsedDaysForPreviusQuarter < 0 ? 0 : holidayType.CountUsageDaysPerRange - totalUsedDaysForPreviusQuarter;
                             //Calculate remaining max available days
                             remainingAvailableDaysFromPastQuarterOrYear = leftPayedLeavesDaysForPreviusQuarter > holidayType.MaxAmountReservedDaysForAnotherUsageRange
                                 ? holidayType.MaxAmountReservedDaysForAnotherUsageRange
@@ -126,31 +122,54 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLe
                         if (user.Data?.UserProfileDTO.RegisterDate <= endDateForPreviusyear)
                         {
                             //Get all used payed leave for previous year
-                            var userPayedLeavesInPreviousQuarter = await _payedLeaveRepository
+                            var userPayedLeavesInPreviousYear = await _payedLeaveRepository
                                         .Where(x => x.UserId == userId && x.DateStart >= startDateForPreviusyear && x.DateEnd <= endDateForPreviusyear && x.Approved != false)
                                         .ToListAsync(cancellationToken).ConfigureAwait(false);
 
                             //Count total used days
-                            var totalUsedDaysForPreviusQuarter = userPayedLeaves.Sum(x => x.CountDays);
+                            var totalUsedDaysForPreviusYear = userPayedLeavesInPreviousYear.Sum(x => x.CountDays);
                             //Count left days
-                            var leftPayedLeavesDaysForPreviusQuarter = holidayType.CountUsageDaysPerRange - totalUsedDays;
+                            var leftPayedLeavesDaysForPreviusYear = holidayType.CountUsageDaysPerRange - totalUsedDaysForPreviusYear < 0 ? 0 : holidayType.CountUsageDaysPerRange - totalUsedDaysForPreviusYear;
                             //Calculate remaining max available days
-                            remainingAvailableDaysFromPastQuarterOrYear = leftPayedLeavesDaysForPreviusQuarter > holidayType.MaxAmountReservedDaysForAnotherUsageRange
+                            remainingAvailableDaysFromPastQuarterOrYear = leftPayedLeavesDaysForPreviusYear > holidayType.MaxAmountReservedDaysForAnotherUsageRange
                                 ? holidayType.MaxAmountReservedDaysForAnotherUsageRange
-                                : leftPayedLeavesDaysForPreviusQuarter;
+                                : leftPayedLeavesDaysForPreviusYear;
                         }
                     }
                 }
             }
-
-            var response = new GetCurrentActivePayedLeavesServiceResponse()
+             
+            //Count, if person had remainingAvailableDaysFromPastQuarterOrYear, than reduce it
+            if (remainingAvailableDaysFromPastQuarterOrYear != null && remainingAvailableDaysFromPastQuarterOrYear > 0)
             {
-                TotalUserPayedLeavesDays = totalUsedDays,
-                LeftPayedLeavesDays = leftPayedLeavesDays,
-                RemainingAvailableDaysFromPastQuarterOrYear = remainingAvailableDaysFromPastQuarterOrYear
-            };
+                var totalUsedDays = userPayedLeaves.Sum(x => x.CountDays);
+                remainingAvailableDaysFromPastQuarterOrYear = totalUsedDays > remainingAvailableDaysFromPastQuarterOrYear ? 0 : remainingAvailableDaysFromPastQuarterOrYear - totalUsedDays;
+                var left = totalUsedDays > remainingAvailableDaysFromPastQuarterOrYear ? totalUsedDays - remainingAvailableDaysFromPastQuarterOrYear : 0;
+                var leftPayedLeavesDays = holidayType.CountUsageDaysPerRange - left;
+           
+                var response = new GetCurrentActivePayedLeavesServiceResponse()
+                {
+                    TotalUserPayedLeavesDays = totalUsedDays,
+                    LeftPayedLeavesDays = leftPayedLeavesDays,
+                    RemainingAvailableDaysFromPastQuarterOrYear = remainingAvailableDaysFromPastQuarterOrYear
+                };
 
-            return ServiceResult<GetCurrentActivePayedLeavesServiceResponse>.SuccessResult(response);
+                return ServiceResult<GetCurrentActivePayedLeavesServiceResponse>.SuccessResult(response);
+            }
+            else
+            {
+                var totalUsedDays = userPayedLeaves.Sum(x => x.CountDays);
+                var leftPayedLeavesDays = holidayType.CountUsageDaysPerRange - totalUsedDays;
+                var response = new GetCurrentActivePayedLeavesServiceResponse()
+                {
+                    TotalUserPayedLeavesDays = totalUsedDays,
+                    LeftPayedLeavesDays = leftPayedLeavesDays,
+                    RemainingAvailableDaysFromPastQuarterOrYear = remainingAvailableDaysFromPastQuarterOrYear
+                };
+
+                return ServiceResult<GetCurrentActivePayedLeavesServiceResponse>.SuccessResult(response);
+            }
+
         }
 
     }

@@ -14,6 +14,7 @@ namespace hrms.Persistance
             services.AddScoped<IRepository<Role>, Repository<Role>>();
             services.AddScoped<IRepository<UserRole>, Repository<UserRole>>();
             services.AddScoped<IRepository<Claim>, Repository<Claim>>();
+            services.AddScoped<IRepository<UsersWorkSchedule>, Repository<UsersWorkSchedule>>();
 
             services.AddScoped<IRepository<Gender>, Repository<Gender>>();
             services.AddScoped<IRepository<Department>, Repository<Department>>();

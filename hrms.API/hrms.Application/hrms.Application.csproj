@@ -18,5 +18,11 @@
     <ProjectReference Include="..\hrms.Shared\hrms.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\User\UsersWorkSchedule\DeleteUsersWorkSchedule\" />
+    <Folder Include="Services\User\UsersWorkSchedule\GetUsersWorkSchedule\" />
+    <Folder Include="Services\User\UsersWorkSchedule\GetUsersWorkSchedules\" />
+  </ItemGroup>
+
 </Project>
     
