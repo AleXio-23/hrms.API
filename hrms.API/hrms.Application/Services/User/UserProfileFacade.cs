@@ -15,12 +15,13 @@ using hrms.Application.Services.User.UserRoles.Roles.GetRole;
 using hrms.Application.Services.User.UserRoles.Roles.GetRoles;
 using hrms.Application.Services.User.UserRoles.UserRoles.AddOrUpdateUserRole;
 using hrms.Application.Services.User.UsersWorkSchedule.AddOrUpdateUsersWorkSchedule;
+using hrms.Application.Services.User.UsersWorkSchedule.DeleteUsersWorkSchedule;
 
 namespace hrms.Application.Services.UserProfile
 {
     public class UserProfileFacade : IUserProfileFacade
     {
-        public UserProfileFacade(ICreateNewProfileService createNewProfile, IUpdateUserProfileService updateUserProfileService, IAddOrUpdateUserJobPositionService addOrUpdateUserJobPositionService, IDeleteUserJobPositionService deleteUserJobPositionService, IGetUserJobPositionService getUserJobPositionService, IAddOrUpdateRolesService addOrUpdateRolesService, IDeleteRoleService deleteRoleService, IGetRoleService getRoleService, IGetRolesService getRolesService, IAddOrUpdateUserRoleService addOrUpdateUserRoleService, IAddOrUpdateRoleClaimsService addOrUpdateRoleClaimsService, IDeleteRoleClaimsService deleteRoleClaimsService, IGetRoleClaimService getRoleClaimService, IGetRoleClaimsService getRoleClaimsService, IGetUserService getUserService, IUpdateUserService updateUserService, IAddOrUpdateUsersWorkScheduleService addOrUpdateUsersWorkScheduleService)
+        public UserProfileFacade(ICreateNewProfileService createNewProfile, IUpdateUserProfileService updateUserProfileService, IAddOrUpdateUserJobPositionService addOrUpdateUserJobPositionService, IDeleteUserJobPositionService deleteUserJobPositionService, IGetUserJobPositionService getUserJobPositionService, IAddOrUpdateRolesService addOrUpdateRolesService, IDeleteRoleService deleteRoleService, IGetRoleService getRoleService, IGetRolesService getRolesService, IAddOrUpdateUserRoleService addOrUpdateUserRoleService, IAddOrUpdateRoleClaimsService addOrUpdateRoleClaimsService, IDeleteRoleClaimsService deleteRoleClaimsService, IGetRoleClaimService getRoleClaimService, IGetRoleClaimsService getRoleClaimsService, IGetUserService getUserService, IUpdateUserService updateUserService, IAddOrUpdateUsersWorkScheduleService addOrUpdateUsersWorkScheduleService, IDeleteUsersWorkScheduleService deleteUsersWorkScheduleService)
         {
             CreateNewProfile = createNewProfile;
             UpdateUserProfileService = updateUserProfileService;
@@ -39,6 +40,7 @@ namespace hrms.Application.Services.UserProfile
             GetUserService = getUserService;
             UpdateUserService = updateUserService;
             AddOrUpdateUsersWorkScheduleService = addOrUpdateUsersWorkScheduleService;
+            DeleteUsersWorkScheduleService = deleteUsersWorkScheduleService;
         }
 
         public ICreateNewProfileService CreateNewProfile { get; }
@@ -74,5 +76,7 @@ namespace hrms.Application.Services.UserProfile
         public IUpdateUserService UpdateUserService { get; }
 
         public IAddOrUpdateUsersWorkScheduleService AddOrUpdateUsersWorkScheduleService { get; }
+
+        public IDeleteUsersWorkScheduleService DeleteUsersWorkScheduleService { get; }
     }
 }

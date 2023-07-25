@@ -15,6 +15,7 @@ using hrms.Application.Services.User.UserRoles.Roles.GetRole;
 using hrms.Application.Services.User.UserRoles.Roles.GetRoles;
 using hrms.Application.Services.User.UserRoles.UserRoles.AddOrUpdateUserRole;
 using hrms.Application.Services.User.UsersWorkSchedule.AddOrUpdateUsersWorkSchedule;
+using hrms.Application.Services.User.UsersWorkSchedule.DeleteUsersWorkSchedule;
 
 namespace hrms.Application.Services.UserProfile
 {
@@ -37,6 +38,7 @@ namespace hrms.Application.Services.UserProfile
         IGetUserService GetUserService { get; }
         IUpdateUserService UpdateUserService { get; }
         IAddOrUpdateUsersWorkScheduleService AddOrUpdateUsersWorkScheduleService { get; }
+        IDeleteUsersWorkScheduleService DeleteUsersWorkScheduleService { get; }
 
     }
 }
