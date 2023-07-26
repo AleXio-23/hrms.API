@@ -37,19 +37,16 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
 
             if (getHolidayTypeWithRangeType.HolidayRangeType.Equals("per_quarter"))
             {
-
+                return null;
             }
             else if (getHolidayTypeWithRangeType.HolidayRangeType.Equals("per_year"))
             {
-
+                return null;
             }
             else
             {
                 throw new Exception("Unexpected payed leave range type");
             }
-
-
-            return null;
         }
 
 

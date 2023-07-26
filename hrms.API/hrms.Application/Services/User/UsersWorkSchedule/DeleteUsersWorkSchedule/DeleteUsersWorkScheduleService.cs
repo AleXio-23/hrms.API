@@ -12,7 +12,7 @@ namespace hrms.Application.Services.User.UsersWorkSchedule.DeleteUsersWorkSchedu
             _usersRokScheduleRepository = usersRokScheduleRepository;
         }
 
-        public async Task<ServiceResult<bool>> Exeucte(int scheduleId, CancellationToken cancellationToken)
+        public async Task<ServiceResult<bool>> Execute(int scheduleId, CancellationToken cancellationToken)
         {
             if (scheduleId <= 0)
             {

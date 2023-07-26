@@ -4,6 +4,6 @@ namespace hrms.Application.Services.User.UsersWorkSchedule.DeleteUsersWorkSchedu
 {
     public interface IDeleteUsersWorkScheduleService
     {
-        Task<ServiceResult<bool>> Exeucte(int scheduleId, CancellationToken cancellationToken);
+        Task<ServiceResult<bool>> Execute(int scheduleId, CancellationToken cancellationToken);
     }
 }
