@@ -1,9 +1,8 @@
 using hrms.Application.Services.Vacation;
-using hrms.Domain.Models.User;
+using hrms.Domain.Models.Vacations;
 using hrms.Domain.Models.Vacations.PayedLeave;
-using hrms.Persistance.Entities;
+using hrms.Domain.Models.Vacations.UnpayedLeave;
 using hrms.Shared.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace hrms.API.Controllers
@@ -58,9 +57,9 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
-      
+
         #endregion
-      
+
         #region Unpayed Leaves
 
         /// <summary>
@@ -82,25 +81,25 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
-        ///// <summary>
-        ///// Register new payed leave request or edit existing one
-        ///// </summary>
-        ///// <param name="payedLeaveDTO"></param>
-        ///// <param name="cancellationToken"></param>
-        ///// <returns></returns>
-        //[HttpPost("AddOrUpdatePayedLeave")]
-        //public async Task<ActionResult<ServiceResult<PayedLeaveDTO>>> AddOrUpdatePayedLeave([FromBody] PayedLeaveDTO payedLeaveDTO, CancellationToken cancellationToken)
-        //{
-        //    var result = await _vacationsFacade.AddOrUpdatePayedLeaveService.Execute(payedLeaveDTO, cancellationToken).ConfigureAwait(false);
-        //    if (result.ErrorOccured)
-        //    {
-        //        return BadRequest(result);
-        //    }
+        /// <summary>
+        /// Register new unpayed leave request or edit existing one
+        /// </summary>
+        /// <param name="unpayedLeaveDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("AddOrUpdateUnpayedLeave")]
+        public async Task<ActionResult<ServiceResult<PayedLeaveDTO>>> AddOrUpdateUnpayedLeave([FromBody] UnpayedLeaveDTO unpayedLeaveDTO, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.AddOrUpdateUnpayedLeaveService.Execute(unpayedLeaveDTO, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
-      
+
         #endregion
 
     }

@@ -54,11 +54,11 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
             var getHolidayTypeWithRangeType = await _holidayTypeRepository
                 .GetIncluding(x => x.HolidayRangeType)
                 .Where(x => x.Code == "payed_leave").FirstOrDefaultAsync(cancellationToken)
-                .ConfigureAwait(false) ?? throw new NotFoundException($"Holiday type for peayed leave not found");
+                .ConfigureAwait(false) ?? throw new NotFoundException($"Holiday type for payed leave not found");
 
             if (getHolidayTypeWithRangeType.HolidayRangeType == null)
             {
-                throw new NotFoundException($"Holiday range type for peayed leave not found");
+                throw new NotFoundException($"Holiday range type for payed leave not found");
             }
 
             // Create list for each day between payed leave start and end dates
@@ -121,7 +121,7 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
             var sumDays = getUserAccessibleFreeDaysForPayedLeave.Data.LeftLeaveDays ?? 0 + getUserAccessibleFreeDaysForPayedLeave.Data.RemainingAvailableDaysFromPastQuarterOrYear ?? 0;
             if (payedLeaveDTO.CountDays > sumDays)
             {
-                throw new ArgumentException($"User with id {payedLeaveDTO.UserId} can't register payed leave ticket. Your request {payedLeaveDTO.CountDays} day(s) holiday while your access days for peayed leaves are {sumDays}(Including access days from previous quarter/year).");
+                throw new ArgumentException($"User with id {payedLeaveDTO.UserId} can't register payed leave ticket. Your request is for {payedLeaveDTO.CountDays} day(s) holiday while your access days for peayed leaves are {sumDays}(Including access days from previous quarter/year).");
             }
 
             //If its new request, add new

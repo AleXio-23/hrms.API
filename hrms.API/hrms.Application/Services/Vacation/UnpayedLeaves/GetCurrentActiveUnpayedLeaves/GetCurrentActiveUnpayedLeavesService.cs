@@ -1,6 +1,6 @@
 using hrms.Application.Services.User.GetUser;
 using hrms.Application.Services.Vacation.QuartersCounts;
-using hrms.Domain.Models.Vacations.PayedLeave;
+using hrms.Domain.Models.Vacations;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;

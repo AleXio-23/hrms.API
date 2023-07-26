@@ -1,4 +1,4 @@
-using hrms.Domain.Models.Vacations.PayedLeave;
+using hrms.Domain.Models.Vacations;
 using hrms.Shared.Models;
 
 namespace hrms.Application.Services.Vacation.UnpayedLeaves.GetCurrentActiveUnpayedLeaves

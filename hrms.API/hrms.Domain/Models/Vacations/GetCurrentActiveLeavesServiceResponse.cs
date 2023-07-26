@@ -1,7 +1,7 @@
-namespace hrms.Domain.Models.Vacations.PayedLeave
+namespace hrms.Domain.Models.Vacations
 {
     public class GetCurrentActiveLeavesServiceResponse
-    { 
+    {
         /// <summary>
         /// Returns value for user payed leaves days for quarter/Year 
         /// </summary>
