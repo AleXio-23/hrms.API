@@ -35,6 +35,8 @@ using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolid
 using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeTypes;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayType;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayTypes;
+using hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingDay;
+using hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingDays;
 using hrms.Application.Services.Documents;
 using hrms.Application.Services.Documents.DocumentsUpload.UploadDocument;
 using hrms.Application.Services.Documents.DocumentsUpload.UploadedDocuments.AddUploadedDocument;
@@ -59,7 +61,15 @@ using hrms.Application.Services.User.UserRoles.Roles.DeleteRole;
 using hrms.Application.Services.User.UserRoles.Roles.GetRole;
 using hrms.Application.Services.User.UserRoles.Roles.GetRoles;
 using hrms.Application.Services.User.UserRoles.UserRoles.AddOrUpdateUserRole;
+using hrms.Application.Services.User.UsersWorkSchedule.AddOrUpdateUsersWorkSchedule;
+using hrms.Application.Services.User.UsersWorkSchedule.DeleteUsersWorkSchedule;
+using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedule;
+using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedules;
 using hrms.Application.Services.UserProfile;
+using hrms.Application.Services.Vacation;
+using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
+using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
+using hrms.Application.Services.Vacation.QuartersCounts;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace hrms.Application
@@ -85,6 +95,10 @@ namespace hrms.Application
             services.AddScoped<IAddOrUpdateRoleClaimsService, AddOrUpdateRoleClaimsService>();
             services.AddScoped<IGetUserService, GetUserService>();
             services.AddScoped<IUpdateUserService, UpdateUserService>();
+            services.AddScoped<IAddOrUpdateUsersWorkScheduleService, AddOrUpdateUsersWorkScheduleService>();
+            services.AddScoped<IDeleteUsersWorkScheduleService, DeleteUsersWorkScheduleService>();
+            services.AddScoped<IGetUsersWorkScheduleService, GetUsersWorkScheduleService>();
+            services.AddScoped<IGetUsersWorkSchedulesService, GetUsersWorkSchedulesService>();
 
             services.AddScoped<IDictionaryiFacade, DictionaryiFacade>();
             services.AddScoped<IGetGenderService, GetGenderService>();
@@ -107,6 +121,8 @@ namespace hrms.Application
             services.AddScoped<IGetHolidayRangeTypesService, GetHolidayRangeTypesService>();
             services.AddScoped<IGetHolidayTypesService, GetHolidayTypesService>();
             services.AddScoped<IGetHolidayTypeService, GetHolidayTypeService>();
+            services.AddScoped<IGetWeekWorkingDaysService, GetWeekWorkingDaysService>();
+            services.AddScoped<IGetWeekWorkingDayService, GetWeekWorkingDayService>();
 
             services.AddScoped<IAccountingFacade, AccountingFacade>();
             services.AddScoped<IStartAccountingService, StartAccountingService>();
@@ -134,6 +150,11 @@ namespace hrms.Application
             services.AddScoped<IAddUploadedDocumentService, AddUploadedDocumentService>();
             services.AddScoped<IAddUserUploadedDocumentService, AddUserUploadedDocumentService>();
             services.AddScoped<IUploadDocumentService, UploadDocumentService>();
+
+            services.AddScoped<IVacationsFacade, VacationsFacade>();
+            services.AddScoped<IAddOrUpdatePayedLeaveService, AddOrUpdatePayedLeaveService>();
+            services.AddScoped<IGetCurrentActivePayedLeavesService, GetCurrentActivePayedLeavesService>();
+            services.AddScoped<IQuartersCountsService, QuartersCountsService>();
 
             return services;
         }

@@ -5,8 +5,10 @@ using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Dictionary.JobPositions;
 using hrms.Domain.Models.Dictionary.Vacations;
+using hrms.Domain.Models.Dictionary.WeekWorkingDays;
 using hrms.Domain.Models.Documents;
 using hrms.Domain.Models.User;
+using hrms.Domain.Models.Vacations.PayedLeave;
 using hrms.Persistance.Entities;
 
 namespace hrms.Infranstructure.AutoMapper
@@ -23,9 +25,11 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<WorkOnLateLog, WorkOnLateLogDTO>().ReverseMap();
 
             CreateMap<Role, RoleDTO>().ReverseMap();
+            CreateMap<UsersWorkSchedule, UsersWorkScheduleDTO>().ReverseMap();
 
             CreateMap<NumberTypesConfiguration, NumberTypesConfigurationDTO>().ReverseMap();
 
+            CreateMap<WeekWorkingDay, WeekWorkingDayDTO>().ReverseMap();
             CreateMap<CompanyHoliday, CompanyHolidayDTO>().ReverseMap();
             CreateMap<HolidayRangeType, HolidayRangeTypeDTO>().ReverseMap();
             CreateMap<HolidayType, HolidayTypeDTO>().ReverseMap();
@@ -33,6 +37,7 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<UserUploadedDocument, UserUploadedDocumentDTO>().ReverseMap();
 
             CreateMap<DocumentType, DocumentTypeDTO>().ReverseMap();
+            CreateMap<PayedLeaf, PayedLeaveDTO>().ReverseMap();
 
             CreateMap<UserJobPosition, UserJobPositionDTO>()
                 .ForMember(dep => dep.Department, opt => opt.MapFrom(x => x.Department))

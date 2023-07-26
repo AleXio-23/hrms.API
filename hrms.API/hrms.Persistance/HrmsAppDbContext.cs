@@ -44,6 +44,8 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<PayedLeaf> PayedLeaves { get; set; }
 
+    public virtual DbSet<QuartersConfiguration> QuartersConfigurations { get; set; }
+
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -68,14 +70,18 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<UserUploadedDocument> UserUploadedDocuments { get; set; }
 
+    public virtual DbSet<UsersWorkSchedule> UsersWorkSchedules { get; set; }
+
     public virtual DbSet<VwUserSignInResponse> VwUserSignInResponses { get; set; }
+
+    public virtual DbSet<WeekWorkingDay> WeekWorkingDays { get; set; }
 
     public virtual DbSet<WorkOnLateLog> WorkOnLateLogs { get; set; }
 
     public virtual DbSet<WorkingStatus> WorkingStatuses { get; set; }
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
-
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -196,7 +202,7 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<HolidayType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__HolidayT__3214EC078C396C96");
+            entity.HasKey(e => e.Id).HasName("PK__HolidayT__3214EC0752EEC8FD");
 
             entity.ToTable("HolidayTypes", "dictionary");
 
@@ -208,7 +214,7 @@ public partial class HrmsAppDbContext : DbContext
             entity.HasOne(d => d.HolidayRangeType).WithMany(p => p.HolidayTypes)
                 .HasForeignKey(d => d.HolidayRangeTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__HolidayTy__Holid__66EA454A");
+                .HasConstraintName("FK__HolidayTy__Holid__27C3E46E");
         });
 
         modelBuilder.Entity<JobPosition>(entity =>
@@ -291,6 +297,18 @@ public partial class HrmsAppDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__PayedLeav__UserI__6BAEFA67");
+        });
+
+        modelBuilder.Entity<QuartersConfiguration>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Quarters__3214EC07028ACBE8");
+
+            entity.ToTable("QuartersConfiguration", "config");
+
+            entity.Property(e => e.CodeName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Description).HasMaxLength(255);
         });
 
         modelBuilder.Entity<RefreshToken>(entity =>
@@ -551,6 +569,18 @@ public partial class HrmsAppDbContext : DbContext
                 .HasConstraintName("FK__UserUploa__Uploa__0FEC5ADD");
         });
 
+        modelBuilder.Entity<UsersWorkSchedule>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UsersWor__3214EC070E288B2B");
+
+            entity.ToTable("UsersWorkSchedule", "ums");
+
+            entity.HasOne(d => d.WeekWorkingDay).WithMany(p => p.UsersWorkSchedules)
+                .HasForeignKey(d => d.WeekWorkingDayId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UsersWork__WeekW__324172E1");
+        });
+
         modelBuilder.Entity<VwUserSignInResponse>(entity =>
         {
             entity
@@ -562,6 +592,20 @@ public partial class HrmsAppDbContext : DbContext
             entity.Property(e => e.FirstName).HasMaxLength(100);
             entity.Property(e => e.JobPositionName).HasMaxLength(255);
             entity.Property(e => e.LastName).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<WeekWorkingDay>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__WeekWork__3214EC075AC183F7");
+
+            entity.ToTable("WeekWorkingDay", "dictionary");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<WorkOnLateLog>(entity =>

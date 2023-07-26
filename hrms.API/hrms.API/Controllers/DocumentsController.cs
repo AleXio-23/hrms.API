@@ -3,6 +3,7 @@ using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Documents;
 using hrms.Domain.Models.Shared;
 using hrms.Shared.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -99,7 +100,8 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("UploadDocument")]
-        public async Task<ActionResult<ServiceResult<DocumentTypeDTO>>> UploadDocument([FromQuery] UploadDocumentRequest uploadDocumentRequest, CancellationToken cancellationToken)
+        [Authorize]
+        public async Task<ActionResult<ServiceResult<UploadDocumentResponse>>> UploadDocument([FromQuery] UploadDocumentRequest uploadDocumentRequest, CancellationToken cancellationToken)
         {
             var result = await _documentsFacade.UploadDocumentService.Execute(uploadDocumentRequest, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)

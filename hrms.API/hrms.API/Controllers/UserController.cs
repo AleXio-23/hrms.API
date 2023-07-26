@@ -1,4 +1,5 @@
 using hrms.Application.Services.UserProfile;
+using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Shared;
 using hrms.Domain.Models.User;
 using hrms.Persistance.Entities;
@@ -337,6 +338,114 @@ namespace hrms.API.Controllers
             }
 
             var result = await _userProfileFacade.UpdateUserService.Execute(userDTO, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        #endregion
+
+        #region AddOrUpdateUsersWorkScheduleService CRUDs - Add for each user, for each week day if its work day for user and from what time to time he/she works
+
+        /// <summary>
+        ///  Get user work schedule based on user work schedule id
+        /// </summary>
+        /// <param name="scheduleId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetUsersWorkSchedule")]
+        public async Task<ActionResult<ServiceResult<GenderDTO>>> GetUsersWorkSchedule([FromQuery] int scheduleId, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.GetUsersWorkScheduleService.Execute(scheduleId, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        ///  Get user work schedule based on user id and week day
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="weekday"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetUsersWorkScheduleWithUserIdAndWeekDay")]
+        public async Task<ActionResult<ServiceResult<GenderDTO>>> GetUsersWorkScheduleWithUserIdAndWeekDay([FromQuery] int userId, [FromQuery] string weekday, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.GetUsersWorkScheduleService.Execute(userId, weekday, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get user work schedule based on user id and week day Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="weekdayId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetUsersWorkScheduleWithUserIdAndWeekDayId")]
+        public async Task<ActionResult<ServiceResult<GenderDTO>>> GetUsersWorkScheduleWithUserIdAndWeekDayId([FromQuery] int userId, [FromQuery] int weekdayId, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.GetUsersWorkScheduleService.Execute(userId, weekdayId, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get user work schedules with filter
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetUsersWorkSchedules")]
+        public async Task<ActionResult<ServiceResult<List<GenderDTO>>>> GetUsersWorkSchedules([FromQuery] UsersWorkScheduleFilter filter, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.GetUsersWorkSchedulesService.Execute(filter, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Add new or update existng User work scedule
+        /// </summary>
+        /// <param name="usersWorkScheduleDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("AddOrUpdateUsersWorkSchedule")]
+        public async Task<ActionResult<ServiceResult<GenderDTO>>> AddOrUpdateGender([FromBody] UsersWorkScheduleDTO usersWorkScheduleDTO, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.AddOrUpdateUsersWorkScheduleService.Execute(usersWorkScheduleDTO, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Delete user work schedule 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpDelete("DeleteUsersWorkSchedule")]
+        public async Task<ActionResult<ServiceResult<bool>>> DeleteUsersWorkSchedule([FromBody] IdRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.DeleteUsersWorkScheduleService.Execute(request.Id, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
