@@ -35,6 +35,8 @@ using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolid
 using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeTypes;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayType;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayTypes;
+using hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingDay;
+using hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingDays;
 using hrms.Application.Services.Documents;
 using hrms.Application.Services.Documents.DocumentsUpload.UploadDocument;
 using hrms.Application.Services.Documents.DocumentsUpload.UploadedDocuments.AddUploadedDocument;
@@ -119,6 +121,8 @@ namespace hrms.Application
             services.AddScoped<IGetHolidayRangeTypesService, GetHolidayRangeTypesService>();
             services.AddScoped<IGetHolidayTypesService, GetHolidayTypesService>();
             services.AddScoped<IGetHolidayTypeService, GetHolidayTypeService>();
+            services.AddScoped<IGetWeekWorkingDaysService, GetWeekWorkingDaysService>();
+            services.AddScoped<IGetWeekWorkingDayService, GetWeekWorkingDayService>();
 
             services.AddScoped<IAccountingFacade, AccountingFacade>();
             services.AddScoped<IStartAccountingService, StartAccountingService>();

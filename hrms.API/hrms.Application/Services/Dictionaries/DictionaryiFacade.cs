@@ -18,12 +18,14 @@ using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolid
 using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeTypes;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayType;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayTypes;
+using hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingDay;
+using hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingDays;
 
 namespace hrms.Application.Services.Dictionaries
 {
     public class DictionaryiFacade : IDictionaryiFacade
     {
-        public DictionaryiFacade(IGetGenderService getGenderService, IAddOrUpdateGenderService addOrUpdateGenderService, IGetGendersService getGendersService, IDeleteGenerService deleteGenerService, IAddOrUpdateDepartmentService addOrUpdateDepartmentService, IDeleteDepartmentService deleteDepartmentService, IGetDepartmentService getDepartmentService, IGetDepartmentsService getDepartmentsService, IAddOrUpdateJobPositionService addOrUpdateJobPositionService, IDeleteJobPositionService deleteJobPositionService, IGetJobPositionService getJobPositionService, IGetJobPositionsService getJobPositionsService, IAddOrUpdateCompanyHolidaysService addOrUpdateCompanyHolidaysService, IDeleteCompanyHolidayService deleteCompanyHolidayService, IGetCompanyHolidayService getCompanyHolidayService, IGetCompanyHolidaysService getCompanyHolidaysService, IGetHolidayRangeTypeService getHolidayRangeTypeService, IGetHolidayRangeTypesService getHolidayRangeTypesService, IGetHolidayTypeService getHolidayTypeService, IGetHolidayTypesService getHolidayTypesService)
+        public DictionaryiFacade(IGetGenderService getGenderService, IAddOrUpdateGenderService addOrUpdateGenderService, IGetGendersService getGendersService, IDeleteGenerService deleteGenerService, IAddOrUpdateDepartmentService addOrUpdateDepartmentService, IDeleteDepartmentService deleteDepartmentService, IGetDepartmentService getDepartmentService, IGetDepartmentsService getDepartmentsService, IAddOrUpdateJobPositionService addOrUpdateJobPositionService, IDeleteJobPositionService deleteJobPositionService, IGetJobPositionService getJobPositionService, IGetJobPositionsService getJobPositionsService, IAddOrUpdateCompanyHolidaysService addOrUpdateCompanyHolidaysService, IDeleteCompanyHolidayService deleteCompanyHolidayService, IGetCompanyHolidayService getCompanyHolidayService, IGetCompanyHolidaysService getCompanyHolidaysService, IGetHolidayRangeTypeService getHolidayRangeTypeService, IGetHolidayRangeTypesService getHolidayRangeTypesService, IGetHolidayTypeService getHolidayTypeService, IGetHolidayTypesService getHolidayTypesService, IGetWeekWorkingDayService getWeekWorkingDayService, IGetWeekWorkingDaysService getWeekWorkingDaysService)
         {
             GetGenderService = getGenderService;
             AddOrUpdateGenderService = addOrUpdateGenderService;
@@ -45,6 +47,8 @@ namespace hrms.Application.Services.Dictionaries
             GetHolidayRangeTypesService = getHolidayRangeTypesService;
             GetHolidayTypeService = getHolidayTypeService;
             GetHolidayTypesService = getHolidayTypesService;
+            GetWeekWorkingDayService = getWeekWorkingDayService;
+            GetWeekWorkingDaysService = getWeekWorkingDaysService;
         }
 
         public IGetGenderService GetGenderService { get; }
@@ -84,5 +88,9 @@ namespace hrms.Application.Services.Dictionaries
         public IGetHolidayTypeService GetHolidayTypeService { get; }
 
         public IGetHolidayTypesService GetHolidayTypesService { get; }
+
+        public IGetWeekWorkingDayService GetWeekWorkingDayService { get; }
+
+        public IGetWeekWorkingDaysService GetWeekWorkingDaysService { get; }
     }
 }

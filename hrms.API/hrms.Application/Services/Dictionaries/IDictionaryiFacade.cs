@@ -18,6 +18,8 @@ using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolid
 using hrms.Application.Services.Dictionaries.Vacations.HolidayRangeType.GetHolidayRangeTypes;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayType;
 using hrms.Application.Services.Dictionaries.Vacations.HolidayType.GetHolidayTypes;
+using hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingDay;
+using hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingDays;
 
 namespace hrms.Application.Services.Dictionaries
 {
@@ -48,5 +50,8 @@ namespace hrms.Application.Services.Dictionaries
 
         IGetHolidayTypeService GetHolidayTypeService { get; }
         IGetHolidayTypesService GetHolidayTypesService { get; }
+
+        IGetWeekWorkingDayService GetWeekWorkingDayService { get; }
+        IGetWeekWorkingDaysService GetWeekWorkingDaysService { get; }
     }
 }

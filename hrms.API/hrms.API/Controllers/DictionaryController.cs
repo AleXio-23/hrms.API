@@ -3,6 +3,7 @@ using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Dictionary.JobPositions;
 using hrms.Domain.Models.Dictionary.Vacations;
+using hrms.Domain.Models.Dictionary.WeekWorkingDays;
 using hrms.Domain.Models.Shared;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -378,6 +379,43 @@ namespace hrms.API.Controllers
             }
             return Ok(result);
         }
+        #endregion
+
+        #region WeekWorkingDays CRUDs
+
+        /// <summary>
+        /// Get week working day by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetWeekWorkingDay")]
+        public async Task<ActionResult<ServiceResult<WeekWorkingDayDTO>>> GetWeekWorkingDay([FromQuery] int id, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetWeekWorkingDayService.Execute(id, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+ 
+        /// <summary>
+        /// Get all week working days
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetWeekWorkingDays")]
+        public async Task<ActionResult<ServiceResult<List<GenderDTO>>>> GetWeekWorkingDays([FromQuery]  CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetWeekWorkingDaysService.Execute(  cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
         #endregion
     }
 }
