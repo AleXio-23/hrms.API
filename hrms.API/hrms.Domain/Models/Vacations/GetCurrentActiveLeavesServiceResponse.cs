@@ -1,20 +1,16 @@
-namespace hrms.Domain.Models.Vacations.PayedLeave
+namespace hrms.Domain.Models.Vacations
 {
-    public class GetCurrentActivePayedLeavesServiceResponse
+    public class GetCurrentActiveLeavesServiceResponse
     {
-        //var totalUsedDays = userPayedLeaves.Sum(x => x.CountDays);
-        //var leftPayedLeavesDays = holidayType.CountUsageDaysPerRange - totalUsedDays;
-        //remainingAvailableDaysFromPastQuarterOrYear
-
         /// <summary>
         /// Returns value for user payed leaves days for quarter/Year 
         /// </summary>
-        public int? TotalUserPayedLeavesDays { get; set; }
+        public int? TotalUserLeaveDays { get; set; }
 
         /// <summary>
         /// Returns value for user left leaves days for quarter/Year 
         /// </summary>
-        public int? LeftPayedLeavesDays { get; set; }
+        public int? LeftLeaveDays { get; set; }
 
         /// <summary>
         /// Return available days (if its configured for current request) from previous quarter/Year

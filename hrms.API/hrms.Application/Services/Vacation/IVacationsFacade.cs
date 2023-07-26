@@ -2,6 +2,8 @@ using hrms.Application.Services.Vacation.CheckAnyRegisteredHolidaysInRange;
 using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
 using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
 using hrms.Application.Services.Vacation.QuartersCounts;
+using hrms.Application.Services.Vacation.UnpayedLeaves.AddOrUpdateUnpayedLeave;
+using hrms.Application.Services.Vacation.UnpayedLeaves.GetCurrentActiveUnpayedLeaves;
 
 namespace hrms.Application.Services.Vacation
 {
@@ -12,5 +14,9 @@ namespace hrms.Application.Services.Vacation
         IQuartersCountsService QuartersCountsService { get; }
 
         ICheckAnyRegisteredHolidaysInRangeService CheckAnyRegisteredHolidaysInRangeService { get; }
+
+        IGetCurrentActiveUnpayedLeavesService GetCurrentActiveUnpayedLeavesService { get; }
+        IAddOrUpdateUnpayedLeaveService AddOrUpdateUnpayedLeaveService { get; }
+
     }
 }
