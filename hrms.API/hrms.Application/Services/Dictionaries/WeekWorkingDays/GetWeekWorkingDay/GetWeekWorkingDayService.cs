@@ -28,7 +28,7 @@ namespace hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingD
 
         public async Task<ServiceResult<WeekWorkingDayDTO>> Execute(string weekdayCode, CancellationToken cancellationToken)
         {
-            var getReslt = await _weekWorkingDayRepository.FirstOrDefaultAsync(x => x.Code.ToLower().Contains(weekdayCode.ToLower()), cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Week working day {weekday} notfound");
+            var getReslt = await _weekWorkingDayRepository.FirstOrDefaultAsync(x => x.Code.ToLower().Contains(weekdayCode.ToLower()), cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Week working day {weekdayCode} notfound");
             var mappedResultDto = _mapper.Map<WeekWorkingDayDTO>(getReslt);
 
             return ServiceResult<WeekWorkingDayDTO>.SuccessResult(mappedResultDto);

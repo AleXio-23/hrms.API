@@ -19,6 +19,7 @@ namespace hrms.API.Controllers
             _vacationsFacade = vacationsFacade;
         }
 
+        #region Payed Leaves
 
         /// <summary>
         /// Check for specific user, how much payed leaves left for now (quarter/year type rage)
@@ -27,16 +28,38 @@ namespace hrms.API.Controllers
         /// <param name="userId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-            [HttpGet("GetCurrentActivePayedLeaves")]
-            public async Task<ActionResult<ServiceResult<GetCurrentActivePayedLeavesServiceResponse>>> GetCurrentActivePayedLeaves([FromQuery] int userId, CancellationToken cancellationToken)
+        [HttpGet("GetCurrentActivePayedLeaves")]
+        public async Task<ActionResult<ServiceResult<GetCurrentActivePayedLeavesServiceResponse>>> GetCurrentActivePayedLeaves([FromQuery] int userId, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.GetCurrentActivePayedLeavesService.Execute(userId, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
             {
-                var result = await _vacationsFacade.GetCurrentActivePayedLeavesService.Execute(userId, cancellationToken).ConfigureAwait(false);
-                if (result.ErrorOccured)
-                {
-                    return BadRequest(result);
-                }
-
-                return Ok(result);
+                return BadRequest(result);
             }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Register new payed leave request or edit existing one
+        /// </summary>
+        /// <param name="payedLeaveDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("AddOrUpdatePayedLeave")]
+        public async Task<ActionResult<ServiceResult<PayedLeaveDTO>>> AddOrUpdatePayedLeave([FromBody] PayedLeaveDTO payedLeaveDTO, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.AddOrUpdatePayedLeaveService.Execute(payedLeaveDTO, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+      
+        #endregion
+
     }
 }
