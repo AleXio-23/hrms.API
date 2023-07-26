@@ -2,6 +2,7 @@ using AutoMapper;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHolidays;
 using hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingDay;
 using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedules;
+using hrms.Application.Services.Vacation.CheckAnyRegisteredHolidaysInRange;
 using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
 using hrms.Domain.Models.Dictionary.Vacations;
 using hrms.Domain.Models.User;
@@ -22,9 +23,10 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
         private readonly IGetCompanyHolidaysService _getCompanyHolidaysService;
         private readonly IGetWeekWorkingDayService _getWeekWorkingDayService;
         private readonly IGetCurrentActivePayedLeavesService _getCurrentActivePayedLeavesService;
+        private readonly ICheckAnyRegisteredHolidaysInRangeService _checkAnyRegisteredHolidaysInRangeService;
         private readonly IMapper _mapper;
 
-        public AddOrUpdatePayedLeaveService(IRepository<PayedLeaf> payedLeaveRepository, IRepository<HolidayType> holidayTypeRepository, IGetUsersWorkSchedulesService getUsersWorkSchedulesService, IGetCompanyHolidaysService getCompanyHolidaysService, IGetWeekWorkingDayService getWeekWorkingDayService, IGetCurrentActivePayedLeavesService getCurrentActivePayedLeavesService, IMapper mapper)
+        public AddOrUpdatePayedLeaveService(IRepository<PayedLeaf> payedLeaveRepository, IRepository<HolidayType> holidayTypeRepository, IGetUsersWorkSchedulesService getUsersWorkSchedulesService, IGetCompanyHolidaysService getCompanyHolidaysService, IGetWeekWorkingDayService getWeekWorkingDayService, IGetCurrentActivePayedLeavesService getCurrentActivePayedLeavesService, ICheckAnyRegisteredHolidaysInRangeService checkAnyRegisteredHolidaysInRangeService, IMapper mapper)
         {
             _payedLeaveRepository = payedLeaveRepository;
             _holidayTypeRepository = holidayTypeRepository;
@@ -32,11 +34,23 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
             _getCompanyHolidaysService = getCompanyHolidaysService;
             _getWeekWorkingDayService = getWeekWorkingDayService;
             _getCurrentActivePayedLeavesService = getCurrentActivePayedLeavesService;
+            _checkAnyRegisteredHolidaysInRangeService = checkAnyRegisteredHolidaysInRangeService;
             _mapper = mapper;
         }
 
         public async Task<ServiceResult<PayedLeaveDTO>> Execute(PayedLeaveDTO payedLeaveDTO, CancellationToken cancellationToken)
         {
+
+            var checkrangeOverlaps = await _checkAnyRegisteredHolidaysInRangeService.Execute(payedLeaveDTO.UserId, payedLeaveDTO.DateStart, payedLeaveDTO.DateEnd, cancellationToken).ConfigureAwait(false);
+            if (checkrangeOverlaps == null || checkrangeOverlaps.Data == null)
+            {
+                throw new NullReferenceException("Error checking date overlaps for payed leave");
+            }
+            if (checkrangeOverlaps.Data.HasOverlap)
+            {
+                throw new ArgumentException($"Payed leave with in dates {payedLeaveDTO.DateStart.ToShortDateString()} - {payedLeaveDTO.DateEnd.ToShortDateString()} has overlap in dates with your registered {checkrangeOverlaps.Data.HolidayType} with date range {checkrangeOverlaps.Data.HolidayStart?.ToShortDateString()} - {checkrangeOverlaps.Data.HolidayEnd?.ToShortDateString()}");
+            }
+
             var getHolidayTypeWithRangeType = await _holidayTypeRepository
                 .GetIncluding(x => x.HolidayRangeType)
                 .Where(x => x.Code == "payed_leave").FirstOrDefaultAsync(cancellationToken)
@@ -110,22 +124,47 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
                 throw new ArgumentException($"User with id {payedLeaveDTO.UserId} can't register payed leave ticket. Your request {payedLeaveDTO.CountDays} day(s) holiday while your access days for peayed leaves are {sumDays}(Including access days from previous quarter/year).");
             }
 
-            var newPayedLeave = new PayedLeaf()
+            //If its new request, add new
+            if (payedLeaveDTO.Id == null || payedLeaveDTO.Id < 0)
             {
-                UserId = payedLeaveDTO.UserId,
-                DateStart = payedLeaveDTO.DateStart,
-                DateEnd = payedLeaveDTO.DateEnd,
-                CountDays = payedLeaveDTO.CountDays,
-                PayBeforeHeadEnabled = payedLeaveDTO.PayBeforeHeadEnabled,
-                Approved = null,
-                ApprovedByUserId = null,
-                Comment = null
-            };
+                var newPayedLeave = new PayedLeaf()
+                {
+                    UserId = payedLeaveDTO.UserId,
+                    DateStart = payedLeaveDTO.DateStart,
+                    DateEnd = payedLeaveDTO.DateEnd,
+                    CountDays = payedLeaveDTO.CountDays,
+                    PayBeforeHeadEnabled = payedLeaveDTO.PayBeforeHeadEnabled,
+                    Approved = null,
+                    ApprovedByUserId = null,
+                    Comment = null
+                };
 
-            var registerResult = await _payedLeaveRepository.Add(newPayedLeave, cancellationToken).ConfigureAwait(false);
-            var registerDtoResult = _mapper.Map<PayedLeaveDTO>(registerResult);
+                var registerResult = await _payedLeaveRepository.Add(newPayedLeave, cancellationToken).ConfigureAwait(false);
+                var registerDtoResult = _mapper.Map<PayedLeaveDTO>(registerResult);
 
-            return ServiceResult<PayedLeaveDTO>.SuccessResult(registerDtoResult);
+                return ServiceResult<PayedLeaveDTO>.SuccessResult(registerDtoResult);
+            }
+            //Check if its editing existing payed leave request
+            else
+            {
+                var getExistingRegisteredPayedLeave = await _payedLeaveRepository
+                    .Get(payedLeaveDTO.Id ?? -1, cancellationToken)
+                    .ConfigureAwait(false) ?? throw new NotFoundException($"Registered payed leave request on id {payedLeaveDTO.Id} not found");
+
+                getExistingRegisteredPayedLeave.DateStart = payedLeaveDTO.DateStart;
+                getExistingRegisteredPayedLeave.DateEnd = payedLeaveDTO.DateEnd;
+                getExistingRegisteredPayedLeave.CountDays = payedLeaveDTO.CountDays;
+                getExistingRegisteredPayedLeave.PayBeforeHeadEnabled = payedLeaveDTO.PayBeforeHeadEnabled;
+                getExistingRegisteredPayedLeave.Approved = null;
+                getExistingRegisteredPayedLeave.ApprovedByUserId = null;
+                getExistingRegisteredPayedLeave.Comment = null;
+
+                var updateResult = await _payedLeaveRepository.Update(getExistingRegisteredPayedLeave, cancellationToken).ConfigureAwait(false);
+                var updateDtoResult = _mapper.Map<PayedLeaveDTO>(updateResult);
+
+                return ServiceResult<PayedLeaveDTO>.SuccessResult(updateDtoResult);
+            }
+
         }
     }
 }
