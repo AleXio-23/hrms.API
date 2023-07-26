@@ -23,9 +23,7 @@ namespace hrms.Application.Services.Vacation.UnpayedLeaves.GetCurrentActiveUnpay
             _getUserService = getUserService;
             _quartersCountsService = quartersCountsService;
         }
-
-
-
+          
         /// <summary>
         /// Check for specific user, how much unpayed leaves left for now (quarter/year type rage)
         /// Calculate how much days left from previous quarter/year
