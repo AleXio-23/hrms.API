@@ -2,7 +2,7 @@ namespace hrms.Domain.Models.Vacations.PayedLeave
 {
     public class PayedLeaveDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public int UserId { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace hrms.Infranstructure.Middlewares
 {
@@ -20,7 +20,7 @@ namespace hrms.Infranstructure.Middlewares
             context.Items["UserAgent"] = userAgent;
 
             // Call the next delegate/middleware in the pipeline
-            await _next(context);
+            await _next(context).ConfigureAwait(false);
         }
     }
 }
