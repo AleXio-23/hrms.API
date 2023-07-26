@@ -399,6 +399,17 @@ namespace hrms.API.Controllers
             }
             return Ok(result);
         }
+
+        [HttpGet("GetWeekWorkingDayByCode")]
+        public async Task<ActionResult<ServiceResult<WeekWorkingDayDTO>>> GetWeekWorkingDayByCode([FromQuery] string weekDayCode, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetWeekWorkingDayService.Execute(weekDayCode, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
  
         /// <summary>
         /// Get all week working days

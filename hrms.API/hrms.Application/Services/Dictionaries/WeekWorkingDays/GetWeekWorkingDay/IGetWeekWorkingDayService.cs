@@ -6,5 +6,6 @@ namespace hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingD
     public interface IGetWeekWorkingDayService
     {
         Task<ServiceResult<WeekWorkingDayDTO>> Execute(int id, CancellationToken cancellationToken);
+        Task<ServiceResult<WeekWorkingDayDTO>> Execute(string weekday, CancellationToken cancellationToken);
     }
 }

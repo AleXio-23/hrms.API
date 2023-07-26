@@ -1,5 +1,6 @@
 using AutoMapper;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHolidays;
+using hrms.Application.Services.Dictionaries.WeekWorkingDays.GetWeekWorkingDays;
 using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedule;
 using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedules;
 using hrms.Domain.Models.Dictionary.Vacations;
@@ -21,15 +22,17 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
         private readonly IRepository<QuartersConfiguration> _quarterCfgRepository;
         private readonly IGetUsersWorkSchedulesService _getUsersWorkSchedulesService;
         private readonly IGetCompanyHolidaysService _getCompanyHolidaysService;
+        private readonly IGetWeekWorkingDaysService _getWeekWorkingDaysService;
         private readonly IMapper _mapper;
 
-        public AddOrUpdatePayedLeaveService(IRepository<PayedLeaf> payedLeaveRepository, IRepository<HolidayType> holidayTypeRepository, IRepository<QuartersConfiguration> quarterCfgRepository, IGetUsersWorkSchedulesService getUsersWorkSchedulesService, IGetCompanyHolidaysService getCompanyHolidaysService, IMapper mapper)
+        public AddOrUpdatePayedLeaveService(IRepository<PayedLeaf> payedLeaveRepository, IRepository<HolidayType> holidayTypeRepository, IRepository<QuartersConfiguration> quarterCfgRepository, IGetUsersWorkSchedulesService getUsersWorkSchedulesService, IGetCompanyHolidaysService getCompanyHolidaysService, IGetWeekWorkingDaysService getWeekWorkingDaysService, IMapper mapper)
         {
             _payedLeaveRepository = payedLeaveRepository;
             _holidayTypeRepository = holidayTypeRepository;
             _quarterCfgRepository = quarterCfgRepository;
             _getUsersWorkSchedulesService = getUsersWorkSchedulesService;
             _getCompanyHolidaysService = getCompanyHolidaysService;
+            _getWeekWorkingDaysService = getWeekWorkingDaysService;
             _mapper = mapper;
         }
 
@@ -80,12 +83,14 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
 
             var getCompanyHoldayDatesBetweenPayedLeaveStartAndEndDates = await _getCompanyHolidaysService.Execute(filterForCompanyHolidays, cancellationToken).ConfigureAwait(false);
 
+            //Week days dictionary
+            var getWorkingDays = await _getWeekWorkingDaysService.Execute(cancellationToken).ConfigureAwait(false);
 
             // For each user date, calculate if day is working for user or not based on getCompanyHoldayDatesBetweenPayedLeaveStartAndEndDates and userWorkingDays
             foreach (var vacDate in datetimeListOfPayedLeaveDaysRange)
             {
                 string weekDayName = vacDate.ToString("dddd").ToLower();
-
+                var getWeekDayId = 
             }
 
             if (getHolidayTypeWithRangeType.HolidayRangeType.Equals("per_quarter"))
