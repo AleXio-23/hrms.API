@@ -1,9 +1,9 @@
 using hrms.Domain.Models.Vacations.PayedLeave;
 using hrms.Shared.Models;
 
-namespace hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves
+namespace hrms.Application.Services.Vacation.UnpayedLeaves.GetCurrentActiveUnpayedLeaves
 {
-    public interface IGetCurrentActivePayedLeavesService
+    public interface IGetCurrentActiveUnpayedLeavesService
     {
         Task<ServiceResult<GetCurrentActiveLeavesServiceResponse>> Execute(int userId, CancellationToken cancellationToken);
     }

@@ -2,17 +2,19 @@ using hrms.Application.Services.Vacation.CheckAnyRegisteredHolidaysInRange;
 using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
 using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
 using hrms.Application.Services.Vacation.QuartersCounts;
+using hrms.Application.Services.Vacation.UnpayedLeaves.GetCurrentActiveUnpayedLeaves;
 
 namespace hrms.Application.Services.Vacation
 {
     public class VacationsFacade : IVacationsFacade
     {
-        public VacationsFacade(IAddOrUpdatePayedLeaveService addOrUpdatePayedLeaveService, IGetCurrentActivePayedLeavesService getCurrentActivePayedLeavesService, IQuartersCountsService quartersCountsService, ICheckAnyRegisteredHolidaysInRangeService checkAnyRegisteredHolidaysInRangeService)
+        public VacationsFacade(IAddOrUpdatePayedLeaveService addOrUpdatePayedLeaveService, IGetCurrentActivePayedLeavesService getCurrentActivePayedLeavesService, IQuartersCountsService quartersCountsService, ICheckAnyRegisteredHolidaysInRangeService checkAnyRegisteredHolidaysInRangeService, IGetCurrentActiveUnpayedLeavesService getCurrentActiveUnpayedLeavesService)
         {
             AddOrUpdatePayedLeaveService = addOrUpdatePayedLeaveService;
             GetCurrentActivePayedLeavesService = getCurrentActivePayedLeavesService;
             QuartersCountsService = quartersCountsService;
             CheckAnyRegisteredHolidaysInRangeService = checkAnyRegisteredHolidaysInRangeService;
+            GetCurrentActiveUnpayedLeavesService = getCurrentActiveUnpayedLeavesService;
         }
 
         public IAddOrUpdatePayedLeaveService AddOrUpdatePayedLeaveService { get; }
@@ -22,5 +24,7 @@ namespace hrms.Application.Services.Vacation
         public IQuartersCountsService QuartersCountsService { get; }
 
         public ICheckAnyRegisteredHolidaysInRangeService CheckAnyRegisteredHolidaysInRangeService { get; }
+
+        public IGetCurrentActiveUnpayedLeavesService GetCurrentActiveUnpayedLeavesService { get; }
     }
 }

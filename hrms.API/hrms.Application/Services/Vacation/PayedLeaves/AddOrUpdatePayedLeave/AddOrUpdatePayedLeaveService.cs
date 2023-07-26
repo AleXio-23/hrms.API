@@ -118,7 +118,7 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
                 throw new NotFoundException("Error getting user's accesible free days for leave");
             }
 
-            var sumDays = getUserAccessibleFreeDaysForPayedLeave.Data.LeftPayedLeavesDays ?? 0 + getUserAccessibleFreeDaysForPayedLeave.Data.RemainingAvailableDaysFromPastQuarterOrYear ?? 0;
+            var sumDays = getUserAccessibleFreeDaysForPayedLeave.Data.LeftLeaveDays ?? 0 + getUserAccessibleFreeDaysForPayedLeave.Data.RemainingAvailableDaysFromPastQuarterOrYear ?? 0;
             if (payedLeaveDTO.CountDays > sumDays)
             {
                 throw new ArgumentException($"User with id {payedLeaveDTO.UserId} can't register payed leave ticket. Your request {payedLeaveDTO.CountDays} day(s) holiday while your access days for peayed leaves are {sumDays}(Including access days from previous quarter/year).");
