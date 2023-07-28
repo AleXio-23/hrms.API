@@ -1,6 +1,7 @@
 using hrms.Application.Services.Vacation;
 using hrms.Domain.Models.Vacations;
 using hrms.Domain.Models.Vacations.PayedLeave;
+using hrms.Domain.Models.Vacations.SickLeave;
 using hrms.Domain.Models.Vacations.UnpayedLeave;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -221,7 +222,73 @@ namespace hrms.API.Controllers
 
         #endregion
 
+        #region Sick Leaves
 
+       
+        [HttpGet("GetCurrentActiveSickLeaves")]
+        public async Task<ActionResult<ServiceResult<GetCurrentActiveLeavesServiceResponse>>> GetCurrentActiveSickLeaves([FromQuery] int userId, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.GetCurrentActiveSickLeavesService.Execute(userId, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+     
+        [HttpPost("AddOrUpdateSickLeave")]
+        public async Task<ActionResult<ServiceResult<SickLeaveDTO>>> AddOrUpdateSickLeave([FromBody] SickLeaveDTO sickLeaveDTO, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.AddOrUpdateSickLeaveService.Execute(sickLeaveDTO, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+   
+        [HttpGet("GetAllSickLeaves")]
+        public async Task<ActionResult<ServiceResult<List<SickLeaveDTOWithUserDTO>>>> GetAllSickLeaves([FromQuery] GetAllSickLeavesServiceFilter filter, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.GetAllSickLeavesService.Execute(filter, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+ 
+        [HttpGet("GetSickLeave")]
+        public async Task<ActionResult<ServiceResult<SickLeaveDTOWithUserDTO>>> GetSickLeave([FromQuery] int sickLeaveId, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.GetSickLeaveService.Execute(sickLeaveId, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+ 
+        [HttpPost("ApproveOrNotSickLeaves")]
+        [Authorize]
+        public async Task<ActionResult<ServiceResult<SickLeaveDTOWithUserDTO>>> ApproveOrNotSickLeaves([FromBody] ApproveOrNotLeavesRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.ApproveOrNotSickLeavesService.Execute(request, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        #endregion
         //დასამატებელია საათობრივი გასვლები
     }
 }

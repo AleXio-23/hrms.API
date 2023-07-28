@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using hrms.Domain.Models.Vacations.SickLeave;
+using hrms.Shared.Models;
 
 namespace hrms.Application.Services.Vacation.SickLeaves.Management.GetAllSickLeaves
 {
-    internal interface IGetAllSickLeavesService
+    public interface IGetAllSickLeavesService
     {
+        Task<ServiceResult<List<SickLeaveDTOWithUserDTO>>> Execute(GetAllSickLeavesServiceFilter filter, CancellationToken cancellationToken);
     }
 }
