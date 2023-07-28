@@ -7,6 +7,9 @@ using hrms.Application.Services.Vacation.PayedLeaves.Management.GetPayedLeave;
 using hrms.Application.Services.Vacation.QuartersCounts;
 using hrms.Application.Services.Vacation.UnpayedLeaves.AddOrUpdateUnpayedLeave;
 using hrms.Application.Services.Vacation.UnpayedLeaves.GetCurrentActiveUnpayedLeaves;
+using hrms.Application.Services.Vacation.UnpayedLeaves.Management.ApproveOrNotUnpayedLeaves;
+using hrms.Application.Services.Vacation.UnpayedLeaves.Management.GetAllUnpayedLeaves;
+using hrms.Application.Services.Vacation.UnpayedLeaves.Management.GetUnpayedLeave;
 
 namespace hrms.Application.Services.Vacation
 {
@@ -24,6 +27,10 @@ namespace hrms.Application.Services.Vacation
         IGetAllPayedLeavesService GetAllPayedLeavesService { get; }
         IGetPayedLeaveService GetPayedLeaveService { get; }
         IApproveOrNotPayedLeavesService ApproveOrNotPayedLeavesService { get; }
+
+        IApproveOrNotUnpayedLeavesService ApproveOrNotUnpayedLeavesService { get; }
+        IGetAllUnpayedLeavesService GetAllUnpayedLeavesService { get; }
+        IGetUnpayedLeaveService GetUnpayedLeaveService { get; }
 
     }
 }

@@ -76,6 +76,9 @@ using hrms.Application.Services.Vacation.PayedLeaves.Management.GetPayedLeave;
 using hrms.Application.Services.Vacation.QuartersCounts;
 using hrms.Application.Services.Vacation.UnpayedLeaves.AddOrUpdateUnpayedLeave;
 using hrms.Application.Services.Vacation.UnpayedLeaves.GetCurrentActiveUnpayedLeaves;
+using hrms.Application.Services.Vacation.UnpayedLeaves.Management.ApproveOrNotUnpayedLeaves;
+using hrms.Application.Services.Vacation.UnpayedLeaves.Management.GetAllUnpayedLeaves;
+using hrms.Application.Services.Vacation.UnpayedLeaves.Management.GetUnpayedLeave;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace hrms.Application
@@ -167,6 +170,9 @@ namespace hrms.Application
             services.AddScoped<IGetAllPayedLeavesService, GetAllPayedLeavesService>();
             services.AddScoped<IGetPayedLeaveService, GetPayedLeaveService>();
             services.AddScoped<IApproveOrNotPayedLeavesService, ApproveOrNotPayedLeavesService>();
+            services.AddScoped<IGetUnpayedLeaveService, GetUnpayedLeaveService>();
+            services.AddScoped<IGetAllUnpayedLeavesService, GetAllUnpayedLeavesService>();
+            services.AddScoped<IApproveOrNotUnpayedLeavesService, ApproveOrNotUnpayedLeavesService>();
 
             return services;
         }
