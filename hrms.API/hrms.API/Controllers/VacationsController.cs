@@ -86,9 +86,9 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetPayedLeave")]
-        public async Task<ActionResult<ServiceResult<PayedLeaveDTOWithUserDTO>>> GetPayedLeave([FromQuery] int peayedLeaveId, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<PayedLeaveDTOWithUserDTO>>> GetPayedLeave([FromQuery] int payedLeaveId, CancellationToken cancellationToken)
         {
-            var result = await _vacationsFacade.GetPayedLeaveService.Execute(peayedLeaveId, cancellationToken).ConfigureAwait(false);
+            var result = await _vacationsFacade.GetPayedLeaveService.Execute(payedLeaveId, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
@@ -179,6 +179,25 @@ namespace hrms.API.Controllers
 
             return Ok(result);
         }
+
+        /// <summary>
+        /// Get single payed leave with request author and approve author info 
+        /// </summary>
+        /// <param name="unpayedLeaveId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetUnpayedLeave")]
+        public async Task<ActionResult<ServiceResult<UnpayedLeaveDTOWithUserDTO>>> GetUnpayedLeave([FromQuery] int unpayedLeaveId, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.GetUnpayedLeaveService.Execute(unpayedLeaveId, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
         #endregion
 
     }
