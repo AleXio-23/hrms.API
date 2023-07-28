@@ -82,7 +82,7 @@ namespace hrms.API.Controllers
         /// <summary>
         /// Get single payed leave with request author and approve author info
         /// </summary>
-        /// <param name="peayedLeaveId"></param>
+        /// <param name="payedLeaveId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetPayedLeave")]
@@ -107,7 +107,7 @@ namespace hrms.API.Controllers
         /// <returns></returns>
         [HttpPost("ApproveOrNotPayedLeaves")]
         [Authorize]
-        public async Task<ActionResult<ServiceResult<PayedLeaveDTO>>> ApproveOrNotPayedLeaves([FromBody] ApproveOrNotPayedLeavesRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<PayedLeaveDTOWithUserDTO>>> ApproveOrNotPayedLeaves([FromBody] ApproveOrNotLeavesRequest request, CancellationToken cancellationToken)
         {
             var result = await _vacationsFacade.ApproveOrNotPayedLeavesService.Execute(request, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -148,7 +148,7 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("AddOrUpdateUnpayedLeave")]
-        public async Task<ActionResult<ServiceResult<PayedLeaveDTO>>> AddOrUpdateUnpayedLeave([FromBody] UnpayedLeaveDTO unpayedLeaveDTO, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<UnpayedLeaveDTO>>> AddOrUpdateUnpayedLeave([FromBody] UnpayedLeaveDTO unpayedLeaveDTO, CancellationToken cancellationToken)
         {
             var result = await _vacationsFacade.AddOrUpdateUnpayedLeaveService.Execute(unpayedLeaveDTO, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -190,6 +190,27 @@ namespace hrms.API.Controllers
         public async Task<ActionResult<ServiceResult<UnpayedLeaveDTOWithUserDTO>>> GetUnpayedLeave([FromQuery] int unpayedLeaveId, CancellationToken cancellationToken)
         {
             var result = await _vacationsFacade.GetUnpayedLeaveService.Execute(unpayedLeaveId, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Approve or not user's unpayed leave request
+        /// TODO: only managers or higher positions can approve  this request
+        /// for managers, only their departmnt users
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("ApproveOrNotUnpayedLeaves")]
+        [Authorize]
+        public async Task<ActionResult<ServiceResult<UnpayedLeaveDTOWithUserDTO>>> ApproveOrNotUnpayedLeaves([FromBody] ApproveOrNotLeavesRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.ApproveOrNotUnpayedLeavesService.Execute(request, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);

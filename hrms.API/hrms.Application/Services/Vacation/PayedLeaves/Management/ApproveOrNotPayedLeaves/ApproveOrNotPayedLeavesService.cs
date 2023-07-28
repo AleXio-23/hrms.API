@@ -1,4 +1,5 @@
 using hrms.Application.Services.Vacation.PayedLeaves.Management.GetPayedLeave;
+using hrms.Domain.Models.Vacations;
 using hrms.Domain.Models.Vacations.PayedLeave;
 using hrms.Infranstructure.Services.CurrentUserId;
 using hrms.Persistance.Entities;
@@ -22,9 +23,9 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.Management.ApproveOrNot
             _getPayedLeaveService = getPayedLeaveService;
         }
 
-        public async Task<ServiceResult<PayedLeaveDTOWithUserDTO>> Execute(ApproveOrNotPayedLeavesRequest request, CancellationToken cancellationToken)
+        public async Task<ServiceResult<PayedLeaveDTOWithUserDTO>> Execute(ApproveOrNotLeavesRequest request, CancellationToken cancellationToken)
         {
-            var getPayedLeave = await _payedLeavesRepository.Where(x => x.Id == request.PayedLeaveId && x.UserId == request.UserId).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Payed leave on id {request.PayedLeaveId} for user with id {request.UserId} not found");
+            var getPayedLeave = await _payedLeavesRepository.Where(x => x.Id == request.LeaveId && x.UserId == request.UserId).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Payed leave on id {request.LeaveId} for user with id {request.UserId} not found");
             var getAuthorisedUserId = _getCurrentUserIdService.Execute();
 
             if (getPayedLeave.Approved != null)
