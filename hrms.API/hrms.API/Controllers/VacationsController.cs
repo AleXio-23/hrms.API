@@ -224,7 +224,13 @@ namespace hrms.API.Controllers
 
         #region Sick Leaves
 
-       
+        /// <summary>
+        /// Check for specific user, how much sick leaves left for now (quarter/year type rage)
+        /// Calculate how much days left from previous quarter/year
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("GetCurrentActiveSickLeaves")]
         public async Task<ActionResult<ServiceResult<GetCurrentActiveLeavesServiceResponse>>> GetCurrentActiveSickLeaves([FromQuery] int userId, CancellationToken cancellationToken)
         {
@@ -237,7 +243,12 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
-     
+        /// <summary>
+        /// Register new or update existing sick leave
+        /// </summary>
+        /// <param name="sickLeaveDTO"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost("AddOrUpdateSickLeave")]
         public async Task<ActionResult<ServiceResult<SickLeaveDTO>>> AddOrUpdateSickLeave([FromBody] SickLeaveDTO sickLeaveDTO, CancellationToken cancellationToken)
         {
@@ -250,7 +261,7 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
-   
+
         [HttpGet("GetAllSickLeaves")]
         public async Task<ActionResult<ServiceResult<List<SickLeaveDTOWithUserDTO>>>> GetAllSickLeaves([FromQuery] GetAllSickLeavesServiceFilter filter, CancellationToken cancellationToken)
         {
@@ -262,7 +273,7 @@ namespace hrms.API.Controllers
 
             return Ok(result);
         }
- 
+
         [HttpGet("GetSickLeave")]
         public async Task<ActionResult<ServiceResult<SickLeaveDTOWithUserDTO>>> GetSickLeave([FromQuery] int sickLeaveId, CancellationToken cancellationToken)
         {
@@ -274,7 +285,7 @@ namespace hrms.API.Controllers
 
             return Ok(result);
         }
- 
+
         [HttpPost("ApproveOrNotSickLeaves")]
         [Authorize]
         public async Task<ActionResult<ServiceResult<SickLeaveDTOWithUserDTO>>> ApproveOrNotSickLeaves([FromBody] ApproveOrNotLeavesRequest request, CancellationToken cancellationToken)

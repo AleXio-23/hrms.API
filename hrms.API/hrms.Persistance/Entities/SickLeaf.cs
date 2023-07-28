@@ -13,6 +13,8 @@ public partial class SickLeaf
 
     public DateTime DateEnd { get; set; }
 
+    public int CountDays { get; set; }
+
     public int? DocumentId { get; set; }
 
     public bool? Approved { get; set; }
