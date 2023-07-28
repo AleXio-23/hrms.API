@@ -3,6 +3,7 @@ using hrms.Domain.Models.Vacations;
 using hrms.Domain.Models.Vacations.PayedLeave;
 using hrms.Domain.Models.Vacations.UnpayedLeave;
 using hrms.Shared.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace hrms.API.Controllers
@@ -57,7 +58,6 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
-
         /// <summary>
         /// Get all payed leaves
         /// Need to check that, by default, user can get only his/her payedleaves list,
@@ -79,6 +79,44 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Get single payed leave with request author and approve author info
+        /// </summary>
+        /// <param name="peayedLeaveId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetPayedLeave")]
+        public async Task<ActionResult<ServiceResult<PayedLeaveDTOWithUserDTO>>> GetPayedLeave([FromQuery] int peayedLeaveId, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.GetPayedLeaveService.Execute(peayedLeaveId, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Approve or not user's payed leave request
+        /// TODO: onlymanagers or higher positions can approve  this request
+        /// for managers, onli their departmnt users
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("ApproveOrNotPayedLeaves")]
+        [Authorize]
+        public async Task<ActionResult<ServiceResult<PayedLeaveDTO>>> ApproveOrNotPayedLeaves([FromBody] ApproveOrNotPayedLeavesRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.ApproveOrNotPayedLeavesService.Execute(request, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
 
         #endregion
 

@@ -70,7 +70,9 @@ using hrms.Application.Services.Vacation;
 using hrms.Application.Services.Vacation.CheckAnyRegisteredHolidaysInRange;
 using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
 using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
+using hrms.Application.Services.Vacation.PayedLeaves.Management.ApproveOrNotPayedLeaves;
 using hrms.Application.Services.Vacation.PayedLeaves.Management.GetAllPayedLeaves;
+using hrms.Application.Services.Vacation.PayedLeaves.Management.GetPayedLeave;
 using hrms.Application.Services.Vacation.QuartersCounts;
 using hrms.Application.Services.Vacation.UnpayedLeaves.AddOrUpdateUnpayedLeave;
 using hrms.Application.Services.Vacation.UnpayedLeaves.GetCurrentActiveUnpayedLeaves;
@@ -163,6 +165,8 @@ namespace hrms.Application
             services.AddScoped<IGetCurrentActiveUnpayedLeavesService, GetCurrentActiveUnpayedLeavesService>();
             services.AddScoped<IAddOrUpdateUnpayedLeaveService, AddOrUpdateUnpayedLeaveService>();
             services.AddScoped<IGetAllPayedLeavesService, GetAllPayedLeavesService>();
+            services.AddScoped<IGetPayedLeaveService, GetPayedLeaveService>();
+            services.AddScoped<IApproveOrNotPayedLeavesService, ApproveOrNotPayedLeavesService>();
 
             return services;
         }
