@@ -5,6 +5,11 @@ using hrms.Application.Services.Vacation.PayedLeaves.Management.ApproveOrNotPaye
 using hrms.Application.Services.Vacation.PayedLeaves.Management.GetAllPayedLeaves;
 using hrms.Application.Services.Vacation.PayedLeaves.Management.GetPayedLeave;
 using hrms.Application.Services.Vacation.QuartersCounts;
+using hrms.Application.Services.Vacation.SickLeaves.AddOrUpdateSickLeave;
+using hrms.Application.Services.Vacation.SickLeaves.GetCurrentActiveSickLeaves;
+using hrms.Application.Services.Vacation.SickLeaves.Management.ApproveOrNotSickLeaves;
+using hrms.Application.Services.Vacation.SickLeaves.Management.GetAllSickLeaves;
+using hrms.Application.Services.Vacation.SickLeaves.Management.GetSickLeave;
 using hrms.Application.Services.Vacation.UnpayedLeaves.AddOrUpdateUnpayedLeave;
 using hrms.Application.Services.Vacation.UnpayedLeaves.GetCurrentActiveUnpayedLeaves;
 using hrms.Application.Services.Vacation.UnpayedLeaves.Management.ApproveOrNotUnpayedLeaves;
@@ -15,7 +20,7 @@ namespace hrms.Application.Services.Vacation
 {
     public class VacationsFacade : IVacationsFacade
     {
-        public VacationsFacade(IAddOrUpdatePayedLeaveService addOrUpdatePayedLeaveService, IGetCurrentActivePayedLeavesService getCurrentActivePayedLeavesService, IQuartersCountsService quartersCountsService, ICheckAnyRegisteredHolidaysInRangeService checkAnyRegisteredHolidaysInRangeService, IGetCurrentActiveUnpayedLeavesService getCurrentActiveUnpayedLeavesService, IAddOrUpdateUnpayedLeaveService addOrUpdateUnpayedLeaveService, IGetAllPayedLeavesService getAllPayedLeavesService, IGetPayedLeaveService getPayedLeaveService, IApproveOrNotPayedLeavesService approveOrNotPayedLeavesService, IApproveOrNotUnpayedLeavesService approveOrNotUnpayedLeavesService, IGetAllUnpayedLeavesService getAllUnpayedLeavesService, IGetUnpayedLeaveService getUnpayedLeaveService)
+        public VacationsFacade(IAddOrUpdatePayedLeaveService addOrUpdatePayedLeaveService, IGetCurrentActivePayedLeavesService getCurrentActivePayedLeavesService, IQuartersCountsService quartersCountsService, ICheckAnyRegisteredHolidaysInRangeService checkAnyRegisteredHolidaysInRangeService, IGetCurrentActiveUnpayedLeavesService getCurrentActiveUnpayedLeavesService, IAddOrUpdateUnpayedLeaveService addOrUpdateUnpayedLeaveService, IGetAllPayedLeavesService getAllPayedLeavesService, IGetPayedLeaveService getPayedLeaveService, IApproveOrNotPayedLeavesService approveOrNotPayedLeavesService, IApproveOrNotUnpayedLeavesService approveOrNotUnpayedLeavesService, IGetAllUnpayedLeavesService getAllUnpayedLeavesService, IGetUnpayedLeaveService getUnpayedLeaveService, IAddOrUpdateSickLeaveService addOrUpdateSickLeaveService, IGetCurrentActiveSickLeavesService getCurrentActiveSickLeavesService, IApproveOrNotSickLeavesService approveOrNotSickLeavesService, IGetAllSickLeavesService getAllSickLeavesService, IGetSickLeaveService getSickLeaveService)
         {
             AddOrUpdatePayedLeaveService = addOrUpdatePayedLeaveService;
             GetCurrentActivePayedLeavesService = getCurrentActivePayedLeavesService;
@@ -29,6 +34,11 @@ namespace hrms.Application.Services.Vacation
             ApproveOrNotUnpayedLeavesService = approveOrNotUnpayedLeavesService;
             GetAllUnpayedLeavesService = getAllUnpayedLeavesService;
             GetUnpayedLeaveService = getUnpayedLeaveService;
+            AddOrUpdateSickLeaveService = addOrUpdateSickLeaveService;
+            GetCurrentActiveSickLeavesService = getCurrentActiveSickLeavesService;
+            ApproveOrNotSickLeavesService = approveOrNotSickLeavesService;
+            GetAllSickLeavesService = getAllSickLeavesService;
+            GetSickLeaveService = getSickLeaveService;
         }
 
         public IAddOrUpdatePayedLeaveService AddOrUpdatePayedLeaveService { get; }
@@ -54,5 +64,15 @@ namespace hrms.Application.Services.Vacation
         public IGetAllUnpayedLeavesService GetAllUnpayedLeavesService { get; }
 
         public IGetUnpayedLeaveService GetUnpayedLeaveService { get; }
+
+        public IAddOrUpdateSickLeaveService AddOrUpdateSickLeaveService { get; }
+
+        public IGetCurrentActiveSickLeavesService GetCurrentActiveSickLeavesService { get; }
+
+        public IApproveOrNotSickLeavesService ApproveOrNotSickLeavesService { get; }
+
+        public IGetAllSickLeavesService GetAllSickLeavesService { get; }
+
+        public IGetSickLeaveService GetSickLeaveService { get; }
     }
 }
