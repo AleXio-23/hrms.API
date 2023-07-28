@@ -159,7 +159,26 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Get all unpayed leaves
+        /// Need to check that, by default, user can get only his/her unpayedleaves list,
+        /// but for managers, they can see only their department users unpayed leaves
+        /// for much higher positions, can see all users unpayed leaves
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetAllUnpayedLeaves")]
+        public async Task<ActionResult<ServiceResult<List<UnpayedLeaveDTOWithUserDTO>>>> GetAllUnpayedLeaves([FromQuery] GetAllUnpayedLeavesServiceFilter filter, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.GetAllUnpayedLeavesService.Execute(filter, cancellationToken).ConfigureAwait(false);
+            if (result.ErrorOccured)
+            {
+                return BadRequest(result);
+            }
 
+            return Ok(result);
+        }
         #endregion
 
     }
