@@ -9,6 +9,7 @@ using hrms.Domain.Models.User;
 using hrms.Domain.Models.Vacations.PayedLeave;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
+using hrms.Shared.Constants;
 using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
 using Microsoft.EntityFrameworkCore;
@@ -53,7 +54,7 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
 
             var getHolidayTypeWithRangeType = await _holidayTypeRepository
                 .GetIncluding(x => x.HolidayRangeType)
-                .Where(x => x.Code == "payed_leave").FirstOrDefaultAsync(cancellationToken)
+                .Where(x => x.Code == VacationContants.HolidayCode_PayedLeave).FirstOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(false) ?? throw new NotFoundException($"Holiday type for payed leave not found");
 
             if (getHolidayTypeWithRangeType.HolidayRangeType == null)

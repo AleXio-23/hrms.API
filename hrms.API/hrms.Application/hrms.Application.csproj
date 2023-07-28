@@ -18,5 +18,9 @@
     <ProjectReference Include="..\hrms.Shared\hrms.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Vacation\PayedLeaves\Management\ApproveOrNotPayedLeaves\" />
+  </ItemGroup>
+
 </Project>
     

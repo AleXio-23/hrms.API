@@ -1,4 +1,4 @@
-﻿using hrms.Domain.Models.Dictionary.Gender;
+using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Persistance.Repository;
 using hrms.Shared.Models;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +38,7 @@ namespace hrms.Application.Services.Dictionaries.Gender.GetGenders
                 Value = x.Value,
                 Description = x.Description,
                 IsActive = x.IsActive
-            }).ToListAsync(cancellationToken);
+            }).ToListAsync(cancellationToken).ConfigureAwait(false);
 
             return ServiceResult<List<GenderDTO>>.SuccessResult(result ?? new List<GenderDTO>());
         }
