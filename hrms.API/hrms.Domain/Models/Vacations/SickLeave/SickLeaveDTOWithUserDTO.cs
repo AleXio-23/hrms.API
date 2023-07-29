@@ -25,7 +25,7 @@ namespace hrms.Domain.Models.Vacations.SickLeave
 
         public virtual UserProfileDTO? ApprovedByUser { get; set; }
 
-        public virtual UserUploadedDocumentDTO? Document { get; set; }
+        public virtual List<UserUploadedDocumentDTO>? Document { get; set; }
 
         public virtual UserProfileDTO User { get; set; } = null!;
     }

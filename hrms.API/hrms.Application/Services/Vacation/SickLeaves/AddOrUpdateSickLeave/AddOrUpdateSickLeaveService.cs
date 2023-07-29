@@ -138,7 +138,6 @@ namespace hrms.Application.Services.Vacation.SickLeaves.AddOrUpdateSickLeave
                     DateStart = sickLeaveDTO.DateStart,
                     DateEnd = sickLeaveDTO.DateEnd,
                     CountDays = sickLeaveDTO.CountDays ?? 0,
-                    DocumentId = sickLeaveDTO.DocumentId,
                     Approved = null,
                     ApprovedByUserId = null,
                     Comment = null
@@ -159,7 +158,6 @@ namespace hrms.Application.Services.Vacation.SickLeaves.AddOrUpdateSickLeave
                 getExistingRegisteredSickLeave.DateStart = sickLeaveDTO.DateStart;
                 getExistingRegisteredSickLeave.DateEnd = sickLeaveDTO.DateEnd;
                 getExistingRegisteredSickLeave.CountDays = sickLeaveDTO.CountDays ?? 0;
-                getExistingRegisteredSickLeave.DocumentId = sickLeaveDTO.DocumentId;
                 getExistingRegisteredSickLeave.Approved = null;
                 getExistingRegisteredSickLeave.ApprovedByUserId = null;
                 getExistingRegisteredSickLeave.Comment = null;

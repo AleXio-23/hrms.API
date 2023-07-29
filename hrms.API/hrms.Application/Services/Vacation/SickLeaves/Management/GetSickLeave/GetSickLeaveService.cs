@@ -25,7 +25,7 @@ namespace hrms.Application.Services.Vacation.SickLeaves.Management.GetSickLeave
                .ThenInclude(x => x.UserProfile)
                .Include(x => x.ApprovedByUser)
                .ThenInclude(x => x.UserProfile)
-               .Include(x => x.Document)
+               .Include(x => x.Documents)
                .ThenInclude(x => x.Document)
                .Select(sickLeaf => new SickLeaveDTOWithUserDTO()
                {
@@ -34,7 +34,7 @@ namespace hrms.Application.Services.Vacation.SickLeaves.Management.GetSickLeave
                    DateStart = sickLeaf.DateStart,
                    DateEnd = sickLeaf.DateEnd,
                    CountDays = sickLeaf.CountDays,
-                   DocumentId = sickLeaf.DocumentId,
+                   //DocumentId = sickLeaf.DocumentId,
                    Approved = sickLeaf.Approved,
                    ApprovedByUserId = sickLeaf.ApprovedByUserId,
                    Comment = sickLeaf.Comment,
@@ -64,15 +64,15 @@ namespace hrms.Application.Services.Vacation.SickLeaves.Management.GetSickLeave
                        GenderId = sickLeaf.ApprovedByUser.UserProfile.GenderId,
                        RegisterDate = sickLeaf.ApprovedByUser.UserProfile.RegisterDate
                    } : null,
-                   Document = sickLeaf.Document != null ? new UserUploadedDocumentDTO()
+                   Document = sickLeaf.Documents.Select(x => new UserUploadedDocumentDTO()
                    {
-                       Id = sickLeaf.Document.Id,
-                       UploadedByUserId = sickLeaf.Document.UploadedByUserId,
-                       UploadDate = sickLeaf.Document.UploadDate,
-                       DocumentTypeId = sickLeaf.Document.DocumentTypeId,
-                       DocumentTypeIfNotFoundInDicitonary = sickLeaf.Document.DocumentTypeIfNotFoundInDicitonary,
-                       DocumentId = sickLeaf.Document.DocumentId
-                   } : null
+                       Id = x.Id,
+                       UploadedByUserId = x.UploadedByUserId,
+                       UploadDate = x.UploadDate,
+                       DocumentTypeId = x.DocumentTypeId,
+                       DocumentTypeIfNotFoundInDicitonary = x.DocumentTypeIfNotFoundInDicitonary,
+                       DocumentId = x.DocumentId
+                   }).ToList()
                }).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false)
                ?? throw new NotFoundException($"Sick leave on id {id} not found");
 

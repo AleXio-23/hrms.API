@@ -1,3 +1,6 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace hrms.Persistance.Entities;
 
 public partial class UserUploadedDocument
@@ -18,7 +21,7 @@ public partial class UserUploadedDocument
 
     public virtual DocumentType? DocumentType { get; set; }
 
-    public virtual ICollection<SickLeaf> SickLeaves { get; set; } = new List<SickLeaf>();
-
     public virtual User? UploadedByUser { get; set; }
+
+    public virtual ICollection<SickLeaf> SickLeaves { get; set; } = new List<SickLeaf>();
 }
