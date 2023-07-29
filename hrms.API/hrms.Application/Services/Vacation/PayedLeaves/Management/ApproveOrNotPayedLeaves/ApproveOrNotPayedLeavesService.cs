@@ -25,7 +25,7 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.Management.ApproveOrNot
 
         public async Task<ServiceResult<PayedLeaveDTOWithUserDTO>> Execute(ApproveOrNotLeavesRequest request, CancellationToken cancellationToken)
         {
-            var getPayedLeave = await _payedLeavesRepository.Where(x => x.Id == request.LeaveId && x.UserId == request.UserId).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Payed leave on id {request.LeaveId} for user with id {request.UserId} not found");
+            var getPayedLeave = await _payedLeavesRepository.Where(x => x.Id == request.LeaveId).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Payed leave on id {request.LeaveId} for user with id {request.UserId} not found");
             var getAuthorisedUserId = _getCurrentUserIdService.Execute();
 
             if (getPayedLeave.Approved != null)

@@ -5,7 +5,6 @@ using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata;
 
 namespace hrms.Application.Services.Vacation.SickLeaves.Management.GetSickLeave
 {
@@ -34,7 +33,6 @@ namespace hrms.Application.Services.Vacation.SickLeaves.Management.GetSickLeave
                    DateStart = sickLeaf.DateStart,
                    DateEnd = sickLeaf.DateEnd,
                    CountDays = sickLeaf.CountDays,
-                   //DocumentId = sickLeaf.DocumentId,
                    Approved = sickLeaf.Approved,
                    ApprovedByUserId = sickLeaf.ApprovedByUserId,
                    Comment = sickLeaf.Comment,

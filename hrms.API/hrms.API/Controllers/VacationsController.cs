@@ -63,7 +63,7 @@ namespace hrms.API.Controllers
         /// Get all payed leaves
         /// Need to check that, by default, user can get only his/her payedleaves list,
         /// but for managers, they can see only their department users payed leaves
-        /// for much higher positions, can see all users payed leaves
+        /// for much higher positions, can see all users payed leavescc
         /// </summary>
         /// <param name="filter"></param>
         /// <param name="cancellationToken"></param>
@@ -261,7 +261,15 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
-
+        /// <summary>
+        /// Get all sick leaves
+        /// Need to check that, by default, user can get only his/her sick leaves list,
+        /// but for managers, they can see only their department users sick leaves
+        /// for much higher positions, can see all users sick leaves 
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("GetAllSickLeaves")]
         public async Task<ActionResult<ServiceResult<List<SickLeaveDTOWithUserDTO>>>> GetAllSickLeaves([FromQuery] GetAllSickLeavesServiceFilter filter, CancellationToken cancellationToken)
         {
@@ -292,6 +300,14 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Approve or not user's sick leave request
+        /// TODO: onlymanagers or higher positions can approve  this request
+        /// for managers, only their departmnt users
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost("ApproveOrNotSickLeaves")]
         [Authorize]
         public async Task<ActionResult<ServiceResult<SickLeaveDTOWithUserDTO>>> ApproveOrNotSickLeaves([FromBody] ApproveOrNotLeavesRequest request, CancellationToken cancellationToken)
