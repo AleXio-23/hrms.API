@@ -274,6 +274,12 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Get single sick leave with request author and approve author info 
+        /// </summary>
+        /// <param name="sickLeaveId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("GetSickLeave")]
         public async Task<ActionResult<ServiceResult<SickLeaveDTOWithUserDTO>>> GetSickLeave([FromQuery] int sickLeaveId, CancellationToken cancellationToken)
         {
