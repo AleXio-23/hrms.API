@@ -25,7 +25,7 @@ namespace hrms.Application.Services.Vacation.SickLeaves.Management.ApproveOrNotS
 
         public async Task<ServiceResult<SickLeaveDTOWithUserDTO>> Execute(ApproveOrNotLeavesRequest request, CancellationToken cancellationToken)
         {
-            var getSickLeave = await _sickLeaveRepository.Where(x => x.Id == request.LeaveId).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Sick leave on id {request.LeaveId} for user with id {request.UserId} not found");
+            var getSickLeave = await _sickLeaveRepository.Where(x => x.Id == request.LeaveId).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Sick leave on id {request.LeaveId} not found");
             var getAuthorisedUserId = _getCurrentUserIdService.Execute();
 
             if (getSickLeave.Approved != null)

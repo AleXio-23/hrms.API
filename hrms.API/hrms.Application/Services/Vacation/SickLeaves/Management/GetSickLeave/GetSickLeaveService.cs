@@ -19,6 +19,7 @@ namespace hrms.Application.Services.Vacation.SickLeaves.Management.GetSickLeave
 
         public async Task<ServiceResult<SickLeaveDTOWithUserDTO>> Execute(int id, CancellationToken cancellationToken)
         {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             var result = await _sickLeavesRepository.Where(x => x.Id == id)
                .Include(x => x.User)
                .ThenInclude(x => x.UserProfile)
@@ -73,6 +74,7 @@ namespace hrms.Application.Services.Vacation.SickLeaves.Management.GetSickLeave
                    }).ToList()
                }).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(false)
                ?? throw new NotFoundException($"Sick leave on id {id} not found");
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             return ServiceResult<SickLeaveDTOWithUserDTO>.SuccessResult(result);
         }

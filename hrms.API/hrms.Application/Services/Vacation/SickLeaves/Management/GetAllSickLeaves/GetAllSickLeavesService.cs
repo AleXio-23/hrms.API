@@ -85,6 +85,7 @@ namespace hrms.Application.Services.Vacation.SickLeaves.Management.GetAllSickLea
                 query = query.Where(x => x.Comment != null && x.Comment.Contains(filter.Comment));
             }
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             var result = await query
               .Include(x => x.User)
               .ThenInclude(x => x.UserProfile)
@@ -138,6 +139,7 @@ namespace hrms.Application.Services.Vacation.SickLeaves.Management.GetAllSickLea
                       DocumentId = x.DocumentId
                   }).ToList()
               }).ToListAsync(cancellationToken).ConfigureAwait(false) ?? new List<SickLeaveDTOWithUserDTO>();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             return ServiceResult<List<SickLeaveDTOWithUserDTO>>.SuccessResult(result);
         }
