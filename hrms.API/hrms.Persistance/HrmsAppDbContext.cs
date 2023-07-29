@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using hrms.Persistance.Entities;
@@ -81,7 +81,7 @@ public partial class HrmsAppDbContext : DbContext
     public virtual DbSet<WorkingStatus> WorkingStatuses { get; set; }
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
- 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -357,7 +357,7 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<SickLeaf>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SickLeav__3214EC071B9105ED");
+            entity.HasKey(e => e.Id).HasName("PK__SickLeav__3214EC076DEBB036");
 
             entity.ToTable("SickLeaves", "vacation");
 
@@ -365,16 +365,29 @@ public partial class HrmsAppDbContext : DbContext
 
             entity.HasOne(d => d.ApprovedByUser).WithMany(p => p.SickLeafApprovedByUsers)
                 .HasForeignKey(d => d.ApprovedByUserId)
-                .HasConstraintName("FK__SickLeave__Appro__1881A0DE");
-
-            entity.HasOne(d => d.Document).WithMany(p => p.SickLeaves)
-                .HasForeignKey(d => d.DocumentId)
-                .HasConstraintName("FK__SickLeave__Docum__1699586C");
+                .HasConstraintName("FK__SickLeave__Appro__4EDDB18F");
 
             entity.HasOne(d => d.User).WithMany(p => p.SickLeafUsers)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SickLeave__UserI__15A53433");
+                .HasConstraintName("FK__SickLeave__UserI__4CF5691D");
+
+            entity.HasMany(d => d.Documents).WithMany(p => p.SickLeaves)
+                .UsingEntity<Dictionary<string, object>>(
+                    "SickLeaveDocumnt",
+                    r => r.HasOne<UserUploadedDocument>().WithMany()
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__SickLeave__Docum__52AE4273"),
+                    l => l.HasOne<SickLeaf>().WithMany()
+                        .HasForeignKey("SickLeaveId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__SickLeave__SickL__51BA1E3A"),
+                    j =>
+                    {
+                        j.HasKey("SickLeaveId", "DocumentId").HasName("PK__SickLeav__222C828DA594FAD4");
+                        j.ToTable("SickLeaveDocumnts", "vacation");
+                    });
         });
 
         modelBuilder.Entity<TraceWorking>(entity =>

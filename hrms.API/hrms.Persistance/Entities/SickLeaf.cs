@@ -13,7 +13,7 @@ public partial class SickLeaf
 
     public DateTime DateEnd { get; set; }
 
-    public int? DocumentId { get; set; }
+    public int CountDays { get; set; }
 
     public bool? Approved { get; set; }
 
@@ -23,7 +23,7 @@ public partial class SickLeaf
 
     public virtual User? ApprovedByUser { get; set; }
 
-    public virtual UserUploadedDocument? Document { get; set; }
-
     public virtual User User { get; set; } = null!;
+
+    public virtual ICollection<UserUploadedDocument> Documents { get; set; } = new List<UserUploadedDocument>();
 }

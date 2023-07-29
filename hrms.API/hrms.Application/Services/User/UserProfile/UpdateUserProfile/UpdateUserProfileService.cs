@@ -1,4 +1,4 @@
-﻿using hrms.Domain.Models.User;
+using hrms.Domain.Models.User;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
@@ -15,7 +15,7 @@ namespace hrms.Application.Services.User.UserProfile.UpdateUserProfile
         }
         public async Task<ServiceResult<Persistance.Entities.UserProfile>> Execute(UserProfileDTO userPrfileDTO, CancellationToken cancellationToken)
         {
-            var getExistingProfile = await _profileRepository.FirstOrDefaultAsync(x => x.UserId == userPrfileDTO.UserId, cancellationToken)
+            var getExistingProfile = await _profileRepository.FirstOrDefaultAsync(x => x.UserId == userPrfileDTO.UserId, cancellationToken).ConfigureAwait(false)
                                         ?? throw new NotFoundException($"Profile for user: {userPrfileDTO.UserId} not found.");
 
             getExistingProfile.BirthDate = userPrfileDTO.BirthDate;

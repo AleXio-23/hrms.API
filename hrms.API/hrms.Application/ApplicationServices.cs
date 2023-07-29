@@ -70,9 +70,20 @@ using hrms.Application.Services.Vacation;
 using hrms.Application.Services.Vacation.CheckAnyRegisteredHolidaysInRange;
 using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
 using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
+using hrms.Application.Services.Vacation.PayedLeaves.Management.ApproveOrNotPayedLeaves;
+using hrms.Application.Services.Vacation.PayedLeaves.Management.GetAllPayedLeaves;
+using hrms.Application.Services.Vacation.PayedLeaves.Management.GetPayedLeave;
 using hrms.Application.Services.Vacation.QuartersCounts;
+using hrms.Application.Services.Vacation.SickLeaves.AddOrUpdateSickLeave;
+using hrms.Application.Services.Vacation.SickLeaves.GetCurrentActiveSickLeaves;
+using hrms.Application.Services.Vacation.SickLeaves.Management.ApproveOrNotSickLeaves;
+using hrms.Application.Services.Vacation.SickLeaves.Management.GetAllSickLeaves;
+using hrms.Application.Services.Vacation.SickLeaves.Management.GetSickLeave;
 using hrms.Application.Services.Vacation.UnpayedLeaves.AddOrUpdateUnpayedLeave;
 using hrms.Application.Services.Vacation.UnpayedLeaves.GetCurrentActiveUnpayedLeaves;
+using hrms.Application.Services.Vacation.UnpayedLeaves.Management.ApproveOrNotUnpayedLeaves;
+using hrms.Application.Services.Vacation.UnpayedLeaves.Management.GetAllUnpayedLeaves;
+using hrms.Application.Services.Vacation.UnpayedLeaves.Management.GetUnpayedLeave;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace hrms.Application
@@ -161,6 +172,17 @@ namespace hrms.Application
             services.AddScoped<ICheckAnyRegisteredHolidaysInRangeService, CheckAnyRegisteredHolidaysInRangeService>();
             services.AddScoped<IGetCurrentActiveUnpayedLeavesService, GetCurrentActiveUnpayedLeavesService>();
             services.AddScoped<IAddOrUpdateUnpayedLeaveService, AddOrUpdateUnpayedLeaveService>();
+            services.AddScoped<IGetAllPayedLeavesService, GetAllPayedLeavesService>();
+            services.AddScoped<IGetPayedLeaveService, GetPayedLeaveService>();
+            services.AddScoped<IApproveOrNotPayedLeavesService, ApproveOrNotPayedLeavesService>();
+            services.AddScoped<IGetUnpayedLeaveService, GetUnpayedLeaveService>();
+            services.AddScoped<IGetAllUnpayedLeavesService, GetAllUnpayedLeavesService>();
+            services.AddScoped<IApproveOrNotUnpayedLeavesService, ApproveOrNotUnpayedLeavesService>();
+            services.AddScoped<IAddOrUpdateSickLeaveService, AddOrUpdateSickLeaveService>();
+            services.AddScoped<IGetCurrentActiveSickLeavesService, GetCurrentActiveSickLeavesService>();
+            services.AddScoped<IApproveOrNotSickLeavesService, ApproveOrNotSickLeavesService>();
+            services.AddScoped<IGetAllSickLeavesService, GetAllSickLeavesService>();
+            services.AddScoped<IGetSickLeaveService, GetSickLeaveService>();
 
             return services;
         }
