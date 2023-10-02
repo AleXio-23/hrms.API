@@ -62,7 +62,12 @@ builder.Services.AddCors(options =>
             builder.WithOrigins("http://localhost:3000")
                    .AllowAnyHeader()
                    .AllowAnyMethod()
-                   .AllowCredentials(); 
+                   .AllowCredentials();
+
+            builder.WithOrigins("http://192.168.1.249:3000")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
         });
 });
 builder.Services.AddControllers();

@@ -68,6 +68,7 @@ using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedules;
 using hrms.Application.Services.UserProfile;
 using hrms.Application.Services.Vacation;
 using hrms.Application.Services.Vacation.CheckAnyRegisteredHolidaysInRange;
+using hrms.Application.Services.Vacation.GetAllLeavesForUser;
 using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
 using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
 using hrms.Application.Services.Vacation.PayedLeaves.Management.ApproveOrNotPayedLeaves;
@@ -183,6 +184,7 @@ namespace hrms.Application
             services.AddScoped<IApproveOrNotSickLeavesService, ApproveOrNotSickLeavesService>();
             services.AddScoped<IGetAllSickLeavesService, GetAllSickLeavesService>();
             services.AddScoped<IGetSickLeaveService, GetSickLeaveService>();
+            services.AddScoped<IGetAllLeavesForUserService, GetAllLeavesForUserService>();
 
             return services;
         }

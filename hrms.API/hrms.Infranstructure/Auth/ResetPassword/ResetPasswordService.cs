@@ -1,8 +1,7 @@
-﻿using hrms.Persistance.Entities;
+using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
 using hrms.Shared.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
@@ -24,21 +23,21 @@ namespace hrms.Infranstructure.Auth.ResetPassword
         }
         public async Task<ServiceResult<string>> Execute(string usernameOrEmail, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.FirstOrDefaultAsync(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail, cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException("User not found");
+            var user = await _userRepository.FirstOrDefaultAsync(x => x.Username == usernameOrEmail || x.Email == usernameOrEmail, cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException("WRONG_USERNAME");
             if (!(user.IsActive ?? false))
             {
-                throw new ValidationException("Your user is blocked. Contact Support to get help");
+                throw new ValidationException("BLOCKED_USER");
             }
             if (string.IsNullOrEmpty(user.Email))
             {
-                throw new NotFoundException("Email not found");
+                throw new NotFoundException("EMAIL_NOT_FOUND");
             }
 
             var secretKey = _configuration["Jwt:PasswordRecoverySecretKey"];
 
             if (string.IsNullOrEmpty(secretKey))
             {
-                throw new NotFoundException("Secret key not found");
+                throw new NotFoundException("SECRET_KEY_NOT_FOUND");
             }
 
             var generatePasswordResetToken = GeneratePasswordResetToken(user.Id.ToString(), user.Email, secretKey);
@@ -47,7 +46,7 @@ namespace hrms.Infranstructure.Auth.ResetPassword
             {
                 //todo
                 //Send this token on mail
-                return ServiceResult<string>.SuccessResult("Message Sent");
+                return ServiceResult<string>.SuccessResult(user.Email);
             }
             catch (Exception ex)
             {

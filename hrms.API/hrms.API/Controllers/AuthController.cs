@@ -99,9 +99,9 @@ namespace hrms.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("ResetPassword")]
-        public async Task<ActionResult<ServiceResult<string>>> ResetPassword([FromBody] string userNameOrEmail, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<string>>> ResetPassword([FromBody] ResetPasswordRequest request, CancellationToken  cancellationToken)
         {
-            var result = await _authentication.ResetPasswordService.Execute(userNameOrEmail, cancellationToken).ConfigureAwait(false);
+            var result = await _authentication.ResetPasswordService.Execute(request.UserNameOrEmail, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
