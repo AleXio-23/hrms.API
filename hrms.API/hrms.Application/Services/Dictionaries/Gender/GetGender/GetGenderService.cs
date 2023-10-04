@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;

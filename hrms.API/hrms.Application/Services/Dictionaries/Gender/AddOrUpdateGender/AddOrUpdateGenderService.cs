@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
@@ -31,8 +31,8 @@ namespace hrms.Application.Services.Dictionaries.Gender.AddOrUpdateGender
             else if (gender.Id > 1)
             {
                 var getGender = await _genderRepository.Get(gender.Id ?? -1, cancellationToken).ConfigureAwait(false) ?? throw new NotFoundException($"Record on Id:{gender.Id} not found");
-                getGender.Value = gender.Value;
-                getGender.Description = gender.Description;
+
+                getGender.Name = gender.Name;
                 getGender.IsActive = getGender.IsActive;
 
                 var saveResult = await _genderRepository.Update(getGender, cancellationToken).ConfigureAwait(false);

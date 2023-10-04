@@ -82,6 +82,7 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Claim>(entity =>
@@ -179,13 +180,10 @@ public partial class HrmsAppDbContext : DbContext
 
             entity.ToTable("Gender", "dictionary");
 
-            entity.Property(e => e.Description).HasMaxLength(1000);
             entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
-            entity.Property(e => e.Value)
-                .HasMaxLength(1000)
-                .IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(1000);
         });
 
         modelBuilder.Entity<HolidayRangeType>(entity =>
