@@ -69,6 +69,6 @@ namespace hrms.Application.Services.Dictionaries
         IGetCountriesService GetCountriesService { get; }
         IAddOrUpdateStateService AddOrUpdateStateService { get; }
         IGetStatesService GetStatesService { get; }
-        IGeCitiesService  GeCitiesService { get; }
+        IGetCitiesService  GetCitiesService { get; }
     }
 }

@@ -3,9 +3,11 @@ using hrms.Domain.Models.Dictionary;
 using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Dictionary.JobPositions;
+using hrms.Domain.Models.Dictionary.Locations;
 using hrms.Domain.Models.Dictionary.Vacations;
 using hrms.Domain.Models.Dictionary.WeekWorkingDays;
 using hrms.Domain.Models.Shared;
+using hrms.Domain.Models.Vacations.Location;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -445,16 +447,51 @@ namespace hrms.API.Controllers
         }
 
         #region Country
+        /// <summary>
+        /// Get Countries list with filter
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetCountries")]
+        public async Task<ActionResult<ServiceResult<List<CountryDTO>>>> GetCountries([FromQuery] CountryFilter filter, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetCountriesService.Execute(filter, cancellationToken).ConfigureAwait(false);
 
+            return Ok(result);
+        }
         #endregion
 
-
+        /// <summary>
+        /// Get States list with filter
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         #region State
+        [HttpGet("GetStates")]
+        public async Task<ActionResult<ServiceResult<List<StateDTO>>>> GetStates([FromQuery]StatesFilter filter, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetStatesService.Execute(filter, cancellationToken).ConfigureAwait(false);
 
+            return Ok(result);
+        }
         #endregion
 
         #region City
+        /// <summary>
+        /// Get Cities list with filter
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetCities")]
+        public async Task<ActionResult<ServiceResult<List<CityDTO>>>> GetCities([FromQuery] CitiesFilter filter, CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetCitiesService.Execute(filter, cancellationToken).ConfigureAwait(false);
 
+            return Ok(result);
+        }
         #endregion
 
         #endregion

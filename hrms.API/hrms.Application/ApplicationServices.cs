@@ -152,7 +152,7 @@ namespace hrms.Application
             services.AddScoped<IGetCountryService, GetCountryService>();
             services.AddScoped<IGetCountriesService,  GetCountriesService>();
             services.AddScoped<IAddOrUpdateStateService,  AddOrUpdateStateService>();
-            services.AddScoped<IGeCitiesService, GeCitiesService>();
+            services.AddScoped<IGetCitiesService, GetCitiesService>();
             services.AddScoped<IGetStatesService,  GetStatesService>();
 
             services.AddScoped<IAccountingFacade, AccountingFacade>();

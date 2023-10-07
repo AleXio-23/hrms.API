@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace hrms.Application.Services.Dictionaries.Locations.City.GeCities
 {
-    public class GeCitiesService : IGeCitiesService
+    public class GetCitiesService : IGetCitiesService
     {
         private readonly IRepository<Persistance.Entities.City> _citiesRepository;
 
-        public GeCitiesService(IRepository<Persistance.Entities.City> citiesRepository)
+        public GetCitiesService(IRepository<Persistance.Entities.City> citiesRepository)
         {
             _citiesRepository = citiesRepository;
         }
