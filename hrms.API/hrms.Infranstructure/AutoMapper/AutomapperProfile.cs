@@ -8,6 +8,7 @@ using hrms.Domain.Models.Dictionary.Vacations;
 using hrms.Domain.Models.Dictionary.WeekWorkingDays;
 using hrms.Domain.Models.Documents;
 using hrms.Domain.Models.User;
+using hrms.Domain.Models.Vacations.Location;
 using hrms.Domain.Models.Vacations.PayedLeave;
 using hrms.Domain.Models.Vacations.SickLeave;
 using hrms.Domain.Models.Vacations.UnpayedLeave;
@@ -25,6 +26,9 @@ namespace hrms.Infranstructure.AutoMapper
             CreateMap<UserProfile, UserProfileDTO>().ReverseMap();
             CreateMap<LateFromBreak, LateFromBreakDTO>().ReverseMap();
             CreateMap<WorkOnLateLog, WorkOnLateLogDTO>().ReverseMap();
+            CreateMap<Country, CountryDTO>().ReverseMap();
+            CreateMap<State, StateDTO>().ReverseMap();
+            CreateMap<City, CityDTO>().ReverseMap();
 
             CreateMap<Role, RoleDTO>().ReverseMap();
             CreateMap<UsersWorkSchedule, UsersWorkScheduleDTO>().ReverseMap();

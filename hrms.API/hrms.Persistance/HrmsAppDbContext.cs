@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using hrms.Persistance.Entities;
@@ -16,9 +16,13 @@ public partial class HrmsAppDbContext : DbContext
     {
     }
 
+    public virtual DbSet<City> Cities { get; set; }
+
     public virtual DbSet<Claim> Claims { get; set; }
 
     public virtual DbSet<CompanyHoliday> CompanyHolidays { get; set; }
+
+    public virtual DbSet<Country> Countries { get; set; }
 
     public virtual DbSet<DayOff> DayOffs { get; set; }
 
@@ -52,6 +56,8 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<SickLeaf> SickLeaves { get; set; }
 
+    public virtual DbSet<State> States { get; set; }
+
     public virtual DbSet<TraceWorking> TraceWorkings { get; set; }
 
     public virtual DbSet<UnpayedLeaf> UnpayedLeaves { get; set; }
@@ -82,8 +88,33 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
+   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<City>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__City__3214EC075953D372");
+
+            entity.ToTable("City", "dictionary");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.SortIndex).HasDefaultValueSql("((1))");
+
+            entity.HasOne(d => d.Country).WithMany(p => p.Cities)
+                .HasForeignKey(d => d.CountryId)
+                .HasConstraintName("FK__City__CountryId__6991A7CB");
+
+            entity.HasOne(d => d.State).WithMany(p => p.Cities)
+                .HasForeignKey(d => d.StateId)
+                .HasConstraintName("FK__City__StateId__6A85CC04");
+        });
+
         modelBuilder.Entity<Claim>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Claims__3214EC075A5542B3");
@@ -107,6 +138,22 @@ public partial class HrmsAppDbContext : DbContext
             entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
+        });
+
+        modelBuilder.Entity<Country>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Country__3214EC07DBA6E08A");
+
+            entity.ToTable("Country", "dictionary");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.SortIndex).HasDefaultValueSql("((1))");
         });
 
         modelBuilder.Entity<DayOff>(entity =>
@@ -179,13 +226,10 @@ public partial class HrmsAppDbContext : DbContext
 
             entity.ToTable("Gender", "dictionary");
 
-            entity.Property(e => e.Description).HasMaxLength(1000);
             entity.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
-            entity.Property(e => e.Value)
-                .HasMaxLength(1000)
-                .IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(1000);
         });
 
         modelBuilder.Entity<HolidayRangeType>(entity =>
@@ -388,6 +432,26 @@ public partial class HrmsAppDbContext : DbContext
                         j.HasKey("SickLeaveId", "DocumentId").HasName("PK__SickLeav__222C828DA594FAD4");
                         j.ToTable("SickLeaveDocumnts", "vacation");
                     });
+        });
+
+        modelBuilder.Entity<State>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__State__3214EC071AFD4BF0");
+
+            entity.ToTable("State", "dictionary");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.SortIndex).HasDefaultValueSql("((1))");
+
+            entity.HasOne(d => d.Country).WithMany(p => p.States)
+                .HasForeignKey(d => d.CountryId)
+                .HasConstraintName("FK__State__CountryId__5F141958");
         });
 
         modelBuilder.Entity<TraceWorking>(entity =>

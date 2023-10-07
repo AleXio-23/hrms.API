@@ -19,5 +19,7 @@ namespace hrms.Domain.Models.Vacations.PayedLeave
         public int? ApprovedByUserId { get; set; }
 
         public string? Comment { get; set; }
+
+        public bool? CheckLeave { get; set; } = false;
     }
 }

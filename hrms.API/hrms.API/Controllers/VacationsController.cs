@@ -1,5 +1,6 @@
 using hrms.Application.Services.Vacation;
 using hrms.Domain.Models.Vacations;
+using hrms.Domain.Models.Vacations.GetAllLeavesForUser;
 using hrms.Domain.Models.Vacations.PayedLeave;
 using hrms.Domain.Models.Vacations.SickLeave;
 using hrms.Domain.Models.Vacations.UnpayedLeave;
@@ -43,12 +44,14 @@ namespace hrms.API.Controllers
 
         /// <summary>
         /// Register new payed leave request or edit existing one
+        /// or just check day count or if existing
         /// </summary>
         /// <param name="payedLeaveDTO"></param>
+        /// <param name="checkLeave"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("AddOrUpdatePayedLeave")]
-        public async Task<ActionResult<ServiceResult<PayedLeaveDTO>>> AddOrUpdatePayedLeave([FromBody] PayedLeaveDTO payedLeaveDTO, CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<PayedLeaveDTO>>> AddOrUpdatePayedLeave([FromBody] PayedLeaveDTO payedLeaveDTO,  CancellationToken cancellationToken)
         {
             var result = await _vacationsFacade.AddOrUpdatePayedLeaveService.Execute(payedLeaveDTO, cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
@@ -322,6 +325,21 @@ namespace hrms.API.Controllers
         }
 
         #endregion
+
+        /// <summary>
+        /// Get All leave report for authorised user (filter by leave types)
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("GetAllLeavesForUser")]
+        public async Task<ActionResult<ServiceResult<GetAllLeavesResponse>>> GetAllLeavesForUser([FromBody] GetAllLeavesRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _vacationsFacade.GetAllLeavesForUserService.Execute(request, cancellationToken).ConfigureAwait(false);
+
+            return Ok(result);
+        }
+
         //დასამატებელია საათობრივი გასვლები
     }
 }

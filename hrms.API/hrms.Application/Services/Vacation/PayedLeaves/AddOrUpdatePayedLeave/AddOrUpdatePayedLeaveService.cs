@@ -125,6 +125,11 @@ namespace hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave
                 throw new ArgumentException($"User with id {payedLeaveDTO.UserId} can't register payed leave ticket. Your request is for {payedLeaveDTO.CountDays} day(s) holiday while your access days for peayed leaves are {sumDays}(Including access days from previous quarter/year).");
             }
 
+            if (payedLeaveDTO.CheckLeave != null && payedLeaveDTO.CheckLeave == true)
+            {
+                return ServiceResult<PayedLeaveDTO>.SuccessResult(payedLeaveDTO);
+            }
+
             //If its new request, add new
             if (payedLeaveDTO.Id == null || payedLeaveDTO.Id < 0)
             {

@@ -1,4 +1,5 @@
 using hrms.Application.Services.Vacation.CheckAnyRegisteredHolidaysInRange;
+using hrms.Application.Services.Vacation.GetAllLeavesForUser;
 using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
 using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
 using hrms.Application.Services.Vacation.PayedLeaves.Management.ApproveOrNotPayedLeaves;
@@ -42,6 +43,8 @@ namespace hrms.Application.Services.Vacation
         IApproveOrNotSickLeavesService ApproveOrNotSickLeavesService { get; }
         IGetAllSickLeavesService GetAllSickLeavesService { get; }
         IGetSickLeaveService GetSickLeaveService { get; }
+
+        IGetAllLeavesForUserService GetAllLeavesForUserService { get; }
 
     }
 }

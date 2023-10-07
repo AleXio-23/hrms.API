@@ -10,6 +10,14 @@ using hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosition
 using hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
+using hrms.Application.Services.Dictionaries.Locations;
+using hrms.Application.Services.Dictionaries.Locations.City.GeCities;
+using hrms.Application.Services.Dictionaries.Locations.Country.AddorUpdateCountry;
+using hrms.Application.Services.Dictionaries.Locations.Country.DeleteCountry;
+using hrms.Application.Services.Dictionaries.Locations.Country.GetCountries;
+using hrms.Application.Services.Dictionaries.Locations.Country.GetCountry;
+using hrms.Application.Services.Dictionaries.Locations.State.AddOrUpdateState;
+using hrms.Application.Services.Dictionaries.Locations.State.GetStates;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.AddOrUpdateCompanyHolidays;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.DeleteCompanyHoliday;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHoliday;
@@ -25,7 +33,7 @@ namespace hrms.Application.Services.Dictionaries
 {
     public class DictionaryiFacade : IDictionaryiFacade
     {
-        public DictionaryiFacade(IGetGenderService getGenderService, IAddOrUpdateGenderService addOrUpdateGenderService, IGetGendersService getGendersService, IDeleteGenerService deleteGenerService, IAddOrUpdateDepartmentService addOrUpdateDepartmentService, IDeleteDepartmentService deleteDepartmentService, IGetDepartmentService getDepartmentService, IGetDepartmentsService getDepartmentsService, IAddOrUpdateJobPositionService addOrUpdateJobPositionService, IDeleteJobPositionService deleteJobPositionService, IGetJobPositionService getJobPositionService, IGetJobPositionsService getJobPositionsService, IAddOrUpdateCompanyHolidaysService addOrUpdateCompanyHolidaysService, IDeleteCompanyHolidayService deleteCompanyHolidayService, IGetCompanyHolidayService getCompanyHolidayService, IGetCompanyHolidaysService getCompanyHolidaysService, IGetHolidayRangeTypeService getHolidayRangeTypeService, IGetHolidayRangeTypesService getHolidayRangeTypesService, IGetHolidayTypeService getHolidayTypeService, IGetHolidayTypesService getHolidayTypesService, IGetWeekWorkingDayService getWeekWorkingDayService, IGetWeekWorkingDaysService getWeekWorkingDaysService)
+        public DictionaryiFacade(IGetGenderService getGenderService, IAddOrUpdateGenderService addOrUpdateGenderService, IGetGendersService getGendersService, IDeleteGenerService deleteGenerService, IAddOrUpdateDepartmentService addOrUpdateDepartmentService, IDeleteDepartmentService deleteDepartmentService, IGetDepartmentService getDepartmentService, IGetDepartmentsService getDepartmentsService, IAddOrUpdateJobPositionService addOrUpdateJobPositionService, IDeleteJobPositionService deleteJobPositionService, IGetJobPositionService getJobPositionService, IGetJobPositionsService getJobPositionsService, IAddOrUpdateCompanyHolidaysService addOrUpdateCompanyHolidaysService, IDeleteCompanyHolidayService deleteCompanyHolidayService, IGetCompanyHolidayService getCompanyHolidayService, IGetCompanyHolidaysService getCompanyHolidaysService, IGetHolidayRangeTypeService getHolidayRangeTypeService, IGetHolidayRangeTypesService getHolidayRangeTypesService, IGetHolidayTypeService getHolidayTypeService, IGetHolidayTypesService getHolidayTypesService, IGetWeekWorkingDayService getWeekWorkingDayService, IGetWeekWorkingDaysService getWeekWorkingDaysService, IGetLocationWithGenerationsService getLocationWithGenerationsService, IAddorUpdateCountryService addorUpdateCountryService, IDeleteCountryService deleteCountryService, IGetCountryService getCountryService, IGetCountriesService getCountriesService, IAddOrUpdateStateService addOrUpdateStateService, IGetStatesService getStatesService, IGetCitiesService getCitiesService)
         {
             GetGenderService = getGenderService;
             AddOrUpdateGenderService = addOrUpdateGenderService;
@@ -49,6 +57,14 @@ namespace hrms.Application.Services.Dictionaries
             GetHolidayTypesService = getHolidayTypesService;
             GetWeekWorkingDayService = getWeekWorkingDayService;
             GetWeekWorkingDaysService = getWeekWorkingDaysService;
+            GetLocationWithGenerationsService = getLocationWithGenerationsService;
+            AddorUpdateCountryService = addorUpdateCountryService;
+            DeleteCountryService = deleteCountryService;
+            GetCountryService = getCountryService;
+            GetCountriesService = getCountriesService;
+            AddOrUpdateStateService = addOrUpdateStateService;
+            GetStatesService = getStatesService;
+            GetCitiesService = getCitiesService;
         }
 
         public IGetGenderService GetGenderService { get; }
@@ -92,5 +108,21 @@ namespace hrms.Application.Services.Dictionaries
         public IGetWeekWorkingDayService GetWeekWorkingDayService { get; }
 
         public IGetWeekWorkingDaysService GetWeekWorkingDaysService { get; }
+
+        public IGetLocationWithGenerationsService GetLocationWithGenerationsService { get; }
+
+        public IAddorUpdateCountryService AddorUpdateCountryService { get; }
+
+        public IDeleteCountryService DeleteCountryService { get; }
+
+        public IGetCountryService GetCountryService { get; }
+
+        public IGetCountriesService GetCountriesService { get; }
+
+        public IAddOrUpdateStateService AddOrUpdateStateService { get; }
+
+        public IGetStatesService GetStatesService { get; }
+
+        public IGetCitiesService GetCitiesService { get; }
     }
 }

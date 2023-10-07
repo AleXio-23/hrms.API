@@ -10,6 +10,14 @@ using hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosition
 using hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
+using hrms.Application.Services.Dictionaries.Locations;
+using hrms.Application.Services.Dictionaries.Locations.City.GeCities;
+using hrms.Application.Services.Dictionaries.Locations.Country.AddorUpdateCountry;
+using hrms.Application.Services.Dictionaries.Locations.Country.DeleteCountry;
+using hrms.Application.Services.Dictionaries.Locations.Country.GetCountries;
+using hrms.Application.Services.Dictionaries.Locations.Country.GetCountry;
+using hrms.Application.Services.Dictionaries.Locations.State.AddOrUpdateState;
+using hrms.Application.Services.Dictionaries.Locations.State.GetStates;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.AddOrUpdateCompanyHolidays;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.DeleteCompanyHoliday;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHoliday;
@@ -53,5 +61,14 @@ namespace hrms.Application.Services.Dictionaries
 
         IGetWeekWorkingDayService GetWeekWorkingDayService { get; }
         IGetWeekWorkingDaysService GetWeekWorkingDaysService { get; }
+
+        IGetLocationWithGenerationsService GetLocationWithGenerationsService { get; }
+        IAddorUpdateCountryService AddorUpdateCountryService { get; }
+        IDeleteCountryService DeleteCountryService { get; }
+        IGetCountryService GetCountryService { get; }
+        IGetCountriesService GetCountriesService { get; }
+        IAddOrUpdateStateService AddOrUpdateStateService { get; }
+        IGetStatesService GetStatesService { get; }
+        IGetCitiesService  GetCitiesService { get; }
     }
 }

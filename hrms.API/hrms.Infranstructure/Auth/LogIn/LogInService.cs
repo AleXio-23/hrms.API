@@ -1,4 +1,4 @@
-﻿using hrms.Domain.Models.Auth;
+using hrms.Domain.Models.Auth;
 using hrms.Infranstructure.Services.UserActionLogger;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
@@ -38,17 +38,17 @@ namespace hrms.Infranstructure.Auth.LogIn
                  await _userRepository.SingleOrDefaultAsync(x => x.Username == (loginDto.EmailOrUsername ?? "").ToLower(), cancellationToken: cancellationToken).ConfigureAwait(false));
             if (string.IsNullOrEmpty(loginDto.EmailOrUsername))
             {
-                throw new ArgumentException("Wrong username");
+                throw new ArgumentException("WRONG_USERNAME");
             }
             if (string.IsNullOrEmpty(loginDto.Password))
             {
-                throw new ArgumentException("Wrong password");
+                throw new ArgumentException("WRONG_PASSWORD");
             }
             if (user == null)
             {
                 var errorMessage = $"User {loginDto.EmailOrUsername} not found";
                 await _userActionLogger.Execute(userId: null, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken).ConfigureAwait(false);
-                throw new ArgumentException("User not found.");
+                throw new ArgumentException("USER_NOT_FOUND");
             }
             using var hmac = new HMACSHA512(user.PasswordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
@@ -59,7 +59,7 @@ namespace hrms.Infranstructure.Auth.LogIn
                 {
                     var errorMessage = $"User {loginDto.EmailOrUsername}: Incorrect password";
                     await _userActionLogger.Execute(userId: null, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken).ConfigureAwait(false);
-                    throw new ArgumentException(errorMessage);
+                    throw new ArgumentException("WRONG_PASSWORD");
                 }
             }
             var jwtSecret = _configuration["Jwt:Secret"] ?? throw new NotFoundException("Jwt Secret Key not found");
@@ -106,7 +106,7 @@ namespace hrms.Infranstructure.Auth.LogIn
             {
                 var errorMessage = $"User in id {user.Id} no found";
                 await _userActionLogger.Execute(userId: user.Id, actionName: "Auth", actionResult: "Failed", ErrorReason: errorMessage, cancellationToken: cancellationToken).ConfigureAwait(false);
-                throw new NotFoundException(errorMessage);
+                throw new NotFoundException("USER_NOT_FOUND");
             }
 
             await _userActionLogger.Execute(userId: user.Id, actionName: "Auth", actionResult: "Success", ErrorReason: null, cancellationToken: cancellationToken).ConfigureAwait(false);

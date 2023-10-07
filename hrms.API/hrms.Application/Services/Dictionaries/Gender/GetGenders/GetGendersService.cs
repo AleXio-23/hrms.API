@@ -17,14 +17,10 @@ namespace hrms.Application.Services.Dictionaries.Gender.GetGenders
         public async Task<ServiceResult<List<GenderDTO>>> Execute(GenderFilter filter, CancellationToken cancellationToken)
         {
             var query = _genderRepository.GetAllAsQueryable();
-            if (!string.IsNullOrEmpty(filter.Value))
+       
+            if (!string.IsNullOrEmpty(filter.Name))
             {
-                query = query.Where(x => x.Value.Contains(filter.Value));
-            }
-
-            if (!string.IsNullOrEmpty(filter.Description))
-            {
-                query = query.Where(x => x.Description.Contains(filter.Description));
+                query = query.Where(x => x.Name.Contains(filter.Name));
             }
 
             if (filter.IsActive.HasValue)
@@ -35,8 +31,7 @@ namespace hrms.Application.Services.Dictionaries.Gender.GetGenders
             var result = await query.Select(x => new GenderDTO()
             {
                 Id = x.Id,
-                Value = x.Value,
-                Description = x.Description,
+                Name = x.Name,
                 IsActive = x.IsActive
             }).ToListAsync(cancellationToken).ConfigureAwait(false);
 

@@ -27,6 +27,14 @@ using hrms.Application.Services.Dictionaries.JobPositions.AddOrUpdateJobPosition
 using hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
+using hrms.Application.Services.Dictionaries.Locations;
+using hrms.Application.Services.Dictionaries.Locations.City.GeCities;
+using hrms.Application.Services.Dictionaries.Locations.Country.AddorUpdateCountry;
+using hrms.Application.Services.Dictionaries.Locations.Country.DeleteCountry;
+using hrms.Application.Services.Dictionaries.Locations.Country.GetCountries;
+using hrms.Application.Services.Dictionaries.Locations.Country.GetCountry;
+using hrms.Application.Services.Dictionaries.Locations.State.AddOrUpdateState;
+using hrms.Application.Services.Dictionaries.Locations.State.GetStates;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.AddOrUpdateCompanyHolidays;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.DeleteCompanyHoliday;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHoliday;
@@ -68,6 +76,7 @@ using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedules;
 using hrms.Application.Services.UserProfile;
 using hrms.Application.Services.Vacation;
 using hrms.Application.Services.Vacation.CheckAnyRegisteredHolidaysInRange;
+using hrms.Application.Services.Vacation.GetAllLeavesForUser;
 using hrms.Application.Services.Vacation.PayedLeaves.AddOrUpdatePayedLeave;
 using hrms.Application.Services.Vacation.PayedLeaves.GetCurrentActivePayedLeaves;
 using hrms.Application.Services.Vacation.PayedLeaves.Management.ApproveOrNotPayedLeaves;
@@ -137,6 +146,14 @@ namespace hrms.Application
             services.AddScoped<IGetHolidayTypeService, GetHolidayTypeService>();
             services.AddScoped<IGetWeekWorkingDaysService, GetWeekWorkingDaysService>();
             services.AddScoped<IGetWeekWorkingDayService, GetWeekWorkingDayService>();
+            services.AddScoped<IGetLocationWithGenerationsService, GetLocationWithGenerationsService>();
+            services.AddScoped<IAddorUpdateCountryService, AddorUpdateCountryService>();
+            services.AddScoped<IDeleteCountryService, DeleteCountryService>();
+            services.AddScoped<IGetCountryService, GetCountryService>();
+            services.AddScoped<IGetCountriesService,  GetCountriesService>();
+            services.AddScoped<IAddOrUpdateStateService,  AddOrUpdateStateService>();
+            services.AddScoped<IGetCitiesService, GetCitiesService>();
+            services.AddScoped<IGetStatesService,  GetStatesService>();
 
             services.AddScoped<IAccountingFacade, AccountingFacade>();
             services.AddScoped<IStartAccountingService, StartAccountingService>();
@@ -183,6 +200,7 @@ namespace hrms.Application
             services.AddScoped<IApproveOrNotSickLeavesService, ApproveOrNotSickLeavesService>();
             services.AddScoped<IGetAllSickLeavesService, GetAllSickLeavesService>();
             services.AddScoped<IGetSickLeaveService, GetSickLeaveService>();
+            services.AddScoped<IGetAllLeavesForUserService, GetAllLeavesForUserService>();
 
             return services;
         }

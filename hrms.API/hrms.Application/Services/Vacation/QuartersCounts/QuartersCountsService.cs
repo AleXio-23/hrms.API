@@ -54,8 +54,10 @@ namespace hrms.Application.Services.Vacation.QuartersCounts
             var getCurrentDateDay = DateTime.Now.Day;
 
             var getCurrentQuarter = getQUarterCfg.FirstOrDefault(x =>
-                (new DateTime(DateTime.Now.Year, x.QuarterStartsMonth, x.QuarterStartsDay) <= DateTime.Now) &&
-                (new DateTime(DateTime.Now.Year, x.QuarterEndsMonth, x.QuarterEndsDay) >= DateTime.Now)
+               ((new DateTime(DateTime.Now.Year, x.QuarterStartsMonth, x.QuarterStartsDay) <= DateTime.Now) &&
+                (new DateTime(DateTime.Now.Year, x.QuarterEndsMonth, x.QuarterEndsDay) >= DateTime.Now)) ||
+                (x.QuarterStartsMonth == DateTime.Now.Month && x.QuarterStartsDay == DateTime.Now.Day) ||
+                (x.QuarterEndsMonth == DateTime.Now.Month && x.QuarterEndsDay == DateTime.Now.Day)
             ) ?? throw new NotFoundException("Can't find correct quarter");
             return getCurrentQuarter;
         }
