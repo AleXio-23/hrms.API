@@ -12,6 +12,8 @@ using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
 using hrms.Application.Services.Dictionaries.Locations;
 using hrms.Application.Services.Dictionaries.Locations.Country.AddorUpdateCountry;
+using hrms.Application.Services.Dictionaries.Locations.Country.DeleteCountry;
+using hrms.Application.Services.Dictionaries.Locations.Country.GetCountry;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.AddOrUpdateCompanyHolidays;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.DeleteCompanyHoliday;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.GetCompanyHoliday;
@@ -58,5 +60,7 @@ namespace hrms.Application.Services.Dictionaries
 
         IGetLocationWithGenerationsService GetLocationWithGenerationsService { get; }
         IAddorUpdateCountryService  AddorUpdateCountryService { get; }
+        IDeleteCountryService DeleteCountryService { get; }
+        IGetCountryService  GetCountryService { get; }
     }
 }

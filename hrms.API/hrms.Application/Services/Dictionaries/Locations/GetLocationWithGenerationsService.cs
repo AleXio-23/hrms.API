@@ -1,7 +1,5 @@
 using AutoMapper;
 using hrms.Domain.Models.Dictionary;
-using hrms.Domain.Models.Vacations.Location;
-using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +8,10 @@ namespace hrms.Application.Services.Dictionaries.Locations
 {
     public class GetLocationWithGenerationsService : IGetLocationWithGenerationsService
     {
-        private readonly IRepository<Country> _countryRepository;
+        private readonly IRepository<Persistance.Entities.Country> _countryRepository;
         private readonly IMapper _mapper;
 
-        public GetLocationWithGenerationsService(IRepository<Country> countryRepository, IMapper mapper)
+        public GetLocationWithGenerationsService(IRepository<Persistance.Entities.Country> countryRepository, IMapper mapper)
         {
             _countryRepository = countryRepository;
             _mapper = mapper;
