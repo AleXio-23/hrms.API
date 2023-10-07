@@ -30,6 +30,7 @@ using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
 using hrms.Application.Services.Dictionaries.Locations;
 using hrms.Application.Services.Dictionaries.Locations.Country.AddorUpdateCountry;
 using hrms.Application.Services.Dictionaries.Locations.Country.DeleteCountry;
+using hrms.Application.Services.Dictionaries.Locations.Country.GetCountries;
 using hrms.Application.Services.Dictionaries.Locations.Country.GetCountry;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.AddOrUpdateCompanyHolidays;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.DeleteCompanyHoliday;
@@ -146,6 +147,7 @@ namespace hrms.Application
             services.AddScoped<IAddorUpdateCountryService, AddorUpdateCountryService>();
             services.AddScoped<IDeleteCountryService, DeleteCountryService>();
             services.AddScoped<IGetCountryService, GetCountryService>();
+            services.AddScoped<IGetCountriesService,  GetCountriesService>();
 
             services.AddScoped<IAccountingFacade, AccountingFacade>();
             services.AddScoped<IStartAccountingService, StartAccountingService>();

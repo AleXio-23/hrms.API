@@ -13,6 +13,7 @@ using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
 using hrms.Application.Services.Dictionaries.Locations;
 using hrms.Application.Services.Dictionaries.Locations.Country.AddorUpdateCountry;
 using hrms.Application.Services.Dictionaries.Locations.Country.DeleteCountry;
+using hrms.Application.Services.Dictionaries.Locations.Country.GetCountries;
 using hrms.Application.Services.Dictionaries.Locations.Country.GetCountry;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.AddOrUpdateCompanyHolidays;
 using hrms.Application.Services.Dictionaries.Vacations.CompanyHolidays.DeleteCompanyHoliday;
@@ -62,5 +63,6 @@ namespace hrms.Application.Services.Dictionaries
         IAddorUpdateCountryService  AddorUpdateCountryService { get; }
         IDeleteCountryService DeleteCountryService { get; }
         IGetCountryService  GetCountryService { get; }
+        IGetCountriesService GetCountriesService { get; }
     }
 }
