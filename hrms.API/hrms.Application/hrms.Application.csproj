@@ -22,7 +22,6 @@
     <Folder Include="Services\Dictionaries\Locations\City\AddOrUpdateCity\" />
     <Folder Include="Services\Dictionaries\Locations\City\DeleteCity\" />
     <Folder Include="Services\Dictionaries\Locations\City\GetCity\" />
-    <Folder Include="Services\Dictionaries\Locations\City\GeCities\" />
     <Folder Include="Services\Dictionaries\Locations\State\DeleteState\" />
     <Folder Include="Services\Dictionaries\Locations\State\GetState\" />
   </ItemGroup>

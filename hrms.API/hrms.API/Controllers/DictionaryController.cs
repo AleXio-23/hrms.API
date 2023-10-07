@@ -444,6 +444,18 @@ namespace hrms.API.Controllers
             return Ok(result);
         }
 
+        #region Country
+
+        #endregion
+
+
+        #region State
+
+        #endregion
+
+        #region City
+
+        #endregion
 
         #endregion
     }

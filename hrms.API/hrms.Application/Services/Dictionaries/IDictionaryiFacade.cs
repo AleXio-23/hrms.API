@@ -11,6 +11,7 @@ using hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
 using hrms.Application.Services.Dictionaries.Locations;
+using hrms.Application.Services.Dictionaries.Locations.City.GeCities;
 using hrms.Application.Services.Dictionaries.Locations.Country.AddorUpdateCountry;
 using hrms.Application.Services.Dictionaries.Locations.Country.DeleteCountry;
 using hrms.Application.Services.Dictionaries.Locations.Country.GetCountries;
@@ -68,5 +69,6 @@ namespace hrms.Application.Services.Dictionaries
         IGetCountriesService GetCountriesService { get; }
         IAddOrUpdateStateService AddOrUpdateStateService { get; }
         IGetStatesService GetStatesService { get; }
+        IGeCitiesService  GeCitiesService { get; }
     }
 }
