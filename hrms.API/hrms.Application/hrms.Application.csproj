@@ -18,5 +18,16 @@
     <ProjectReference Include="..\hrms.Shared\hrms.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Dictionaries\Locations\City\AddOrUpdateCity\" />
+    <Folder Include="Services\Dictionaries\Locations\City\DeleteCity\" />
+    <Folder Include="Services\Dictionaries\Locations\City\GetCity\" />
+    <Folder Include="Services\Dictionaries\Locations\City\GeCities\" />
+    <Folder Include="Services\Dictionaries\Locations\Country\DeleteCountry\" />
+    <Folder Include="Services\Dictionaries\Locations\Country\GetCountry\" />
+    <Folder Include="Services\Dictionaries\Locations\Country\GetCountries\" />
+    <Folder Include="Services\Dictionaries\Locations\State\" />
+  </ItemGroup>
+
 </Project>
     

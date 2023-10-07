@@ -2,7 +2,7 @@ namespace hrms.Domain.Models.Vacations.Location
 {
     public class CountryDTO
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string? Code { get; set; }
 
