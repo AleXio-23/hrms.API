@@ -25,7 +25,6 @@
     <Folder Include="Services\Dictionaries\Locations\City\GeCities\" />
     <Folder Include="Services\Dictionaries\Locations\State\DeleteState\" />
     <Folder Include="Services\Dictionaries\Locations\State\GetState\" />
-    <Folder Include="Services\Dictionaries\Locations\State\GetStates\" />
   </ItemGroup>
 
 </Project>

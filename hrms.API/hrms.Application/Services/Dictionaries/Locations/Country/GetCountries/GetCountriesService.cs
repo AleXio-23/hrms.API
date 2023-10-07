@@ -43,7 +43,12 @@ namespace hrms.Application.Services.Dictionaries.Locations.Country.GetCountries
 
             var result = await query.Select(x => new CountryDTO()
             {
-
+                Id = x.Id,
+                Name = x.Name,
+                Code = x.Code,
+                HasStates = x.HasStates,
+                IsActive = x.IsActive,
+                SortIndex = x.SortIndex
             }).ToListAsync(cancellationToken).ConfigureAwait(false);
 
             return ServiceResult<List<CountryDTO>>.SuccessResult(result ?? new List<CountryDTO>());
