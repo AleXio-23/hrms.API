@@ -1,4 +1,5 @@
 using hrms.Application.Services.Dictionaries;
+using hrms.Domain.Models.Dictionary;
 using hrms.Domain.Models.Dictionary.Departments;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Dictionary.JobPositions;
@@ -410,22 +411,39 @@ namespace hrms.API.Controllers
             }
             return Ok(result);
         }
- 
+
         /// <summary>
         /// Get all week working days
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("GetWeekWorkingDays")]
-        public async Task<ActionResult<ServiceResult<List<GenderDTO>>>> GetWeekWorkingDays([FromQuery]  CancellationToken cancellationToken)
+        public async Task<ActionResult<ServiceResult<List<GenderDTO>>>> GetWeekWorkingDays(CancellationToken cancellationToken)
         {
-            var result = await _dictionaryiFacade.GetWeekWorkingDaysService.Execute(  cancellationToken).ConfigureAwait(false);
+            var result = await _dictionaryiFacade.GetWeekWorkingDaysService.Execute(cancellationToken).ConfigureAwait(false);
             if (result.ErrorOccured)
             {
                 return BadRequest(result);
             }
             return Ok(result);
         }
+
+        #endregion
+
+        #region Locations -> Country,State,City
+        /// <summary>
+        /// Get country, state , cities tree
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("GetCountriesWithGenerations")]
+        public async Task<ActionResult<ServiceResult<IEnumerable<DefaultMultiLevelDictionaryResponse>>>> GetCountriesWithGenerations(CancellationToken cancellationToken)
+        {
+            var result = await _dictionaryiFacade.GetLocationWithGenerationsService.Execute(cancellationToken).ConfigureAwait(false);
+
+            return Ok(result);
+        }
+
 
         #endregion
     }
