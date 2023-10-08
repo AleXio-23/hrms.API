@@ -1,7 +1,7 @@
+using hrms.Application.Infranstructure.Interfaces.UserInterfaces;
 using hrms.Application.Services.Accounting.LogLateFromBreak.AddLogLateFromBreak;
 using hrms.Application.Services.Configuration.NumberTypesConfigurations.GetNumberTypesConfiguration;
 using hrms.Domain.Models.Accounting;
-using hrms.Infranstructure.Services.CurrentUserId;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Enums;

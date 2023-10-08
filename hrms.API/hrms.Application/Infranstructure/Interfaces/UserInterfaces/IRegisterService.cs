@@ -1,7 +1,7 @@
 ﻿using hrms.Domain.Models.Auth;
 using hrms.Shared.Models;
 
-namespace hrms.Infranstructure.Auth.Register
+namespace hrms.Application.Infranstructure.Interfaces.UserInterfaces
 {
     public interface IRegisterService
     {

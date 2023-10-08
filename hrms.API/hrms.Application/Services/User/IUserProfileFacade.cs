@@ -19,7 +19,7 @@ using hrms.Application.Services.User.UsersWorkSchedule.DeleteUsersWorkSchedule;
 using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedule;
 using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedules;
 
-namespace hrms.Application.Services.UserProfile
+namespace hrms.Application.Services.User
 {
     public interface IUserProfileFacade
     {

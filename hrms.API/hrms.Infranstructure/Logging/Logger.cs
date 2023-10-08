@@ -1,6 +1,6 @@
-﻿using hrms.Persistance;
+using hrms.Application.Infranstructure.Interfaces;
+using hrms.Persistance;
 using hrms.Persistance.Entities;
-using System;
 
 namespace hrms.Infranstructure.Logging
 {

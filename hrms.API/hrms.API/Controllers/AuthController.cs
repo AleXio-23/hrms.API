@@ -1,5 +1,5 @@
+using hrms.Application.Infranstructure.Interfaces.UserInterfaces;
 using hrms.Domain.Models.Auth;
-using hrms.Infranstructure.Auth;
 using hrms.Persistance.Entities;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Mvc;

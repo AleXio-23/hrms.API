@@ -1,4 +1,4 @@
-using hrms.Application.Services.UserProfile;
+using hrms.Application.Services.User;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Shared;
 using hrms.Domain.Models.User;

@@ -11,7 +11,7 @@ using hrms.Application.Services.Dictionaries.JobPositions.DeleteJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPosition;
 using hrms.Application.Services.Dictionaries.JobPositions.GetJobPositions;
 using hrms.Application.Services.Dictionaries.Locations;
-using hrms.Application.Services.Dictionaries.Locations.City.GeCities;
+using hrms.Application.Services.Dictionaries.Locations.City.GetCities;
 using hrms.Application.Services.Dictionaries.Locations.Country.AddorUpdateCountry;
 using hrms.Application.Services.Dictionaries.Locations.Country.DeleteCountry;
 using hrms.Application.Services.Dictionaries.Locations.Country.GetCountries;

@@ -1,7 +1,7 @@
+using hrms.Application.Infranstructure.Interfaces.UserInterfaces;
 using hrms.Application.Services.Documents.DocumentsUpload.UploadedDocuments.AddUploadedDocument;
 using hrms.Application.Services.Documents.DocumentsUpload.UserUploadedDocuments.AddUserUploadedDocument;
 using hrms.Domain.Models.Documents;
-using hrms.Infranstructure.Services.CurrentUserId;
 using hrms.Persistance.Entities;
 using hrms.Shared.Models;
 

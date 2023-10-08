@@ -4,7 +4,7 @@ using hrms.Persistance.Repository;
 using hrms.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace hrms.Application.Services.Dictionaries.Locations.City.GeCities
+namespace hrms.Application.Services.Dictionaries.Locations.City.GetCities
 {
     public class GetCitiesService : IGetCitiesService
     {

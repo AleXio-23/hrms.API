@@ -1,5 +1,4 @@
 using hrms.Infranstructure;
-using hrms.Infranstructure.Middlewares;
 using hrms.Persistance;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using hrms.Application;
-using AutoMapper;
-using hrms.Infranstructure.AutoMapper;
+using hrms.Application.Infranstructure.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
