@@ -20,4 +20,6 @@ public partial class State
     public virtual ICollection<City> Cities { get; set; } = new List<City>();
 
     public virtual Country? Country { get; set; }
+
+    public virtual ICollection<UserLocation> UserLocations { get; set; } = new List<UserLocation>();
 }

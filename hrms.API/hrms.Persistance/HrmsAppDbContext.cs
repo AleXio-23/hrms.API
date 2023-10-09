@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using hrms.Persistance.Entities;
@@ -70,6 +70,8 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<UserJobPosition> UserJobPositions { get; set; }
 
+    public virtual DbSet<UserLocation> UserLocations { get; set; }
+
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
@@ -87,8 +89,7 @@ public partial class HrmsAppDbContext : DbContext
     public virtual DbSet<WorkingStatus> WorkingStatuses { get; set; }
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
-
-   
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<City>(entity =>
@@ -563,6 +564,34 @@ public partial class HrmsAppDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.UserJobPositions)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK__UserJobPo__UserI__6E01572D");
+        });
+
+        modelBuilder.Entity<UserLocation>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UserLoca__3214EC07C7FF8B24");
+
+            entity.ToTable("UserLocation", "ums");
+
+            entity.HasIndex(e => e.UserId, "UQ__UserLoca__1788CC4DA2653CBA").IsUnique();
+
+            entity.Property(e => e.Address).HasMaxLength(1024);
+
+            entity.HasOne(d => d.City).WithMany(p => p.UserLocations)
+                .HasForeignKey(d => d.CityId)
+                .HasConstraintName("FK__UserLocat__CityI__04459E07");
+
+            entity.HasOne(d => d.Country).WithMany(p => p.UserLocations)
+                .HasForeignKey(d => d.CountryId)
+                .HasConstraintName("FK__UserLocat__Count__025D5595");
+
+            entity.HasOne(d => d.State).WithMany(p => p.UserLocations)
+                .HasForeignKey(d => d.StateId)
+                .HasConstraintName("FK__UserLocat__State__035179CE");
+
+            entity.HasOne(d => d.User).WithOne(p => p.UserLocation)
+                .HasForeignKey<UserLocation>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UserLocat__UserI__0169315C");
         });
 
         modelBuilder.Entity<UserProfile>(entity =>

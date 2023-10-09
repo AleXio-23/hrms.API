@@ -54,6 +54,7 @@ using hrms.Application.Services.Documents.DocumentTypes.DeleteDocumentType;
 using hrms.Application.Services.Documents.DocumentTypes.GetDocumentType;
 using hrms.Application.Services.Documents.DocumentTypes.GetDocumentTypes;
 using hrms.Application.Services.User;
+using hrms.Application.Services.User.AddNewUser;
 using hrms.Application.Services.User.GetUser;
 using hrms.Application.Services.User.RoleClaims.AddOrUpdateRoleClaims;
 using hrms.Application.Services.User.RoleClaims.DeleteRoleClaims;
@@ -122,6 +123,7 @@ namespace hrms.Application
             services.AddScoped<IDeleteUsersWorkScheduleService, DeleteUsersWorkScheduleService>();
             services.AddScoped<IGetUsersWorkScheduleService, GetUsersWorkScheduleService>();
             services.AddScoped<IGetUsersWorkSchedulesService, GetUsersWorkSchedulesService>();
+            services.AddScoped<IAddNewUserService, AddNewUserService>();
 
             services.AddScoped<IDictionaryiFacade, DictionaryiFacade>();
             services.AddScoped<IGetGenderService, GetGenderService>();
@@ -150,10 +152,10 @@ namespace hrms.Application
             services.AddScoped<IAddorUpdateCountryService, AddorUpdateCountryService>();
             services.AddScoped<IDeleteCountryService, DeleteCountryService>();
             services.AddScoped<IGetCountryService, GetCountryService>();
-            services.AddScoped<IGetCountriesService,  GetCountriesService>();
-            services.AddScoped<IAddOrUpdateStateService,  AddOrUpdateStateService>();
+            services.AddScoped<IGetCountriesService, GetCountriesService>();
+            services.AddScoped<IAddOrUpdateStateService, AddOrUpdateStateService>();
             services.AddScoped<IGetCitiesService, GetCitiesService>();
-            services.AddScoped<IGetStatesService,  GetStatesService>();
+            services.AddScoped<IGetStatesService, GetStatesService>();
 
             services.AddScoped<IAccountingFacade, AccountingFacade>();
             services.AddScoped<IStartAccountingService, StartAccountingService>();

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace hrms.Persistance.Entities;
@@ -20,4 +20,6 @@ public partial class Country
     public virtual ICollection<City> Cities { get; set; } = new List<City>();
 
     public virtual ICollection<State> States { get; set; } = new List<State>();
+
+    public virtual ICollection<UserLocation> UserLocations { get; set; } = new List<UserLocation>();
 }

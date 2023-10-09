@@ -2,6 +2,7 @@ using hrms.Application.Services.User;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Shared;
 using hrms.Domain.Models.User;
+using hrms.Domain.Models.User.AddNewUser;
 using hrms.Persistance.Entities;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,22 @@ namespace hrms.API.Controllers
         public UserController(IUserProfileFacade userProfileFacade)
         {
             _userProfileFacade = userProfileFacade;
+        }
+
+
+        /// <summary>
+        /// Add new user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("AddNewUser")]
+        //TODO - შეზღუდვა რომელ როლს შეუძლია ან ქლეიმს იუზერის დზმატება
+        public async Task<ActionResult<ServiceResult<int>>> AddNewUser([FromBody] AddNewUserRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.AddNewUserService.Execute(request, cancellationToken).ConfigureAwait(false);
+
+            return Ok(result);
         }
 
         /// <summary>

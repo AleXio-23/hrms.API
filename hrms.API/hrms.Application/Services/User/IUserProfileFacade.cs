@@ -1,3 +1,4 @@
+using hrms.Application.Services.User.AddNewUser;
 using hrms.Application.Services.User.GetUser;
 using hrms.Application.Services.User.RoleClaims.AddOrUpdateRoleClaims;
 using hrms.Application.Services.User.RoleClaims.DeleteRoleClaims;
@@ -43,6 +44,7 @@ namespace hrms.Application.Services.User
         IDeleteUsersWorkScheduleService DeleteUsersWorkScheduleService { get; }
         IGetUsersWorkScheduleService GetUsersWorkScheduleService { get; }
         IGetUsersWorkSchedulesService GetUsersWorkSchedulesService { get; }
+        IAddNewUserService AddNewUserService { get; }
 
     }
 }

@@ -47,6 +47,8 @@ public partial class User
 
     public virtual ICollection<UserJobPosition> UserJobPositions { get; set; } = new List<UserJobPosition>();
 
+    public virtual UserLocation? UserLocation { get; set; }
+
     public virtual UserProfile? UserProfile { get; set; }
 
     public virtual UserRole? UserRole { get; set; }
