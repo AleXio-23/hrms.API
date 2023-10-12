@@ -51,7 +51,7 @@ public partial class User
 
     public virtual UserProfile? UserProfile { get; set; }
 
-    public virtual UserRole? UserRole { get; set; }
+    public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 
     public virtual ICollection<UserUploadedDocument> UserUploadedDocuments { get; set; } = new List<UserUploadedDocument>();
 
