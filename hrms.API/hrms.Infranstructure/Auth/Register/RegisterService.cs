@@ -1,4 +1,5 @@
-﻿using hrms.Domain.Models.Auth;
+
+using hrms.Domain.Models.Auth;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
@@ -7,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using hrms.Application.Infranstructure.Interfaces.UserInterfaces;
 
 namespace hrms.Infranstructure.Auth.Register
 {
@@ -19,7 +21,7 @@ namespace hrms.Infranstructure.Auth.Register
             _userRepository = userRepository;
         }
 
-        public async Task<ServiceResult<string>> Execute(RegisterDto registerDto, CancellationToken cancellationToken)
+        public async Task<ServiceResult<int>> Execute(RegisterDto registerDto, CancellationToken cancellationToken)
         {
 
             if (string.IsNullOrEmpty(registerDto.Email) || !IsValidEmail(registerDto.Email))
@@ -37,14 +39,15 @@ namespace hrms.Infranstructure.Auth.Register
             {
                 throw new ArgumentException("Passwords don't match");
             }
-            if (await UserExists(userName).ConfigureAwait(false))
-            {
-                throw new RecordExistsException("Username is registered");
-            }
             if (await UserWithEmailExists(registerDto.Email).ConfigureAwait(false))
             {
                 throw new RecordExistsException("This email is registered");
             }
+            if (await UserExists(userName).ConfigureAwait(false))
+            {
+                throw new RecordExistsException("Username is registered");
+            }
+
 
             var hmac = new HMACSHA512();
             var newUser = new User()
@@ -57,7 +60,7 @@ namespace hrms.Infranstructure.Auth.Register
 
             await _userRepository.Add(newUser, cancellationToken).ConfigureAwait(false);
 
-            return ServiceResult<string>.SuccessResult(newUser.Email + " Added");
+            return ServiceResult<int>.SuccessResult(newUser.Id);
         }
         private static bool IsValidEmail(string email)
         {

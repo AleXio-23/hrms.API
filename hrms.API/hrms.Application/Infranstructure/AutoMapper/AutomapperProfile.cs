@@ -14,7 +14,7 @@ using hrms.Domain.Models.Vacations.SickLeave;
 using hrms.Domain.Models.Vacations.UnpayedLeave;
 using hrms.Persistance.Entities;
 
-namespace hrms.Infranstructure.AutoMapper
+namespace hrms.Application.Infranstructure.AutoMapper
 {
     public class AutomapperProfile : Profile
     {

@@ -3,25 +3,25 @@ using System.Collections.Generic;
 
 namespace hrms.Persistance.Entities;
 
-public partial class City
+public partial class UserLocation
 {
     public int Id { get; set; }
+
+    public int UserId { get; set; }
 
     public int? CountryId { get; set; }
 
     public int? StateId { get; set; }
 
-    public string? Code { get; set; }
+    public int? CityId { get; set; }
 
-    public string? Name { get; set; }
+    public string? Address { get; set; }
 
-    public int SortIndex { get; set; }
-
-    public bool? IsActive { get; set; }
+    public virtual City? City { get; set; }
 
     public virtual Country? Country { get; set; }
 
     public virtual State? State { get; set; }
 
-    public virtual ICollection<UserLocation> UserLocations { get; set; } = new List<UserLocation>();
+    public virtual User User { get; set; } = null!;
 }

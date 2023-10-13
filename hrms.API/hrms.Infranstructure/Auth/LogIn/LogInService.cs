@@ -1,5 +1,5 @@
+using hrms.Application.Infranstructure.Interfaces.UserInterfaces;
 using hrms.Domain.Models.Auth;
-using hrms.Infranstructure.Services.UserActionLogger;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;

@@ -1,3 +1,5 @@
+using hrms.Application.Services.User.AddNewUser;
+using hrms.Application.Services.User.GetEmployees;
 using hrms.Application.Services.User.GetUser;
 using hrms.Application.Services.User.RoleClaims.AddOrUpdateRoleClaims;
 using hrms.Application.Services.User.RoleClaims.DeleteRoleClaims;
@@ -19,7 +21,7 @@ using hrms.Application.Services.User.UsersWorkSchedule.DeleteUsersWorkSchedule;
 using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedule;
 using hrms.Application.Services.User.UsersWorkSchedule.GetUsersWorkSchedules;
 
-namespace hrms.Application.Services.UserProfile
+namespace hrms.Application.Services.User
 {
     public interface IUserProfileFacade
     {
@@ -43,6 +45,8 @@ namespace hrms.Application.Services.UserProfile
         IDeleteUsersWorkScheduleService DeleteUsersWorkScheduleService { get; }
         IGetUsersWorkScheduleService GetUsersWorkScheduleService { get; }
         IGetUsersWorkSchedulesService GetUsersWorkSchedulesService { get; }
+        IAddNewUserService AddNewUserService { get; }
+        IGetEmployeesService  GetEmployeesService { get; }
 
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace hrms.Infranstructure.Middlewares
+namespace hrms.Application.Infranstructure.Middlewares
 {
     public class UserAgentMiddleware
     {

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
+using hrms.Application.Infranstructure.Interfaces.UserInterfaces;
+using Microsoft.AspNetCore.Http;
 
 namespace hrms.Infranstructure.Services.CurrentUserId
 {

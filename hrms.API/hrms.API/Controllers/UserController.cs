@@ -1,7 +1,9 @@
-using hrms.Application.Services.UserProfile;
+using hrms.Application.Services.User;
 using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Shared;
 using hrms.Domain.Models.User;
+using hrms.Domain.Models.User.AddNewUser;
+using hrms.Domain.Models.User.Employees;
 using hrms.Persistance.Entities;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -23,6 +25,33 @@ namespace hrms.API.Controllers
         {
             _userProfileFacade = userProfileFacade;
         }
+
+
+        /// <summary>
+        /// Add new user
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("AddNewUser")]
+        //TODO - შეზღუდვა რომელ როლს შეუძლია ან ქლეიმს იუზერის დზმატება
+        public async Task<ActionResult<ServiceResult<int>>> AddNewUser([FromBody] AddNewUserRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.AddNewUserService.Execute(request, cancellationToken).ConfigureAwait(false);
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetEmployees")]
+        public async Task<ActionResult<ServiceResult<List<AddNewUserRequest>>>> GetEmployees([FromQuery] EmployeesFilter filter, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.GetEmployeesService.Execute(filter, cancellationToken).ConfigureAwait(false);
+
+            return Ok(result);
+        }
+
+
+
 
         /// <summary>
         /// Create new profile

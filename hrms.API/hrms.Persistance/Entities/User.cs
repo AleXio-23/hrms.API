@@ -47,11 +47,15 @@ public partial class User
 
     public virtual ICollection<UserJobPosition> UserJobPositions { get; set; } = new List<UserJobPosition>();
 
+    public virtual UserLocation? UserLocation { get; set; }
+
     public virtual UserProfile? UserProfile { get; set; }
 
-    public virtual UserRole? UserRole { get; set; }
+    public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 
     public virtual ICollection<UserUploadedDocument> UserUploadedDocuments { get; set; } = new List<UserUploadedDocument>();
+
+    public virtual ICollection<UsersWorkSchedule> UsersWorkSchedules { get; set; } = new List<UsersWorkSchedule>();
 
     public virtual ICollection<WorkOnLateLog> WorkOnLateLogs { get; set; } = new List<WorkOnLateLog>();
 

@@ -1,5 +1,5 @@
+using hrms.Application.Infranstructure.Interfaces.UserInterfaces;
 using hrms.Domain.Models.Auth;
-using hrms.Infranstructure.Auth;
 using hrms.Persistance.Entities;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -24,17 +24,17 @@ namespace hrms.API.Controllers
         /// <param name="registerDto"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPost("register")]
-        public async Task<ActionResult<ServiceResult<User>>> RegisterNewUser([FromBody] RegisterDto registerDto, CancellationToken cancellationToken)
-        {
-            var result = await _authentication.RegisterService.Execute(registerDto, cancellationToken).ConfigureAwait(false);
-            if (result.ErrorOccured)
-            {
-                return BadRequest(result);
-            }
+        //[HttpPost("register")]
+        //public async Task<ActionResult<ServiceResult<User>>> RegisterNewUser([FromBody] RegisterDto registerDto, CancellationToken cancellationToken)
+        //{
+        //    var result = await _authentication.RegisterService.Execute(registerDto, cancellationToken).ConfigureAwait(false);
+        //    if (result.ErrorOccured)
+        //    {
+        //        return BadRequest(result);
+        //    }
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
          
         /// <summary>
         /// Authorization

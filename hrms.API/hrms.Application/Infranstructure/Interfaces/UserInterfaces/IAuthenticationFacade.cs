@@ -1,10 +1,4 @@
-﻿using hrms.Infranstructure.Auth.AccessToken.UpdateAccessToken;
-using hrms.Infranstructure.Auth.LogIn;
-using hrms.Infranstructure.Auth.LogOut;
-using hrms.Infranstructure.Auth.Register;
-using hrms.Infranstructure.Auth.ResetPassword;
-
-namespace hrms.Infranstructure.Auth
+namespace hrms.Application.Infranstructure.Interfaces.UserInterfaces
 {
     public interface IAuthenticationFacade
     {

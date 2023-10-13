@@ -1,11 +1,11 @@
-﻿using hrms.Infranstructure.Logging;
+using hrms.Application.Infranstructure.Interfaces;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace hrms.Infranstructure.Middlewares
+namespace hrms.Application.Infranstructure.Middlewares
 {
     public class ExceptionHandlingMiddleware
     {
@@ -22,13 +22,13 @@ namespace hrms.Infranstructure.Middlewares
             var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
             try
             {
-                await _next(context);
+                await _next(context).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 // Handle the exception
-                await logger.LogError(context.Request.Path, ex.Message, context.RequestAborted, ex);
-                await HandleExceptionAsync(context, ex);
+                await logger.LogError(context.Request.Path, ex.Message, context.RequestAborted, ex).ConfigureAwait(false);
+                await HandleExceptionAsync(context, ex).ConfigureAwait(false);
             }
         }
 
@@ -39,7 +39,7 @@ namespace hrms.Infranstructure.Middlewares
             context.Response.ContentType = "application/json";
 
             var errorResponse = ServiceResult<object>.ErrorResult(ex.Message);
-           
+
 
             var jsonErrorResponse = JsonConvert.SerializeObject(errorResponse);
             return context.Response.WriteAsync(jsonErrorResponse);

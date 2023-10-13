@@ -1,10 +1,10 @@
-﻿using hrms.Infranstructure.Logging;
+using hrms.Application.Infranstructure.Interfaces;
 using hrms.Persistance;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
-namespace hrms.Infranstructure.Middlewares
+namespace hrms.Application.Infranstructure.Middlewares
 {
     public class LoggingMiddleware
     {
@@ -25,22 +25,22 @@ namespace hrms.Infranstructure.Middlewares
 
             try
             {
-                await _next(context);
+                await _next(context).ConfigureAwait(false);
                 // Log information after the request is processed
-                await logger.LogInformationAsync(context.Request.Path, "Request processed successfully", context.RequestAborted);
+                await logger.LogInformationAsync(context.Request.Path, "Request processed successfully", context.RequestAborted).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 // Log the error if an exception occurs
-                await logger.LogError(context.Request.Path, ex.Message, context.RequestAborted, ex);
+                await logger.LogError(context.Request.Path, ex.Message, context.RequestAborted, ex).ConfigureAwait(false);
                 throw;
             }
             finally
             {
                 // Log the elapsed time
                 stopwatch.Stop();
-                await logger.LogInformationAsync(context.Request.Path, $"Request took: {stopwatch.ElapsedMilliseconds} ms", context.RequestAborted);
+                await logger.LogInformationAsync(context.Request.Path, $"Request took: {stopwatch.ElapsedMilliseconds} ms", context.RequestAborted).ConfigureAwait(false);
             }
         }
-    } 
+    }
 }

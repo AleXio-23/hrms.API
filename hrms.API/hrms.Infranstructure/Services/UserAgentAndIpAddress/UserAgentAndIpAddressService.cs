@@ -1,4 +1,5 @@
-﻿using hrms.Domain.Models.Shared;
+using hrms.Application.Infranstructure.Interfaces.UserInterfaces;
+using hrms.Domain.Models.Shared;
 using Microsoft.AspNetCore.Http;
 
 namespace hrms.Infranstructure.Services.UserAgentAndIpAddress

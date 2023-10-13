@@ -1,7 +1,7 @@
+using hrms.Application.Infranstructure.Interfaces.UserInterfaces;
 using hrms.Application.Services.Vacation.PayedLeaves.Management.GetPayedLeave;
 using hrms.Domain.Models.Vacations;
 using hrms.Domain.Models.Vacations.PayedLeave;
-using hrms.Infranstructure.Services.CurrentUserId;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;

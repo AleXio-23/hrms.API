@@ -1,6 +1,6 @@
 ﻿using hrms.Shared.Models;
 
-namespace hrms.Infranstructure.Auth.LogOut
+namespace hrms.Application.Infranstructure.Interfaces.UserInterfaces
 {
     public interface ILogOutService
     {

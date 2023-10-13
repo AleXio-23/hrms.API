@@ -1,6 +1,6 @@
 ﻿using hrms.Shared.Models;
 
-namespace hrms.Infranstructure.Auth.ResetPassword
+namespace hrms.Application.Infranstructure.Interfaces.UserInterfaces
 {
     public interface IResetPasswordService
     {

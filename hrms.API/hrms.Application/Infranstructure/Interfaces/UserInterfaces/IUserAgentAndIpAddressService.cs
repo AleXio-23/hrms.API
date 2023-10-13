@@ -1,6 +1,6 @@
 ﻿using hrms.Domain.Models.Shared;
 
-namespace hrms.Infranstructure.Services.UserAgentAndIpAddress
+namespace hrms.Application.Infranstructure.Interfaces.UserInterfaces
 {
     public interface IUserAgentAndIpAddressService
     {

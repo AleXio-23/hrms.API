@@ -1,6 +1,6 @@
-﻿using hrms.Shared.Models;
+using hrms.Shared.Models;
 
-namespace hrms.Infranstructure.Auth.AccessToken.UpdateAccessToken
+namespace hrms.Application.Infranstructure.Interfaces.UserInterfaces
 {
     public interface IUpdateAccessTokenService
     {

@@ -1,6 +1,6 @@
 ﻿using hrms.Domain.Models.User;
 
-namespace hrms.Infranstructure.Services.UserActionLogger
+namespace hrms.Application.Infranstructure.Interfaces.UserInterfaces
 {
     public interface IUserActionLoggerService
     {

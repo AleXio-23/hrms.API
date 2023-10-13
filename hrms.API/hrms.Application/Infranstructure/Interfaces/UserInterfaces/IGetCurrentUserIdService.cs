@@ -1,4 +1,4 @@
-﻿namespace hrms.Infranstructure.Services.CurrentUserId
+﻿namespace hrms.Application.Infranstructure.Interfaces.UserInterfaces
 {
     public interface IGetCurrentUserIdService
     {

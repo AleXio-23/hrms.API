@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using hrms.Persistance.Entities;
@@ -70,6 +70,8 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<UserJobPosition> UserJobPositions { get; set; }
 
+    public virtual DbSet<UserLocation> UserLocations { get; set; }
+
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
@@ -88,7 +90,7 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
-   
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<City>(entity =>
@@ -565,6 +567,34 @@ public partial class HrmsAppDbContext : DbContext
                 .HasConstraintName("FK__UserJobPo__UserI__6E01572D");
         });
 
+        modelBuilder.Entity<UserLocation>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UserLoca__3214EC07C7FF8B24");
+
+            entity.ToTable("UserLocation", "ums");
+
+            entity.HasIndex(e => e.UserId, "UQ__UserLoca__1788CC4DA2653CBA").IsUnique();
+
+            entity.Property(e => e.Address).HasMaxLength(1024);
+
+            entity.HasOne(d => d.City).WithMany(p => p.UserLocations)
+                .HasForeignKey(d => d.CityId)
+                .HasConstraintName("FK__UserLocat__CityI__04459E07");
+
+            entity.HasOne(d => d.Country).WithMany(p => p.UserLocations)
+                .HasForeignKey(d => d.CountryId)
+                .HasConstraintName("FK__UserLocat__Count__025D5595");
+
+            entity.HasOne(d => d.State).WithMany(p => p.UserLocations)
+                .HasForeignKey(d => d.StateId)
+                .HasConstraintName("FK__UserLocat__State__035179CE");
+
+            entity.HasOne(d => d.User).WithOne(p => p.UserLocation)
+                .HasForeignKey<UserLocation>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__UserLocat__UserI__0169315C");
+        });
+
         modelBuilder.Entity<UserProfile>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__UserProf__3214EC07927A3856");
@@ -600,23 +630,17 @@ public partial class HrmsAppDbContext : DbContext
 
         modelBuilder.Entity<UserRole>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.RoleId }).HasName("PK__UserRole__AF2760ADD9FB1796");
+            entity.HasKey(e => e.Id).HasName("PK__UserRole__3214EC07E46E6FDD");
 
             entity.ToTable("UserRoles", "ums");
 
-            entity.HasIndex(e => e.UserId, "UQ__UserRole__1788CC4D10F4D071").IsUnique();
+            entity.HasOne(d => d.Role).WithMany(p => p.UserRoles)
+                .HasForeignKey(d => d.RoleId)
+                .HasConstraintName("FK__UserRoles__RoleI__1293BD5E");
 
-            entity.HasIndex(e => e.RoleId, "UQ__UserRole__8AFACE1B337A00A6").IsUnique();
-
-            entity.HasOne(d => d.Role).WithOne(p => p.UserRole)
-                .HasForeignKey<UserRole>(d => d.RoleId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserRoles__RoleI__75A278F5");
-
-            entity.HasOne(d => d.User).WithOne(p => p.UserRole)
-                .HasForeignKey<UserRole>(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserRoles__UserI__74AE54BC");
+            entity.HasOne(d => d.User).WithMany(p => p.UserRoles)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK__UserRoles__UserI__119F9925");
         });
 
         modelBuilder.Entity<UserUploadedDocument>(entity =>
@@ -651,6 +675,11 @@ public partial class HrmsAppDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__UsersWor__3214EC070E288B2B");
 
             entity.ToTable("UsersWorkSchedule", "ums");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UsersWorkSchedules)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Users_WOrkSc");
 
             entity.HasOne(d => d.WeekWorkingDay).WithMany(p => p.UsersWorkSchedules)
                 .HasForeignKey(d => d.WeekWorkingDayId)

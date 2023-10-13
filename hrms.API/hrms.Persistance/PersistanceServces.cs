@@ -25,6 +25,7 @@ namespace hrms.Persistance
             services.AddScoped<IRepository<Country>, Repository<Country>>();
             services.AddScoped<IRepository<State>, Repository<State>>();
             services.AddScoped<IRepository<City>, Repository<City>>();
+            services.AddScoped<IRepository<UserLocation>, Repository<UserLocation>>();
 
             services.AddScoped<IRepository<UserAuthLog>, Repository<UserAuthLog>>();
             services.AddScoped<IRepository<TraceWorking>, Repository<TraceWorking>>();

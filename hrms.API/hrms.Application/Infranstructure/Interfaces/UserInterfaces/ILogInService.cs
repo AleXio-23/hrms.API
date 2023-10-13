@@ -2,7 +2,7 @@
 using hrms.Shared.Models;
 using System;
 
-namespace hrms.Infranstructure.Auth.LogIn
+namespace hrms.Application.Infranstructure.Interfaces.UserInterfaces
 {
     public interface ILogInService
     {

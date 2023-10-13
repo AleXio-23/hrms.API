@@ -1,7 +1,7 @@
+using hrms.Application.Infranstructure.Interfaces.UserInterfaces;
 using hrms.Application.Services.Vacation.SickLeaves.Management.GetSickLeave;
 using hrms.Domain.Models.Vacations;
 using hrms.Domain.Models.Vacations.SickLeave;
-using hrms.Infranstructure.Services.CurrentUserId;
 using hrms.Persistance.Entities;
 using hrms.Persistance.Repository;
 using hrms.Shared.Exceptions;
