@@ -55,6 +55,7 @@ using hrms.Application.Services.Documents.DocumentTypes.GetDocumentType;
 using hrms.Application.Services.Documents.DocumentTypes.GetDocumentTypes;
 using hrms.Application.Services.User;
 using hrms.Application.Services.User.AddNewUser;
+using hrms.Application.Services.User.GetEmployees;
 using hrms.Application.Services.User.GetUser;
 using hrms.Application.Services.User.RoleClaims.AddOrUpdateRoleClaims;
 using hrms.Application.Services.User.RoleClaims.DeleteRoleClaims;
@@ -124,6 +125,7 @@ namespace hrms.Application
             services.AddScoped<IGetUsersWorkScheduleService, GetUsersWorkScheduleService>();
             services.AddScoped<IGetUsersWorkSchedulesService, GetUsersWorkSchedulesService>();
             services.AddScoped<IAddNewUserService, AddNewUserService>();
+            services.AddScoped<IGetEmployeesService, GetEmployeesService>();
 
             services.AddScoped<IDictionaryiFacade, DictionaryiFacade>();
             services.AddScoped<IGetGenderService, GetGenderService>();

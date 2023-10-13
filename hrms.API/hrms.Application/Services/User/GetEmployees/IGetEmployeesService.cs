@@ -6,6 +6,6 @@ namespace hrms.Application.Services.User.GetEmployees
 {
     public interface IGetEmployeesService
     { 
-        Task<ServiceResult<List<AddNewUserRequest>>> Execute(EmployeesFilter filter, CancellationToken cancellationToken);
+        Task<ServiceResult<List<EmployeesListResponse>>> Execute(EmployeesFilter filter, CancellationToken cancellationToken);
     }
 }

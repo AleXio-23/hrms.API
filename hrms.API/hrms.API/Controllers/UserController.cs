@@ -3,6 +3,7 @@ using hrms.Domain.Models.Dictionary.Gender;
 using hrms.Domain.Models.Shared;
 using hrms.Domain.Models.User;
 using hrms.Domain.Models.User.AddNewUser;
+using hrms.Domain.Models.User.Employees;
 using hrms.Persistance.Entities;
 using hrms.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -40,6 +41,17 @@ namespace hrms.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("GetEmployees")]
+        public async Task<ActionResult<ServiceResult<List<AddNewUserRequest>>>> GetEmployees([FromQuery] EmployeesFilter filter, CancellationToken cancellationToken)
+        {
+            var result = await _userProfileFacade.GetEmployeesService.Execute(filter, cancellationToken).ConfigureAwait(false);
+
+            return Ok(result);
+        }
+
+
+
 
         /// <summary>
         /// Create new profile

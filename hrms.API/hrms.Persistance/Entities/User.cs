@@ -55,6 +55,8 @@ public partial class User
 
     public virtual ICollection<UserUploadedDocument> UserUploadedDocuments { get; set; } = new List<UserUploadedDocument>();
 
+    public virtual ICollection<UsersWorkSchedule> UsersWorkSchedules { get; set; } = new List<UsersWorkSchedule>();
+
     public virtual ICollection<WorkOnLateLog> WorkOnLateLogs { get; set; } = new List<WorkOnLateLog>();
 
     public virtual ICollection<WorkingTraceReport> WorkingTraceReports { get; set; } = new List<WorkingTraceReport>();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using hrms.Persistance.Entities;
@@ -90,7 +90,7 @@ public partial class HrmsAppDbContext : DbContext
 
     public virtual DbSet<WorkingTraceReport> WorkingTraceReports { get; set; }
 
-   
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<City>(entity =>
@@ -675,6 +675,11 @@ public partial class HrmsAppDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__UsersWor__3214EC070E288B2B");
 
             entity.ToTable("UsersWorkSchedule", "ums");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UsersWorkSchedules)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Users_WOrkSc");
 
             entity.HasOne(d => d.WeekWorkingDay).WithMany(p => p.UsersWorkSchedules)
                 .HasForeignKey(d => d.WeekWorkingDayId)

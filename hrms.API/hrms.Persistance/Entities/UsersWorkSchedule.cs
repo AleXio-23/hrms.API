@@ -15,5 +15,7 @@ public partial class UsersWorkSchedule
 
     public TimeSpan? EndTime { get; set; }
 
+    public virtual User User { get; set; } = null!;
+
     public virtual WeekWorkingDay WeekWorkingDay { get; set; } = null!;
 }
